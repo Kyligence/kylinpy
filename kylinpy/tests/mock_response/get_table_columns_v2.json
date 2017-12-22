@@ -1,0 +1,59 @@
+{
+    "data": [
+        {
+            "column_NAME": "TRANS_ID", 
+            "datatype": "bigint", 
+            "table_NAME": "KYLIN_SALES"
+        }, 
+        {
+            "column_NAME": "PART_DT", 
+            "datatype": "date", 
+            "table_NAME": "KYLIN_SALES"
+        }, 
+        {
+            "column_NAME": "LSTG_FORMAT_NAME", 
+            "datatype": "varchar(256)", 
+            "table_NAME": "KYLIN_SALES"
+        }, 
+        {
+            "column_NAME": "LEAF_CATEG_ID", 
+            "datatype": "bigint", 
+            "table_NAME": "KYLIN_SALES"
+        }, 
+        {
+            "column_NAME": "LSTG_SITE_ID", 
+            "datatype": "integer", 
+            "table_NAME": "KYLIN_SALES"
+        }, 
+        {
+            "column_NAME": "PRICE", 
+            "datatype": "decimal(19,4)", 
+            "table_NAME": "KYLIN_SALES"
+        }, 
+        {
+            "column_NAME": "ITEM_COUNT", 
+            "datatype": "bigint", 
+            "table_NAME": "KYLIN_SALES"
+        }, 
+        {
+            "column_NAME": "SELLER_ID", 
+            "datatype": "bigint", 
+            "table_NAME": "KYLIN_SALES"
+        }, 
+        {
+            "column_NAME": "BUYER_ID", 
+            "datatype": "bigint", 
+            "table_NAME": "KYLIN_SALES"
+        }, 
+        {
+            "column_NAME": "OPS_USER_ID", 
+            "datatype": "varchar(256)", 
+            "table_NAME": "KYLIN_SALES"
+        }, 
+        {
+            "column_NAME": "OPS_REGION", 
+            "datatype": "varchar(256)", 
+            "table_NAME": "KYLIN_SALES"
+        }
+    ]
+}

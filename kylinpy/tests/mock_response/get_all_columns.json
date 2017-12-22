@@ -1,0 +1,1451 @@
+{
+    "data": [
+        {
+            "datatype": "date", 
+            "id": "1", 
+            "name": "CAL_DT"
+        }, 
+        {
+            "datatype": "date", 
+            "id": "2", 
+            "name": "YEAR_BEG_DT"
+        }, 
+        {
+            "datatype": "date", 
+            "id": "3", 
+            "name": "QTR_BEG_DT"
+        }, 
+        {
+            "datatype": "date", 
+            "id": "4", 
+            "name": "MONTH_BEG_DT"
+        }, 
+        {
+            "datatype": "date", 
+            "id": "5", 
+            "name": "WEEK_BEG_DT"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "6", 
+            "name": "AGE_FOR_YEAR_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "7", 
+            "name": "AGE_FOR_QTR_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "8", 
+            "name": "AGE_FOR_MONTH_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "9", 
+            "name": "AGE_FOR_WEEK_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "10", 
+            "name": "AGE_FOR_DT_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "11", 
+            "name": "AGE_FOR_RTL_YEAR_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "12", 
+            "name": "AGE_FOR_RTL_QTR_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "13", 
+            "name": "AGE_FOR_RTL_MONTH_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "14", 
+            "name": "AGE_FOR_RTL_WEEK_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "15", 
+            "name": "AGE_FOR_CS_WEEK_ID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "16", 
+            "name": "DAY_OF_CAL_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "17", 
+            "name": "DAY_OF_YEAR_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "18", 
+            "name": "DAY_OF_QTR_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "19", 
+            "name": "DAY_OF_MONTH_ID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "20", 
+            "name": "DAY_OF_WEEK_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "21", 
+            "name": "WEEK_OF_YEAR_ID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "22", 
+            "name": "WEEK_OF_CAL_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "23", 
+            "name": "MONTH_OF_QTR_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "24", 
+            "name": "MONTH_OF_YEAR_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "25", 
+            "name": "MONTH_OF_CAL_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "26", 
+            "name": "QTR_OF_YEAR_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "27", 
+            "name": "QTR_OF_CAL_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "28", 
+            "name": "YEAR_OF_CAL_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "29", 
+            "name": "YEAR_END_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "30", 
+            "name": "QTR_END_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "31", 
+            "name": "MONTH_END_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "32", 
+            "name": "WEEK_END_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "33", 
+            "name": "CAL_DT_NAME"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "34", 
+            "name": "CAL_DT_DESC"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "35", 
+            "name": "CAL_DT_SHORT_NAME"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "36", 
+            "name": "YTD_YN_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "37", 
+            "name": "QTD_YN_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "38", 
+            "name": "MTD_YN_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "39", 
+            "name": "WTD_YN_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "40", 
+            "name": "SEASON_BEG_DT"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "41", 
+            "name": "DAY_IN_YEAR_COUNT"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "42", 
+            "name": "DAY_IN_QTR_COUNT"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "43", 
+            "name": "DAY_IN_MONTH_COUNT"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "44", 
+            "name": "DAY_IN_WEEK_COUNT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "45", 
+            "name": "RTL_YEAR_BEG_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "46", 
+            "name": "RTL_QTR_BEG_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "47", 
+            "name": "RTL_MONTH_BEG_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "48", 
+            "name": "RTL_WEEK_BEG_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "49", 
+            "name": "CS_WEEK_BEG_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "50", 
+            "name": "CAL_DATE"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "51", 
+            "name": "DAY_OF_WEEK"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "52", 
+            "name": "MONTH_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "53", 
+            "name": "PRD_DESC"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "54", 
+            "name": "PRD_FLAG"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "55", 
+            "name": "PRD_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "56", 
+            "name": "PRD_IND"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "57", 
+            "name": "QTR_DESC"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "58", 
+            "name": "QTR_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "59", 
+            "name": "QTR_IND"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "60", 
+            "name": "RETAIL_WEEK"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "61", 
+            "name": "RETAIL_YEAR"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "62", 
+            "name": "RETAIL_START_DATE"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "63", 
+            "name": "RETAIL_WK_END_DATE"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "64", 
+            "name": "WEEK_IND"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "65", 
+            "name": "WEEK_NUM_DESC"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "66", 
+            "name": "WEEK_BEG_DATE"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "67", 
+            "name": "WEEK_END_DATE"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "68", 
+            "name": "WEEK_IN_YEAR_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "69", 
+            "name": "WEEK_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "70", 
+            "name": "WEEK_BEG_END_DESC_MDY"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "71", 
+            "name": "WEEK_BEG_END_DESC_MD"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "72", 
+            "name": "YEAR_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "73", 
+            "name": "YEAR_IND"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "74", 
+            "name": "CAL_DT_MNS_1YEAR_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "75", 
+            "name": "CAL_DT_MNS_2YEAR_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "76", 
+            "name": "CAL_DT_MNS_1QTR_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "77", 
+            "name": "CAL_DT_MNS_2QTR_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "78", 
+            "name": "CAL_DT_MNS_1MONTH_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "79", 
+            "name": "CAL_DT_MNS_2MONTH_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "80", 
+            "name": "CAL_DT_MNS_1WEEK_DT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "81", 
+            "name": "CAL_DT_MNS_2WEEK_DT"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "82", 
+            "name": "CURR_CAL_DT_MNS_1YEAR_YN_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "83", 
+            "name": "CURR_CAL_DT_MNS_2YEAR_YN_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "84", 
+            "name": "CURR_CAL_DT_MNS_1QTR_YN_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "85", 
+            "name": "CURR_CAL_DT_MNS_2QTR_YN_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "86", 
+            "name": "CURR_CAL_DT_MNS_1MONTH_YN_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "87", 
+            "name": "CURR_CAL_DT_MNS_2MONTH_YN_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "88", 
+            "name": "CURR_CAL_DT_MNS_1WEEK_YN_IND"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "89", 
+            "name": "CURR_CAL_DT_MNS_2WEEK_YN_IND"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "90", 
+            "name": "RTL_MONTH_OF_RTL_YEAR_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "91", 
+            "name": "RTL_QTR_OF_RTL_YEAR_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "92", 
+            "name": "RTL_WEEK_OF_RTL_YEAR_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "93", 
+            "name": "SEASON_OF_YEAR_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "94", 
+            "name": "YTM_YN_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "95", 
+            "name": "YTQ_YN_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "96", 
+            "name": "YTW_YN_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "97", 
+            "name": "KYLIN_CAL_DT_CRE_DATE"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "98", 
+            "name": "KYLIN_CAL_DT_CRE_USER"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "99", 
+            "name": "KYLIN_CAL_DT_UPD_DATE"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "100", 
+            "name": "KYLIN_CAL_DT_UPD_USER"
+        }, 
+        {
+            "datatype": "bigint", 
+            "id": "1", 
+            "name": "LEAF_CATEG_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "2", 
+            "name": "LEAF_CATEG_NAME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "3", 
+            "name": "SITE_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "4", 
+            "name": "CATEG_BUSN_MGR"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "5", 
+            "name": "CATEG_BUSN_UNIT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "6", 
+            "name": "REGN_CATEG"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "7", 
+            "name": "USER_DEFINED_FIELD1"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "8", 
+            "name": "USER_DEFINED_FIELD3"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "9", 
+            "name": "KYLIN_GROUPINGS_CRE_DATE"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "10", 
+            "name": "KYLIN_GROUPINGS_UPD_DATE"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "11", 
+            "name": "KYLIN_GROUPINGS_CRE_USER"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "12", 
+            "name": "KYLIN_GROUPINGS_UPD_USER"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "13", 
+            "name": "META_CATEG_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "14", 
+            "name": "META_CATEG_NAME"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "15", 
+            "name": "CATEG_LVL2_ID"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "16", 
+            "name": "CATEG_LVL3_ID"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "17", 
+            "name": "CATEG_LVL4_ID"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "18", 
+            "name": "CATEG_LVL5_ID"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "19", 
+            "name": "CATEG_LVL6_ID"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "20", 
+            "name": "CATEG_LVL7_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "21", 
+            "name": "CATEG_LVL2_NAME"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "22", 
+            "name": "CATEG_LVL3_NAME"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "23", 
+            "name": "CATEG_LVL4_NAME"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "24", 
+            "name": "CATEG_LVL5_NAME"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "25", 
+            "name": "CATEG_LVL6_NAME"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "26", 
+            "name": "CATEG_LVL7_NAME"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "27", 
+            "name": "CATEG_FLAGS"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "28", 
+            "name": "ADULT_CATEG_YN"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "29", 
+            "name": "DOMAIN_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "30", 
+            "name": "USER_DEFINED_FIELD5"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "31", 
+            "name": "VCS_ID"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "32", 
+            "name": "GCS_ID"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "33", 
+            "name": "MOVE_TO"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "34", 
+            "name": "SAP_CATEGORY_ID"
+        }, 
+        {
+            "datatype": "tinyint", 
+            "id": "35", 
+            "name": "SRC_ID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "36", 
+            "name": "BSNS_VRTCL_NAME"
+        }, 
+        {
+            "datatype": "decimal(19,4)", 
+            "id": "1", 
+            "name": "AMOUNT"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "2", 
+            "name": "CATEGORY"
+        }, 
+        {
+            "datatype": "timestamp", 
+            "id": "3", 
+            "index": "T", 
+            "name": "ORDER_TIME"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "4", 
+            "name": "DEVICE"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "5", 
+            "name": "QTY"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "6", 
+            "name": "USER_ID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "7", 
+            "name": "USER_AGE"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "8", 
+            "name": "USER_GENDER"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "9", 
+            "name": "CURRENCY"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "10", 
+            "name": "COUNTRY"
+        }, 
+        {
+            "datatype": "timestamp", 
+            "id": "11", 
+            "index": "T", 
+            "name": "MINUTE_START"
+        }, 
+        {
+            "datatype": "timestamp", 
+            "id": "12", 
+            "index": "T", 
+            "name": "HOUR_START"
+        }, 
+        {
+            "datatype": "date", 
+            "id": "13", 
+            "index": "T", 
+            "name": "DAY_START"
+        }, 
+        {
+            "datatype": "date", 
+            "id": "14", 
+            "index": "T", 
+            "name": "WEEK_START"
+        }, 
+        {
+            "datatype": "date", 
+            "id": "15", 
+            "index": "T", 
+            "name": "MONTH_START"
+        }, 
+        {
+            "datatype": "date", 
+            "id": "16", 
+            "index": "T", 
+            "name": "QUARTER_START"
+        }, 
+        {
+            "datatype": "date", 
+            "id": "17", 
+            "index": "T", 
+            "name": "YEAR_START"
+        }, 
+        {
+            "datatype": "bigint", 
+            "id": "1", 
+            "name": "ACCOUNT_ID"
+        }, 
+        {
+            "comment": "Account Buyer Level", 
+            "datatype": "integer", 
+            "id": "2", 
+            "name": "ACCOUNT_BUYER_LEVEL"
+        }, 
+        {
+            "comment": "Account Seller Level", 
+            "datatype": "integer", 
+            "id": "3", 
+            "name": "ACCOUNT_SELLER_LEVEL"
+        }, 
+        {
+            "comment": "Account Country", 
+            "datatype": "varchar(256)", 
+            "id": "4", 
+            "name": "ACCOUNT_COUNTRY"
+        }, 
+        {
+            "comment": "Account Contact Info", 
+            "datatype": "varchar(256)", 
+            "id": "5", 
+            "name": "ACCOUNT_CONTACT"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "1", 
+            "name": "YEAR"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "2", 
+            "name": "QUARTER"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "3", 
+            "name": "MONTH"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "4", 
+            "name": "DAYOFMONTH"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "5", 
+            "name": "DAYOFWEEK"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "6", 
+            "name": "UNIQUECARRIER"
+        }, 
+        {
+            "datatype": "bigint", 
+            "id": "7", 
+            "name": "AIRLINEID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "8", 
+            "name": "CARRIER"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "9", 
+            "name": "TAILNUM"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "10", 
+            "name": "FLIGHTNUM"
+        }, 
+        {
+            "datatype": "bigint", 
+            "id": "11", 
+            "name": "ORIGINAIRPORTID"
+        }, 
+        {
+            "datatype": "bigint", 
+            "id": "12", 
+            "name": "ORIGINAIRPORTSEQID"
+        }, 
+        {
+            "datatype": "bigint", 
+            "id": "13", 
+            "name": "ORIGINCITYMARKETID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "14", 
+            "name": "ORIGIN"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "15", 
+            "name": "ORIGINCITYNAME"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "16", 
+            "name": "ORIGINSTATE"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "17", 
+            "name": "ORIGINSTATEFIPS"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "18", 
+            "name": "ORIGINSTATENAME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "19", 
+            "name": "ORIGINWAC"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "20", 
+            "name": "DESTAIRPORTID"
+        }, 
+        {
+            "datatype": "bigint", 
+            "id": "21", 
+            "name": "DESTAIRPORTSEQID"
+        }, 
+        {
+            "datatype": "bigint", 
+            "id": "22", 
+            "name": "DESTCITYMARKETID"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "23", 
+            "name": "DEST"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "24", 
+            "name": "DESTCITYNAME"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "25", 
+            "name": "DESTSTATE"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "26", 
+            "name": "DESTSTATEFIPS"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "27", 
+            "name": "DESTSTATENAME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "28", 
+            "name": "DESTWAC"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "29", 
+            "name": "CRSDEPTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "30", 
+            "name": "DEPTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "31", 
+            "name": "DEPDELAY"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "32", 
+            "name": "DEPDELAYMINUTES"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "33", 
+            "name": "DEPDEL15"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "34", 
+            "name": "DEPARTUREDELAYGROUPS"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "35", 
+            "name": "DEPTIMEBLK"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "36", 
+            "name": "TAXIOUT"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "37", 
+            "name": "WHEELSOFF"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "38", 
+            "name": "WHEELSON"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "39", 
+            "name": "TAXIIN"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "40", 
+            "name": "CRSARRTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "41", 
+            "name": "ARRTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "42", 
+            "name": "ARRDELAY"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "43", 
+            "name": "ARRDELAYMINUTES"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "44", 
+            "name": "ARRDEL15"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "45", 
+            "name": "ARRIVALDELAYGROUPS"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "46", 
+            "name": "ARRTIMEBLK"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "47", 
+            "name": "CANCELLED"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "48", 
+            "name": "CANCELLATIONCODE"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "49", 
+            "name": "DIVERTED"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "50", 
+            "name": "CRSELAPSEDTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "51", 
+            "name": "ACTUALELAPSEDTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "52", 
+            "name": "AIRTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "53", 
+            "name": "FLIGHTS"
+        }, 
+        {
+            "datatype": "bigint", 
+            "id": "54", 
+            "name": "DISTANCE"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "55", 
+            "name": "DISTANCEGROUP"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "56", 
+            "name": "CARRIERDELAY"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "57", 
+            "name": "WEATHERDELAY"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "58", 
+            "name": "NASDELAY"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "59", 
+            "name": "SECURITYDELAY"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "60", 
+            "name": "LATEAIRCRAFTDELAY"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "61", 
+            "name": "FIRSTDEPTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "62", 
+            "name": "TOTALADDGTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "63", 
+            "name": "LONGESTADDGTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "64", 
+            "name": "DIVAIRPORTLANDINGS"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "65", 
+            "name": "DIVREACHEDDEST"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "66", 
+            "name": "DIVACTUALELAPSEDTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "67", 
+            "name": "DIVARRDELAY"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "68", 
+            "name": "DIVDISTANCE"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "69", 
+            "name": "DIV1AIRPORT"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "70", 
+            "name": "DIV1AIRPORTID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "71", 
+            "name": "DIV1AIRPORTSEQID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "72", 
+            "name": "DIV1WHEELSON"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "73", 
+            "name": "DIV1TOTALGTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "74", 
+            "name": "DIV1LONGESTGTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "75", 
+            "name": "DIV1WHEELSOFF"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "76", 
+            "name": "DIV1TAILNUM"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "77", 
+            "name": "DIV2AIRPORT"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "78", 
+            "name": "DIV2AIRPORTID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "79", 
+            "name": "DIV2AIRPORTSEQID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "80", 
+            "name": "DIV2WHEELSON"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "81", 
+            "name": "DIV2TOTALGTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "82", 
+            "name": "DIV2LONGESTGTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "83", 
+            "name": "DIV2WHEELSOFF"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "84", 
+            "name": "DIV2TAILNUM"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "85", 
+            "name": "DIV3AIRPORT"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "86", 
+            "name": "DIV3AIRPORTID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "87", 
+            "name": "DIV3AIRPORTSEQID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "88", 
+            "name": "DIV3WHEELSON"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "89", 
+            "name": "DIV3TOTALGTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "90", 
+            "name": "DIV3LONGESTGTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "91", 
+            "name": "DIV3WHEELSOFF"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "92", 
+            "name": "DIV3TAILNUM"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "93", 
+            "name": "DIV4AIRPORT"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "94", 
+            "name": "DIV4AIRPORTID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "95", 
+            "name": "DIV4AIRPORTSEQID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "96", 
+            "name": "DIV4WHEELSON"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "97", 
+            "name": "DIV4TOTALGTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "98", 
+            "name": "DIV4LONGESTGTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "99", 
+            "name": "DIV4WHEELSOFF"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "100", 
+            "name": "DIV4TAILNUM"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "101", 
+            "name": "DIV5AIRPORT"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "102", 
+            "name": "DIV5AIRPORTID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "103", 
+            "name": "DIV5AIRPORTSEQID"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "104", 
+            "name": "DIV5WHEELSON"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "105", 
+            "name": "DIV5TOTALGTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "106", 
+            "name": "DIV5LONGESTGTIME"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "107", 
+            "name": "DIV5WHEELSOFF"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "108", 
+            "name": "DIV5TAILNUM"
+        }, 
+        {
+            "datatype": "date", 
+            "id": "109", 
+            "name": "FLIGHTDATE"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "1", 
+            "name": "COUNTRY"
+        }, 
+        {
+            "datatype": "double", 
+            "id": "2", 
+            "name": "LATITUDE"
+        }, 
+        {
+            "datatype": "double", 
+            "id": "3", 
+            "name": "LONGITUDE"
+        }, 
+        {
+            "datatype": "varchar(256)", 
+            "id": "4", 
+            "name": "NAME"
+        }, 
+        {
+            "datatype": "bigint", 
+            "id": "1", 
+            "name": "TRANS_ID"
+        }, 
+        {
+            "comment": "Order Date", 
+            "datatype": "date", 
+            "id": "2", 
+            "name": "PART_DT"
+        }, 
+        {
+            "comment": "Order Transaction Type", 
+            "datatype": "varchar(256)", 
+            "id": "3", 
+            "name": "LSTG_FORMAT_NAME"
+        }, 
+        {
+            "comment": "Category ID", 
+            "datatype": "bigint", 
+            "id": "4", 
+            "name": "LEAF_CATEG_ID"
+        }, 
+        {
+            "comment": "Site ID", 
+            "datatype": "integer", 
+            "id": "5", 
+            "name": "LSTG_SITE_ID"
+        }, 
+        {
+            "datatype": "smallint", 
+            "id": "6", 
+            "name": "SLR_SEGMENT_CD"
+        }, 
+        {
+            "comment": "Order Price", 
+            "datatype": "decimal(19,4)", 
+            "id": "7", 
+            "name": "PRICE"
+        }, 
+        {
+            "comment": "Number of Purchased Goods", 
+            "datatype": "bigint", 
+            "id": "8", 
+            "name": "ITEM_COUNT"
+        }, 
+        {
+            "comment": "Seller ID", 
+            "datatype": "bigint", 
+            "id": "9", 
+            "name": "SELLER_ID"
+        }, 
+        {
+            "comment": "Buyer ID", 
+            "datatype": "bigint", 
+            "id": "10", 
+            "name": "BUYER_ID"
+        }, 
+        {
+            "comment": "System User ID", 
+            "datatype": "varchar(256)", 
+            "id": "11", 
+            "name": "OPS_USER_ID"
+        }, 
+        {
+            "comment": "System User Region", 
+            "datatype": "varchar(256)", 
+            "id": "12", 
+            "name": "OPS_REGION"
+        }, 
+        {
+            "datatype": "double", 
+            "id": "13", 
+            "name": "TOTAL_AMOUNT"
+        }, 
+        {
+            "datatype": "integer", 
+            "id": "14", 
+            "name": "CC_DENOM"
+        }
+    ]
+}

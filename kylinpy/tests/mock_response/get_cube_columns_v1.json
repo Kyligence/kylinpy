@@ -1,0 +1,174 @@
+{
+    "data": [
+        {
+            "column": "TRANS_ID", 
+            "column_NAME": "KYLIN_SALES_TRANS_ID", 
+            "datatype": "bigint", 
+            "derived": null, 
+            "name": "TRANS_ID", 
+            "table": "KYLIN_SALES"
+        }, 
+        {
+            "column": null, 
+            "column_NAME": "KYLIN_CAL_DT_YEAR_BEG_DT", 
+            "datatype": "date", 
+            "derived": [
+                "YEAR_BEG_DT"
+            ], 
+            "name": "YEAR_BEG_DT", 
+            "table": "KYLIN_CAL_DT"
+        }, 
+        {
+            "column": null, 
+            "column_NAME": "KYLIN_CAL_DT_MONTH_BEG_DT", 
+            "datatype": "date", 
+            "derived": [
+                "MONTH_BEG_DT"
+            ], 
+            "name": "MONTH_BEG_DT", 
+            "table": "KYLIN_CAL_DT"
+        }, 
+        {
+            "column": null, 
+            "column_NAME": "KYLIN_CAL_DT_WEEK_BEG_DT", 
+            "datatype": "date", 
+            "derived": [
+                "WEEK_BEG_DT"
+            ], 
+            "name": "WEEK_BEG_DT", 
+            "table": "KYLIN_CAL_DT"
+        }, 
+        {
+            "column": null, 
+            "column_NAME": "KYLIN_CATEGORY_GROUPINGS_USER_DEFINED_FIELD1", 
+            "datatype": "varchar(256)", 
+            "derived": [
+                "USER_DEFINED_FIELD1"
+            ], 
+            "name": "USER_DEFINED_FIELD1", 
+            "table": "KYLIN_CATEGORY_GROUPINGS"
+        }, 
+        {
+            "column": null, 
+            "column_NAME": "KYLIN_CATEGORY_GROUPINGS_USER_DEFINED_FIELD3", 
+            "datatype": "varchar(256)", 
+            "derived": [
+                "USER_DEFINED_FIELD3"
+            ], 
+            "name": "USER_DEFINED_FIELD3", 
+            "table": "KYLIN_CATEGORY_GROUPINGS"
+        }, 
+        {
+            "column": "META_CATEG_NAME", 
+            "column_NAME": "KYLIN_CATEGORY_GROUPINGS_META_CATEG_NAME", 
+            "datatype": "varchar(256)", 
+            "derived": null, 
+            "name": "META_CATEG_NAME", 
+            "table": "KYLIN_CATEGORY_GROUPINGS"
+        }, 
+        {
+            "column": "CATEG_LVL2_NAME", 
+            "column_NAME": "KYLIN_CATEGORY_GROUPINGS_CATEG_LVL2_NAME", 
+            "datatype": "varchar(256)", 
+            "derived": null, 
+            "name": "CATEG_LVL2_NAME", 
+            "table": "KYLIN_CATEGORY_GROUPINGS"
+        }, 
+        {
+            "column": "CATEG_LVL3_NAME", 
+            "column_NAME": "KYLIN_CATEGORY_GROUPINGS_CATEG_LVL3_NAME", 
+            "datatype": "varchar(256)", 
+            "derived": null, 
+            "name": "CATEG_LVL3_NAME", 
+            "table": "KYLIN_CATEGORY_GROUPINGS"
+        }, 
+        {
+            "column": "LSTG_FORMAT_NAME", 
+            "column_NAME": "KYLIN_SALES_LSTG_FORMAT_NAME", 
+            "datatype": "varchar(256)", 
+            "derived": null, 
+            "name": "LSTG_FORMAT_NAME", 
+            "table": "KYLIN_SALES"
+        }, 
+        {
+            "column": "SELLER_ID", 
+            "column_NAME": "KYLIN_SALES_SELLER_ID", 
+            "datatype": "bigint", 
+            "derived": null, 
+            "name": "SELLER_ID", 
+            "table": "KYLIN_SALES"
+        }, 
+        {
+            "column": "BUYER_ID", 
+            "column_NAME": "KYLIN_SALES_BUYER_ID", 
+            "datatype": "bigint", 
+            "derived": null, 
+            "name": "BUYER_ID", 
+            "table": "KYLIN_SALES"
+        }, 
+        {
+            "column": "ACCOUNT_BUYER_LEVEL", 
+            "column_NAME": "BUYER_ACCOUNT_ACCOUNT_BUYER_LEVEL", 
+            "datatype": "integer", 
+            "derived": null, 
+            "name": "ACCOUNT_BUYER_LEVEL", 
+            "table": "BUYER_ACCOUNT"
+        }, 
+        {
+            "column": "ACCOUNT_SELLER_LEVEL", 
+            "column_NAME": "SELLER_ACCOUNT_ACCOUNT_SELLER_LEVEL", 
+            "datatype": "integer", 
+            "derived": null, 
+            "name": "ACCOUNT_SELLER_LEVEL", 
+            "table": "SELLER_ACCOUNT"
+        }, 
+        {
+            "column": "ACCOUNT_COUNTRY", 
+            "column_NAME": "BUYER_ACCOUNT_ACCOUNT_COUNTRY", 
+            "datatype": "varchar(256)", 
+            "derived": null, 
+            "name": "BUYER_COUNTRY", 
+            "table": "BUYER_ACCOUNT"
+        }, 
+        {
+            "column": "ACCOUNT_COUNTRY", 
+            "column_NAME": "SELLER_ACCOUNT_ACCOUNT_COUNTRY", 
+            "datatype": "varchar(256)", 
+            "derived": null, 
+            "name": "SELLER_COUNTRY", 
+            "table": "SELLER_ACCOUNT"
+        }, 
+        {
+            "column": "NAME", 
+            "column_NAME": "BUYER_COUNTRY_NAME", 
+            "datatype": "varchar(256)", 
+            "derived": null, 
+            "name": "BUYER_COUNTRY_NAME", 
+            "table": "BUYER_COUNTRY"
+        }, 
+        {
+            "column": "NAME", 
+            "column_NAME": "SELLER_COUNTRY_NAME", 
+            "datatype": "varchar(256)", 
+            "derived": null, 
+            "name": "SELLER_COUNTRY_NAME", 
+            "table": "SELLER_COUNTRY"
+        }, 
+        {
+            "column": "OPS_USER_ID", 
+            "column_NAME": "KYLIN_SALES_OPS_USER_ID", 
+            "datatype": "varchar(256)", 
+            "derived": null, 
+            "name": "OPS_USER_ID", 
+            "table": "KYLIN_SALES"
+        }, 
+        {
+            "column": "OPS_REGION", 
+            "column_NAME": "KYLIN_SALES_OPS_REGION", 
+            "datatype": "varchar(256)", 
+            "derived": null, 
+            "name": "OPS_REGION", 
+            "table": "KYLIN_SALES"
+        }
+    ]
+}

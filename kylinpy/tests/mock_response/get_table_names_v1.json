@@ -1,0 +1,12 @@
+{
+    "data": [
+        "APP_EVENTS", 
+        "EVENTS", 
+        "KYLIN_ACCOUNT", 
+        "KYLIN_CAL_DT", 
+        "KYLIN_CATEGORY_GROUPINGS", 
+        "KYLIN_COUNTRY", 
+        "KYLIN_SALES", 
+        "KYLIN_STREAMING_TABLE"
+    ]
+}

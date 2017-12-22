@@ -1,0 +1,391 @@
+[
+    {
+        "create_time_utc": 1499348754959, 
+        "description": "", 
+        "ext_filters": [], 
+        "last_modified": 1511935868536, 
+        "last_update_time": null, 
+        "models": [
+            "Order_line", 
+            "order_clone"
+        ], 
+        "name": "airline", 
+        "override_kylin_properties": {}, 
+        "owner": "ADMIN", 
+        "realizations": [
+            {
+                "realization": "ORDER_LINE", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "ORDER_SUMMARY_ORDER_KEY", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "ORDER_SUMMARY", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "ORDER_LINE_clone", 
+                "type": "CUBE"
+            }
+        ], 
+        "status": "ENABLED", 
+        "tables": [
+            "TPCH_FLAT_ORC_2.LINEITEM", 
+            "TPCH_FLAT_ORC_2.ORDERS", 
+            "TPCH_FLAT_ORC_2.CUSTOMER", 
+            "TPCH_FLAT_ORC_2.NATION", 
+            "TPCH_FLAT_ORC_2.SUPPLIER", 
+            "TPCH_FLAT_ORC_2.REGION", 
+            "TPCH_FLAT_ORC_2.PARTSUPP"
+        ], 
+        "uuid": "c521c5d4-5991-4523-a9cf-9148d9469bf7", 
+        "version": "2.1.0"
+    }, 
+    {
+        "create_time_utc": 1502933275209, 
+        "description": "", 
+        "ext_filters": [], 
+        "last_modified": 1510121857000, 
+        "last_update_time": null, 
+        "models": [
+            "kylin_sales"
+        ], 
+        "name": "kong", 
+        "override_kylin_properties": {}, 
+        "owner": "ADMIN", 
+        "realizations": [], 
+        "status": "ENABLED", 
+        "tables": [
+            "DEFAULT.KYLIN_CAL_DT", 
+            "DEFAULT.KYLIN_CATEGORY_GROUPINGS", 
+            "DEFAULT.KYLIN_ACCOUNT", 
+            "DEFAULT.KYLIN_COUNTRY", 
+            "DEFAULT.KYLIN_SALES"
+        ], 
+        "uuid": "7812ab5d-9219-414a-8e13-c307e024a2da", 
+        "version": "2.1.0.20403"
+    }, 
+    {
+        "create_time_utc": 1512529754895, 
+        "description": "", 
+        "ext_filters": [], 
+        "last_modified": 1512531323235, 
+        "last_update_time": null, 
+        "models": [], 
+        "name": "lan", 
+        "override_kylin_properties": {
+            "kylin.query.force-limit": "1000"
+        }, 
+        "owner": "lan2", 
+        "realizations": [], 
+        "status": "ENABLED", 
+        "tables": [], 
+        "uuid": "b1e9ea0a-01da-4711-9602-c2d2b8e5f2cd", 
+        "version": "2.3.0.20500"
+    }, 
+    {
+        "create_time_utc": 0, 
+        "description": null, 
+        "ext_filters": [], 
+        "last_modified": 1512541773873, 
+        "last_update_time": null, 
+        "models": [
+            "kylin_sales_model", 
+            "kylin_streaming_model", 
+            "Lan", 
+            "Lan_01", 
+            "kylin_sales_model_clone", 
+            "kylin_sales_model_clone_clone"
+        ], 
+        "name": "learn_kylin", 
+        "override_kylin_properties": {}, 
+        "owner": null, 
+        "realizations": [
+            {
+                "realization": "kylin_sales_cube", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "kylin_streaming_cube", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "Lan_Test", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "Lan_Test", 
+                "type": "INVERTED_INDEX"
+            }
+        ], 
+        "status": null, 
+        "tables": [
+            "DEFAULT.KYLIN_CAL_DT", 
+            "DEFAULT.KYLIN_CATEGORY_GROUPINGS", 
+            "DEFAULT.KYLIN_STREAMING_TABLE", 
+            "DEFAULT.KYLIN_ACCOUNT", 
+            "AIRLINE.AIRLINE", 
+            "DEFAULT.KYLIN_COUNTRY", 
+            "DEFAULT.KYLIN_SALES"
+        ], 
+        "uuid": "2fbca32a-a33e-4b69-83dd-0bb8b1f8c91b", 
+        "version": "2.3.0.20500"
+    }, 
+    {
+        "create_time_utc": 1508378605203, 
+        "description": "", 
+        "ext_filters": [], 
+        "last_modified": 1510121857000, 
+        "last_update_time": null, 
+        "models": [
+            "model_mcd_feima_redeem", 
+            "model_mcd_feima_redeem_20171019", 
+            "model_mcd_feima_redeem_20171019_v2", 
+            "model_mcd_feima_redeem_20171019_v3", 
+            "model_mcd_feima_redeem_20171020_v4"
+        ], 
+        "name": "MCD_PoC", 
+        "override_kylin_properties": {}, 
+        "owner": "ADMIN", 
+        "realizations": [
+            {
+                "realization": "cube_mcd_feima_redeem_20171019", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "cube_mcd_feima_redeem_20171019_v2", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "cube_mcd_feima_redeem_20171019_v3", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "cube_mcd_feima_redeem_20171020_v4", 
+                "type": "CUBE"
+            }
+        ], 
+        "status": "ENABLED", 
+        "tables": [
+            "KYLIN.KYLIN_MCD_FEIMA_REDEEM_PRO", 
+            "KYLIN.KYLIN_MCD_FEIMA_REDEEM_PRO_V4", 
+            "KYLIN.KYLIN_MCD_FEIMA_REDEEM_PRO_V2", 
+            "KYLIN.KYLIN_MCD_FEIMA_REDEEM_PRO_V3", 
+            "KYLIN.KYLIN_MCD_FEIMA_REDEEM", 
+            "KYLIN.KYLIN_MCD_PAY_WITH_PRODUCTS_V4", 
+            "KYLIN.KYLIN_MCD_PAY_WITH_PRODUCTS_V3", 
+            "KYLIN.KYLIN_KB_MCD_STORE_NAME", 
+            "KYLIN.KYLIN_MCD_PAY_WITH_PRODUCTS_V2", 
+            "KYLIN.KYLIN_MCD_PAY_PRODUCTS", 
+            "KYLIN.KYLIN_MCD_PAY", 
+            "KYLIN.KYLIN_MCD_PAY_WITH_PRODUCTS", 
+            "KYLIN.KYLIN_KB_MCD_FEIMA_ACTIVE_CODE"
+        ], 
+        "uuid": "7e4079b6-0f47-4592-99f9-90df1ac1f62f", 
+        "version": "2.2.0.20500"
+    }, 
+    {
+        "create_time_utc": 1502175320250, 
+        "description": "", 
+        "ext_filters": [], 
+        "last_modified": 1510121857000, 
+        "last_update_time": null, 
+        "models": [
+            "mobile_event"
+        ], 
+        "name": "Mobile_user", 
+        "override_kylin_properties": {}, 
+        "owner": "joanna", 
+        "realizations": [], 
+        "status": "ENABLED", 
+        "tables": [
+            "MOBILE_USER.APP_LABELS", 
+            "MOBILE_USER.APP_EVENTS", 
+            "MOBILE_USER.GENDER_AGE_TEST", 
+            "MOBILE_USER.PHONE_BRAND_DEVICE_MODEL", 
+            "MOBILE_USER.GENDER_AGE_TRAIN", 
+            "MOBILE_USER.EVENTS", 
+            "MOBILE_USER.LABEL_CATEGORIES"
+        ], 
+        "uuid": "f5ff50fd-a372-4fe2-b6d2-9eb852f93028", 
+        "version": "2.1.0"
+    }, 
+    {
+        "create_time_utc": 1508474081396, 
+        "description": "", 
+        "ext_filters": [], 
+        "last_modified": 1510121857000, 
+        "last_update_time": null, 
+        "models": [
+            "model_mcd_feima_redeem_2017102012", 
+            "model_mcd_feima_redeem_2017102013", 
+            "model_mcd_feima_redeem_2017102112", 
+            "model_mcd_feima_redeem_2017102115", 
+            "model_mcd_feima_redeem_ultra", 
+            "model_mcd_feima_received_ultra", 
+            "model_mcd_feima_redeem_ultra_v2", 
+            "model_mcd_feima_redeem_ultra_v4", 
+            "model_mcd_feima_redeem_ultra_v5"
+        ], 
+        "name": "proj_MCD_PoC", 
+        "override_kylin_properties": {}, 
+        "owner": "ADMIN", 
+        "realizations": [
+            {
+                "realization": "cube_mcd_feima_redeem_2017102012", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "cube_mcd_feima_redeem_2017102013", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "cube_mcd_feima_redeem_2017102112", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "cube_mcd_feima_redeem_2017102115", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "cube_mcd_feima_redeem_ultra", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "cube_mcd_feima_redeem_ultra_v2", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "cube_mcd_feima_received_ultra", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "cube_mcd_feima_redeem_ultra_v3", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "cube_mcd_feima_redeem_ultra_v5", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "cube_mcd_feima_redeem_ultra_v6", 
+                "type": "CUBE"
+            }
+        ], 
+        "status": "ENABLED", 
+        "tables": [
+            "KYLIN.KYLIN_MCD_FEIMA_REDEEM_ULTRA2", 
+            "KYLIN.KYLIN_MCD_FEIMA_REDEEM_ULTRA3", 
+            "KYLIN.KYLIN_MCD_FEIMA_REDEEM_FINAL_V2", 
+            "KYLIN.KYLIN_MCD_FEIMA_REDEEM_FINAL", 
+            "KYLIN.KYLIN_MCD_FEIMA_REDEEM_ULTRA", 
+            "KYLIN.KYLIN_MCD_FEIMA_RECEIVED_ULTRA"
+        ], 
+        "uuid": "623596ec-13ad-4846-9446-7b137e8de1f5", 
+        "version": "2.2.0.0"
+    }, 
+    {
+        "create_time_utc": 1503652532949, 
+        "description": "", 
+        "ext_filters": [], 
+        "last_modified": 1510121857000, 
+        "last_update_time": null, 
+        "models": [
+            "ray_test_model"
+        ], 
+        "name": "ray", 
+        "override_kylin_properties": {}, 
+        "owner": "ADMIN", 
+        "realizations": [
+            {
+                "realization": "ray_test_cube", 
+                "type": "CUBE"
+            }
+        ], 
+        "status": "ENABLED", 
+        "tables": [
+            "RAY.TEST"
+        ], 
+        "uuid": "98f40c1b-2330-4a2b-a308-6c1cb706bdcc", 
+        "version": "2.1.0.20403"
+    }, 
+    {
+        "create_time_utc": 1500530895446, 
+        "description": "", 
+        "ext_filters": [], 
+        "last_modified": 1510121857000, 
+        "last_update_time": null, 
+        "models": [
+            "star_schema_1", 
+            "snowflake_schema"
+        ], 
+        "name": "sales", 
+        "override_kylin_properties": {}, 
+        "owner": "ADMIN", 
+        "realizations": [
+            {
+                "realization": "star_schema_1", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "snowflake_schema", 
+                "type": "CUBE"
+            }, 
+            {
+                "realization": "snowflake_schema_clone", 
+                "type": "CUBE"
+            }
+        ], 
+        "status": "ENABLED", 
+        "tables": [
+            "DEFAULT.KYLIN_CAL_DT", 
+            "DEFAULT.KYLIN_CATEGORY_GROUPINGS", 
+            "DEFAULT.KYLIN_ACCOUNT", 
+            "DEFAULT.KYLIN_COUNTRY", 
+            "DEFAULT.KYLIN_SALES"
+        ], 
+        "uuid": "5f6c87b2-31ab-4374-aa21-6fe61bf62fb0", 
+        "version": "2.1.0"
+    }, 
+    {
+        "create_time_utc": 1503310577479, 
+        "description": "", 
+        "ext_filters": [], 
+        "last_modified": 1510121857000, 
+        "last_update_time": null, 
+        "models": [], 
+        "name": "streaming", 
+        "override_kylin_properties": {}, 
+        "owner": "ADMIN", 
+        "realizations": [], 
+        "status": "ENABLED", 
+        "tables": [
+            "DEFAULT.KAFKA_DATA"
+        ], 
+        "uuid": "39278e43-e260-4476-bdce-1c1f4bd12f40", 
+        "version": "2.1.0.20403"
+    }, 
+    {
+        "create_time_utc": 1502676897346, 
+        "description": "", 
+        "ext_filters": [], 
+        "last_modified": 1510121857000, 
+        "last_update_time": null, 
+        "models": [
+            "tianmao"
+        ], 
+        "name": "Tianmao", 
+        "override_kylin_properties": {}, 
+        "owner": "joanna", 
+        "realizations": [], 
+        "status": "ENABLED", 
+        "tables": [
+            "TIANMAO.USER_LOG", 
+            "TIANMAO.USER_INFO"
+        ], 
+        "uuid": "272bc8f5-155b-4b6d-8ec1-d7f1de51ad2d", 
+        "version": "2.1.0"
+    }
+]

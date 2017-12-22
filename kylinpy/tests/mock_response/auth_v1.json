@@ -1,0 +1,31 @@
+{
+    "userDetails": {
+        "authorities": [
+            {
+                "authority": "ROLE_ADMIN"
+            }, 
+            {
+                "authority": "ROLE_MODELER"
+            }, 
+            {
+                "authority": "ROLE_ANALYST"
+            }, 
+            {
+                "authority": "foo"
+            }, 
+            {
+                "authority": "product"
+            }
+        ], 
+        "defaultPassword": false, 
+        "disabled": false, 
+        "last_modified": 1512216850455, 
+        "locked": false, 
+        "lockedTime": 1512126236101, 
+        "password": "$2a$10$42bgjSdkMor7cabfAo7rIewGYDgDdwcY9nso98nTr4X1/oJY/clke", 
+        "username": "joanna", 
+        "uuid": null, 
+        "version": "2.1.0", 
+        "wrongTime": 0
+    }
+}
