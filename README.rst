@@ -1,14 +1,16 @@
 Apache Kylin Python Client Library
-===========================
-Apache Kylin Python Client Library is a python-based Apache Kylin client. 
+==================================
+Apache Kylin Python Client Library is a python-based Apache Kylin client.
 
 There are two components in Apache Kylin Python Client Library.
 
-* Apache Kylin python command line: 
-This component provides a unified command line interface to Apache Kylin.
+* Apache Kylin python command line:
 
-* Apache Kylin dialect for SQLAlchemy: 
-Any application that uses SQLAlchemy can now query Apache Kylin with this Apache Kylin dialect installed.
+  This component provides a unified command line interface to Apache Kylin.
+
+* Apache Kylin dialect for SQLAlchemy:
+
+  Any application that uses SQLAlchemy can now query Apache Kylin with this Apache Kylin dialect installed.
 
 The two components above are based on Apache Kylin python client.
 
@@ -17,18 +19,18 @@ Installation
 
 The easiest way to install Apache Kylin Python Client Library is to use pip::
 
-    $ pip install --upgrade kylinpy
+    pip install --upgrade kylinpy
 
 Install this library from local project path::
 
-    $ git clone https://github.com/Kyligence/kylinpy.git
-    $ pip install -e kylinpy
+    git clone https://github.com/Kyligence/kylinpy.git
+    pip install -e kylinpy
 
 Apache Kylin python Command Line
 --------------------------------
 After installing Apache Kylin Python Client Library you may run kylinpy in terminal::
 
-    $ kylinpy
+    kylinpy
     Usage: kylinpy [OPTIONS] COMMAND [ARGS]...
 
     Options:
@@ -106,7 +108,7 @@ Examples
 
 4. To get all cube names from Apache Kylin with debug mode::
 
-    $ kylinpy -h kap.kapdemo.com -u ADMIN -p KYLIN --project learn_kylin --api1 --debug cube_names
+    kylinpy -h kap.kapdemo.com -u ADMIN -p KYLIN --project learn_kylin --api1 --debug cube_names
 
 5. To get cube SQL of selected cube from Apache Kylin with debug mode::
 
@@ -116,14 +118,13 @@ Examples
 
     kylinpy -h kap.kapdemo.com -P 7070 -u ADMIN -p KYLIN --project learn_kylin --api1 --debug projects
 
-
 7. To list all tables column of selected cube from Apache Kylin with debug mode::
 
     kylinpy -h kap.kapdemo.com -P 7070 -u ADMIN -p KYLIN --project learn_kylin --api1 --debug table_columns --name KYLIN_SALES
 
 8. To get all table names from kylin::
 
-    $ kylinpy -h kap.kapdemo.com -u ADMIN -p KYLIN --project learn_kylin --api1 table_names
+    kylinpy -h kap.kapdemo.com -u ADMIN -p KYLIN --project learn_kylin --api1 table_names
 
 9. To get the model description of the selected model from Apache Kylin with debug mode::
 
@@ -158,7 +159,7 @@ prefix                             /kylin/api
 
 Test connection with Apache Kylin::
 
-    python
+    $ python
     >>> import sqlalchemy as sa
     >>> kylin_engine = sa.create_engine('kylin://username:password@hostname:7070/learn_kylin?version=v1')
     >>> results = kylin_engine.execute('SELECT count(*) FROM KYLIN_SALES')
@@ -176,18 +177,17 @@ Now you can configure the DSN in your application to establish the connection wi
 
 For example, you may install Apache Kylin Python Client Library in your Superset environment and configure connection to Apache Kylin in Superset
 
-.. image:: /docs/picture/superset1.png
+.. image:: https://raw.githubusercontent.com/Kyligence/kylinpy/master/docs/picture/superset1.png
 
 then you may be able to query Apache Kylin one table at a time from Superset
 
-.. image:: /docs/picture/superset2.png
+.. image:: https://raw.githubusercontent.com/Kyligence/kylinpy/master/docs/picture/superset2.png
 
-you may also be able to query detail data 
+you may also be able to query detail data
 
-.. image:: /docs/picture/superset3.png
+.. image:: https://raw.githubusercontent.com/Kyligence/kylinpy/master/docs/picture/superset3.png
 
 Alternatively, you may also be able to query multiple tables from Apache Kylin by using SQL Lab in Superset.
 
-.. image:: /docs/picture/superset4.png
-
+.. image:: https://raw.githubusercontent.com/Kyligence/kylinpy/master/docs/picture/superset4.png
 

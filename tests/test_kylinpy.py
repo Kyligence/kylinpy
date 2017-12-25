@@ -4,7 +4,7 @@ import json
 import pytest
 from mock import patch
 from kylinpy import kylinpy
-from ..errors import (  # noqa
+from kylinpy.errors import (  # noqa
     KylinUnauthorizedError,
     KylinUserDisabled,
     KylinConnectionError,

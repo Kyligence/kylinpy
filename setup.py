@@ -4,13 +4,13 @@ readme = open('README.rst').read()
 
 setup(
     name='kylinpy',
-    version='1.0.0',
+    version='1.0.6',
     author='Yongjie Zhao',
     author_email='yongjie.zhao@kyligence.io',
     maintainer='Yongjie Zhao',
     maintainer_email='yongjie.zhao@kyligence.io',
-    packages=['kylinpy'],
-    url='https://pypi.python.org/pypi/kylinpy/',
+    packages=['kylinpy', 'kylinpy.utils'],
+    url='https://github.com/Kyligence/kylinpy',
     license='MIT License',
     description='Apache Kylin Python Client Library',
     long_description=readme,
@@ -20,6 +20,7 @@ setup(
     extras_require={
         'sqlalchemy': ['sqlalchemy>=1.1.0'],
     },
+    keywords=['kylin', 'kap', 'cli', 'sqlalchemy dialect'],
     classifiers=[
         "Environment :: Console",
         "Intended Audience :: Developers",
