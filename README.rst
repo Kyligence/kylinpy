@@ -21,7 +21,8 @@ The easiest way to install Apache Kylin Python Client Library is to use pip::
 
     pip install --upgrade kylinpy
 
-Install this library from local project path::
+Alternatiely, you may install this library from local project path,
+You are welcomed to also commit to this library::
 
     git clone https://github.com/Kyligence/kylinpy.git
     pip install -e kylinpy
