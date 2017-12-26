@@ -14,6 +14,6 @@ test-readme:
 
 publish:
 	pip install 'twine>=1.5.0'
-	python setup.py sdist bdist_wheel
+	python setup.py sdist
 	twine upload dist/*
 	rm -rf build dist .egg kylinpy.egg-info
