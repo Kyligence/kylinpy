@@ -1,10 +1,27 @@
+import codecs
+import os.path
+import re
+
 from setuptools import setup
 
-readme = open('README.rst').read()
+here = os.path.abspath(os.path.dirname(__file__))
+
+def read(*parts):
+    return codecs.open(os.path.join(here, *parts), 'r').read()
+
+
+def find_version(*file_paths):
+    version_file = read(*file_paths)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
+                              version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string.")
+
 
 setup(
     name='kylinpy',
-    version='1.0.6',
+    version=find_version("kylinpy", "__init__.py"),
     author='Yongjie Zhao',
     author_email='yongjie.zhao@kyligence.io',
     maintainer='Yongjie Zhao',
@@ -13,7 +30,7 @@ setup(
     url='https://github.com/Kyligence/kylinpy',
     license='MIT License',
     description='Apache Kylin Python Client Library',
-    long_description=readme,
+    long_description=open('README.rst').read(),
     install_requires=['six==1.10.0', 'click==6.7'],
     setup_requires=['pytest-runner'],
     tests_require=['pytest', 'coverage', 'mock'],

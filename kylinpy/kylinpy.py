@@ -91,7 +91,7 @@ class Client(object):
 
             with contextlib.closing(urllib.request.urlopen(req, body)) as fd:
                 try:
-                    dumps = json.loads(fd.read().decode("utf-8"))
+                    dumps = json.loads(fd.read())
                 except ValueError:
                     raise KylinError('KYLIN JSON object could not decoded')
 
@@ -167,7 +167,11 @@ class OriginalAPIMixin(object):
 
     @compact_response(extract_v2='projects')
     def projects(self):
-        return self.client.fetch(endpoint='projects')
+        _params = {
+            'pageSize': 1000,
+            'pageOffset': 0
+        }
+        return self.client.fetch(endpoint='projects', params=_params)
 
     @compact_response()
     def query(self, sql, **body):
