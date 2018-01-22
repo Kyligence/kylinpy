@@ -64,6 +64,10 @@ def users(ctx):
 def auth(ctx):
     print(json.dumps(ctx.obj.authentication(), indent=4, sort_keys=True))
 
+@main.command(help='show cubes')
+@click.pass_context
+def cubes(ctx):
+    print(json.dumps(ctx.obj.cubes(), indent=4, sort_keys=True))
 
 @main.command(help='get sample sql of cube, KAP only')
 @click.option('--name', required=True, help='cube name')
@@ -90,6 +94,13 @@ def cube_names(ctx):
 @click.pass_context
 def cube_columns(ctx, name):
     print(json.dumps(ctx.obj.get_cube_columns(name), indent=4, sort_keys=True))
+
+
+@main.command(help='list cube metrics')
+@click.option('--name', required=True, help='cube name')
+@click.pass_context
+def cube_measures(ctx, name):
+    print(json.dumps(ctx.obj.get_cube_measures(name), indent=4, sort_keys=True))
 
 
 @main.command(help='list all table names')

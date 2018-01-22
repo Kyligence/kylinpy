@@ -31,7 +31,7 @@ setup(
     license='MIT License',
     description='Apache Kylin Python Client Library',
     long_description=open('README.rst').read(),
-    install_requires=['six==1.10.0', 'click==6.7'],
+    install_requires=['six>=1.0.0', 'click>=6.7'],
     setup_requires=['pytest-runner'],
     tests_require=['pytest', 'coverage', 'mock'],
     extras_require={

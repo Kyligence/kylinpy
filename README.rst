@@ -1,3 +1,6 @@
+.. image:: https://img.shields.io/pypi/v/kylinpy.svg
+   :target: https://pypi.python.org/pypi/kylinpy
+
 Apache Kylin Python Client Library
 ==================================
 Apache Kylin Python Client Library is a python-based Apache Kylin client.

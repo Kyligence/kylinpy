@@ -192,7 +192,6 @@ class OriginalAPIMixin(object):
         return self.client.fetch(endpoint='tables_and_columns', params=params)
 
     @compact_response()
-    @cache_resp
     def tables(self, ext=False):
         _params = {
             'project': self.project,
@@ -325,6 +324,10 @@ class ExtendAPIMixin(object):
             for dim in collect_dimensions
         ]
 
+    @compact_response()
+    def get_cube_measures(self, cube_name):
+        cube_measures = self.cube_desc(cube_name)['data']['measures']
+        return cube_measures
 
 class Kylinpy(OriginalAPIMixin, ExtendAPIMixin):
     def __init__(self, host, username, password, port=7070, project='default', **kwargs):
