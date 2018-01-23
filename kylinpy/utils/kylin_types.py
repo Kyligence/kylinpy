@@ -22,7 +22,7 @@ KylinType = dict(
     DATE=lambda x: datetime.strptime(x, "%Y-%m-%d").date(),
     DATETIME=lambda x: datetime.strptime(x, "%Y-%m-%d %H:%M:%S"),
     TIMESTAMP=lambda x: time.mktime(datetime.strptime(
-        x, "%Y-%m-%d %H:%M:%S.%f").timetuple()),
+        x, "%Y-%m-%d %H:%M:%S").timetuple()),
 )
 
 
