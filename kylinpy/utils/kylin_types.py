@@ -1,7 +1,10 @@
+import re
 import six
 import time
 from datetime import datetime
 from ..logger import logger
+
+true_pattern = re.compile(r"true", flags=re.IGNORECASE)
 
 KylinType = dict(
     CHAR=six.text_type,
@@ -18,7 +21,7 @@ KylinType = dict(
     SMALLINT=int,
     INT4=int,
     LONG8=int,
-    BOOLEAN=bool,
+    BOOLEAN=lambda x: bool(re.search(true_pattern, x)),
     DATE=lambda x: datetime.strptime(x, "%Y-%m-%d").date(),
     DATETIME=lambda x: datetime.strptime(x, "%Y-%m-%d %H:%M:%S"),
     TIMESTAMP=lambda x: time.mktime(datetime.strptime(
