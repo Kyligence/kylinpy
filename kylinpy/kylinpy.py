@@ -91,7 +91,8 @@ class Client(object):
 
             with contextlib.closing(urllib.request.urlopen(req, body)) as fd:
                 try:
-                    dumps = json.loads(fd.read())
+                    # dumps = json.loads(fd.read())
+                    dumps = json.loads(fd.read().decode("utf-8"))
                 except ValueError:
                     raise KylinError('KYLIN JSON object could not decoded')
 
@@ -252,6 +253,12 @@ class _ExtendedAPIMixin(object):
         return [t['table_NAME'] for t in self.tables_and_columns()['data']]
 
     @compact_response()
+    def list_schemas(self):
+        table_schemas = [t['table_SCHEM'] for t in self.tables_and_columns()['data']]
+        table_schemas = list(set(table_schemas))
+        return table_schemas
+
+    @compact_response()
     def get_table_columns(self, table):
         """
         columns list like this:
@@ -276,6 +283,8 @@ class _ExtendedAPIMixin(object):
             }
             for col in columns
         ]
+
+
 
     @compact_response()
     def get_cube_names(self):
