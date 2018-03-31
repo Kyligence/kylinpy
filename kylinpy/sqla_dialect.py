@@ -90,6 +90,10 @@ class KylinDialect(default.DefaultDialect):
         conn = connection.connect()
         return conn.connection.connection.get_table_names().get('data')
 
+    def get_schema_names(self, connection, schema=None, **kw):
+        conn = connection.connect()
+        return conn.connection.connection.list_schemas().get('data')
+
     def has_table(self, connection, table_name, schema=None):
         return table_name in self.get_table_names(connection, schema)
 
