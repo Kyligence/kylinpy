@@ -83,11 +83,11 @@ class Client(object):
 
             req = urllib.request.Request(url, headers=headers)
             req.get_method = lambda: method
-            logger.debug('''
+            logger.debug("""
 ==========================[QUERY]===============================
  method: %s \n url: %s \n headers: %s \n body: %s
 ==========================[QUERY]===============================
-            ''', method, url, headers, body)
+            """, method, url, headers, body)
 
             with contextlib.closing(urllib.request.urlopen(req, body)) as fd:
                 try:
@@ -160,7 +160,7 @@ def cache_resp(fn):
     return wrapper
 
 
-class OriginalAPIMixin(object):
+class _OriginalAPIMixin(object):
     @compact_response(extract_v1='userDetails')
     def authentication(self):
         return self.client.fetch(endpoint='user/authentication', method='POST')
@@ -242,7 +242,7 @@ class OriginalAPIMixin(object):
             return [e for e in models if e['name'] == name][0]
 
 
-class ExtendAPIMixin(object):
+class _ExtendedAPIMixin(object):
     def _get_column_datatype(self, column_name, table_name):
         table = [t for t in self.tables()['data'] if t['name'] == table_name][0]
         return [c for c in table['columns'] if c['name'] == column_name][0]['datatype']
@@ -253,7 +253,7 @@ class ExtendAPIMixin(object):
 
     @compact_response()
     def get_table_columns(self, table):
-        '''
+        """
         columns list like this:
         [
           {
@@ -263,7 +263,7 @@ class ExtendAPIMixin(object):
           },
           ...
         ]
-        '''
+        """
         table = [t for t in self.tables_and_columns()['data']
                  if t['table_NAME'] == table]
         columns = table[0]['columns'] if table else []
@@ -283,7 +283,7 @@ class ExtendAPIMixin(object):
 
     @compact_response()
     def get_cube_columns(self, cube_name):
-        '''
+        """
         columns list like this:
         [
           {
@@ -296,7 +296,7 @@ class ExtendAPIMixin(object):
           },
           ...
         ]
-        '''
+        """
         cube_desc = self.cube_desc(cube_name)['data']
         dimensions = cube_desc['dimensions']
         model_name = cube_desc['model_name']
@@ -329,7 +329,8 @@ class ExtendAPIMixin(object):
         cube_measures = self.cube_desc(cube_name)['data']['measures']
         return cube_measures
 
-class Kylinpy(OriginalAPIMixin, ExtendAPIMixin):
+
+class Kylinpy(_OriginalAPIMixin, _ExtendedAPIMixin):
     def __init__(self, host, username, password, port=7070, project='default', **kwargs):
         if host.startswith(('http://', 'https://')):
             scheme, host = host.split('://')

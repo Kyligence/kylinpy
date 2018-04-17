@@ -13,3 +13,4 @@ build
 .cache/
 .idea/
 .coverage
+.pytest_cache/
