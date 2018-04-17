@@ -91,7 +91,6 @@ class Client(object):
 
             with contextlib.closing(urllib.request.urlopen(req, body)) as fd:
                 try:
-                    # dumps = json.loads(fd.read())
                     dumps = json.loads(fd.read().decode("utf-8"))
                 except ValueError:
                     raise KylinError('KYLIN JSON object could not decoded')
@@ -283,8 +282,6 @@ class _ExtendedAPIMixin(object):
             }
             for col in columns
         ]
-
-
 
     @compact_response()
     def get_cube_names(self):

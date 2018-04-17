@@ -155,3 +155,15 @@ def test_get_table_names(response):
     v1 = kylinpy.Kylinpy('host', 'username', 'password', version='v1').get_table_names()
     v2 = kylinpy.Kylinpy('host', 'username', 'password', version='v2').get_table_names()
     assert v1 == v2
+
+
+@patch('six.moves.urllib.request.urlopen')
+def test_list_schemas(response):
+    response.side_effect = [
+        MockResponse([{'table_NAME': 'table1', 'table_SCHEM': 'schema1'}]),
+        MockResponse({'data': [{'table_NAME': 'table1', 'table_SCHEM': 'schema1'}], 'code': 000, 'msg': ''})
+    ]
+    v1 = kylinpy.Kylinpy('host', 'username', 'password', version='v1').list_schemas()
+    v2 = kylinpy.Kylinpy('host', 'username', 'password', version='v2').list_schemas()
+    assert v1 == v2
+
