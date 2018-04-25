@@ -121,3 +121,9 @@ def table_columns(ctx, name):
 @click.pass_context
 def model_desc(ctx, name):
     print(json.dumps(ctx.obj.model_desc(name), indent=4, sort_keys=True))
+
+
+@main.command(help='list models')
+@click.pass_context
+def model_list(ctx):
+    print(json.dumps(ctx.obj.list_models(), indent=4, sort_keys=True))

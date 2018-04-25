@@ -7,6 +7,8 @@ import re
 import json
 import base64
 import contextlib
+import time
+import datetime
 
 from six.moves import urllib
 
@@ -240,6 +242,37 @@ class _OriginalAPIMixin(object):
             models = self.client.fetch(
                 'models', params={'projectName': self.project})
             return [e for e in models if e['name'] == name][0]
+
+    @compact_response(extract_v2="models")
+    @only_kap_api
+    def list_models(self):
+        return self.client.fetch('models')
+
+    @only_kap_api
+    def create_model(self, model_desc):
+        _body = {
+            'modelDescData': model_desc,
+            'project': self.project
+        }
+        return self.client.fetch('models', method='PUT', body=_body)
+
+    @only_kap_api
+    def create_cube(self, cube_desc):
+        _body = {
+            'cubeDescData': cube_desc,
+            'project': self.project
+        }
+        return self.client.fetch('cubes', method='PUT', body=_body)
+
+    @only_kap_api
+    def build_cube(self, cube_name):
+        _body = {
+            'buildType': "BUILD",
+            'endTime': int(time.mktime(datetime.datetime.now().timetuple())),
+            'mpValues': "",
+            'startTime': 0
+        }
+        return self.client.fetch('cubes/{}/rebuild'.format(cube_name), method='PUT', body=_body)
 
 
 class _ExtendedAPIMixin(object):
