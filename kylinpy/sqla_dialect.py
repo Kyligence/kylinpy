@@ -28,6 +28,9 @@ class KylinIdentifierPreparer(compiler.IdentifierPreparer):
             dialect, initial_quote, final_quote, escape_quote, omit_schema
         )
 
+    def format_label(self, label, name=None):
+        return self.quote(name or label.name)
+
 
 class KylinSQLCompiler(compiler.SQLCompiler):
 
@@ -37,9 +40,15 @@ class KylinSQLCompiler(compiler.SQLCompiler):
     def _compose_select_body(self, text, select, inner_columns, froms, byfrom, kwargs):
         text = super(KylinSQLCompiler, self)._compose_select_body(
             text, select, inner_columns, froms, byfrom, kwargs)
-        # todo
-        text = re.sub(' \d{2}:\d{2}:\d{2}', '', text)
         return text
+
+    def visit_column(self, *args, **kwargs):
+        result = super(KylinSQLCompiler, self).visit_column(*args, **kwargs)
+        return result
+
+    def visit_label(self, *args, **kwargs):
+        result = super(KylinSQLCompiler, self).visit_label(*args, **kwargs)
+        return result
 
 
 class KylinDialect(default.DefaultDialect):
