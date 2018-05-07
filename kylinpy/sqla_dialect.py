@@ -33,6 +33,7 @@ class KylinIdentifierPreparer(compiler.IdentifierPreparer):
 
 
 class KylinSQLCompiler(compiler.SQLCompiler):
+    _cached_metadata = set()
 
     def __init__(self, *args, **kwargs):
         super(KylinSQLCompiler, self).__init__(*args, **kwargs)
@@ -47,6 +48,7 @@ class KylinSQLCompiler(compiler.SQLCompiler):
         return result
 
     def visit_label(self, *args, **kwargs):
+        self.__class__._cached_metadata.add([c.name for c in args][0])
         result = super(KylinSQLCompiler, self).visit_label(*args, **kwargs)
         return result
 
@@ -94,6 +96,11 @@ class KylinDialect(default.DefaultDialect):
             'prefix': url.query.get('prefix'),
         }
         return [], dict([e for e in args.items() if e[1]])
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+        cursor.execute(statement, parameters,
+                       labels=self.statement_compiler._cached_metadata)
+        self.statement_compiler._cached_metadata = set()
 
     def get_table_names(self, connection, schema=None, **kw):
         conn = connection.connect()

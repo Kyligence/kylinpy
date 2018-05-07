@@ -20,11 +20,17 @@ class Cursor(object):
     def close(self):
         logger.debug('Cursor close called')
 
-    def execute(self, query, *params):
+    def execute(self, query, *params, **kwargs):
         # todo query params
+        def get_col(x):
+            for l in kwargs.get('labels', set()):
+                if l.lower() == x.lower():
+                    return l
+            return x
+
         resp = self.connection.query(query).get('data')
         self.description = [[
-            c['label'],
+            get_col(c['label']),
             c['columnTypeName'].lower(),
             c['displaySize'],
             0,

@@ -358,7 +358,7 @@ class _ExtendedAPIMixin(object):
         return [
             dict(dim, **{
                 'datatype': self._get_column_datatype(dim['column_NAME'], _get_origin_table(dim['table'])),
-                'column_NAME': '_'.join([dim['table'], dim['column_NAME']])
+                'column_NAME': '.'.join([dim['table'], dim['column_NAME']])
             })
             for dim in collect_dimensions
         ]
