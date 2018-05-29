@@ -104,6 +104,9 @@ class KylinDialect(default.DefaultDialect):
 
     def get_table_names(self, connection, schema=None, **kw):
         conn = connection.connect()
+        source = conn.engine.url.query.get('source', 'table')
+        if source == 'cube':
+            return conn.connection.connection.get_cube_names().get('data')
         return conn.connection.connection.get_table_names().get('data')
 
     def get_schema_names(self, connection, schema=None, **kw):

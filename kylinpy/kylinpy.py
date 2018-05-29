@@ -277,8 +277,16 @@ class _OriginalAPIMixin(object):
 
 class _ExtendedAPIMixin(object):
     def _get_column_datatype(self, column_name, table_name):
-        table = [t for t in self.tables()['data'] if t['name'] == table_name][0]
-        return [c for c in table['columns'] if c['name'] == column_name][0]['datatype']
+        schema_name, table_name = table_name.split('.')
+        try:
+            table = [t for t in self.tables()['data']
+                     if t['name'] == table_name and t['database'] == schema_name][0]
+            return [c for c in table['columns'] if c['name'] == column_name][0]['datatype']
+        except IndexError:
+            logger.error("column {} not found on {}.{}".format(
+                column_name,
+                schema_name,
+                table_name))
 
     @compact_response()
     def get_table_names(self):
@@ -293,7 +301,7 @@ class _ExtendedAPIMixin(object):
     @compact_response()
     def get_table_columns(self, table):
         """
-        columns list like this:
+        table structure:
         [
           {
             u'table': u'CUSTOMER',
@@ -310,8 +318,11 @@ class _ExtendedAPIMixin(object):
         return [
             {
                 'table_NAME': col['table_NAME'],
+                'table_SCHEM': col['table_SCHEM'],
                 'column_NAME': col['column_NAME'],
-                'datatype': self._get_column_datatype(col['column_NAME'], col['table_NAME'])
+                'datatype': self._get_column_datatype(
+                    col['column_NAME'],
+                    '{}.{}'.format(col['table_SCHEM'], col['table_NAME']))
             }
             for col in columns
         ]
@@ -323,14 +334,14 @@ class _ExtendedAPIMixin(object):
     @compact_response()
     def get_cube_columns(self, cube_name):
         """
-        columns list like this:
+        cube structure:
         [
           {
             u'column': u'C_NAME',
             u'table': u'CUSTOMER',
             u'derived': None,
             u'name': u'C_NAME',
-            u'column_NAME': u'C_NAME' <---- tabename_columnname
+            u'column_NAME': u'CUSTOMER.C_NAME' <---- tabename.columnname
             u'datatype': "varchar(256)"
           },
           ...
@@ -347,18 +358,22 @@ class _ExtendedAPIMixin(object):
         }) for dim in dimensions]
 
         def _get_origin_table(table_name):
-            # lookup table name -> fact table name
-            origin_table = ([e for e in model_desc['lookups']
+            """
+            return original table name with schema
+            """
+            lookup_table = ([e for e in model_desc['lookups']
                              if e['alias'] == table_name] or [None])[0]
-            if origin_table:
-                return origin_table['table'].split('.')[1]
+            if lookup_table:
+                return lookup_table['table']
             else:
-                return table_name
+                # fact table
+                return model_desc['fact_table']
 
         return [
             dict(dim, **{
-                'datatype': self._get_column_datatype(dim['column_NAME'], _get_origin_table(dim['table'])),
-                'column_NAME': '.'.join([dim['table'], dim['column_NAME']])
+                'datatype': self._get_column_datatype(
+                    dim['column_NAME'], _get_origin_table(dim['table'])),
+                'column_NAME': _get_origin_table(dim['table'])
             })
             for dim in collect_dimensions
         ]
