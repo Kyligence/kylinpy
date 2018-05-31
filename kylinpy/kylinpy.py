@@ -3,12 +3,13 @@
 from __future__ import division
 from __future__ import absolute_import
 
-import re
-import json
 import base64
 import contextlib
-import time
 import datetime
+import json
+import re
+import time
+from collections import namedtuple
 
 from six.moves import urllib
 
@@ -333,50 +334,59 @@ class _ExtendedAPIMixin(object):
 
     @compact_response()
     def get_cube_columns(self, cube_name):
-        """
-        cube structure:
-        [
-          {
-            u'column': u'C_NAME',
-            u'table': u'CUSTOMER',
-            u'derived': None,
-            u'name': u'C_NAME',
-            u'column_NAME': u'CUSTOMER.C_NAME' <---- tabename.columnname
-            u'datatype': "varchar(256)"
-          },
-          ...
-        ]
-        """
+        """cube describe"""
+        Row = namedtuple('Row', ['schema', 'table', 'column',
+                                 'datatype', 'is_derived',
+                                 'table_label', 'column_label'])
+
         cube_desc = self.cube_desc(cube_name)['data']
         dimensions = cube_desc['dimensions']
         model_name = cube_desc['model_name']
         model_desc = self.model_desc(model_name)['data']
+        rowkey_columns = cube_desc['rowkey'].get('rowkey_columns', [])
 
-        # collect dimension and derived
-        collect_dimensions = [dict(dim, **{
-            'column_NAME': dim['column'] if dim['derived'] is None else dim['derived'][0]
-        }) for dim in dimensions]
-
-        def _get_origin_table(table_name):
+        def _get_origin_table(table_label):
             """
             return original table name with schema
             """
             lookup_table = ([e for e in model_desc['lookups']
-                             if e['alias'] == table_name] or [None])[0]
+                             if e['alias'] == table_label] or [None])[0]
             if lookup_table:
                 return lookup_table['table']
             else:
                 # fact table
                 return model_desc['fact_table']
 
-        return [
-            dict(dim, **{
-                'datatype': self._get_column_datatype(
-                    dim['column_NAME'], _get_origin_table(dim['table'])),
-                'column_NAME': _get_origin_table(dim['table'])
-            })
-            for dim in collect_dimensions
-        ]
+        cube_describe = []
+        has_dimensions = set([])
+        for dim in dimensions:
+            column = dim['column'] if dim['derived'] is None else dim['derived'][0]
+            column_label = dim['name']
+            table_label = dim['table']
+            schema, table = _get_origin_table(table_label).split('.')
+            datatype = self._get_column_datatype(column, '{}.{}'.format(schema, table))
+            is_derived = bool(dim['derived'])
+            label = "{}.{}".format(table_label, column)
+            has_dimensions.add(label)
+            _row = Row(schema, table, column, datatype, is_derived,
+                       table_label, column_label,)
+            cube_describe.append(_row._asdict())
+
+        for rowkey in rowkey_columns:
+            if rowkey['column'] in has_dimensions:
+                continue
+
+            table_label, column_label = rowkey['column'].split('.')
+            column = column_label
+            schema, table = _get_origin_table(table_label).split('.')
+            datatype = self._get_column_datatype(column, '{}.{}'.format(schema, table))
+            label = "{}.{}".format(table_label, column)
+            has_dimensions.add(label)
+            _row = Row(schema, table, column, datatype, False,
+                       table_label, column_label,)
+            cube_describe.append(_row._asdict())
+
+        return cube_describe
 
     @compact_response()
     def get_cube_measures(self, cube_name):
