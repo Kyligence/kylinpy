@@ -114,7 +114,7 @@ class KylinDialect(default.DefaultDialect):
         return conn.connection.connection.list_schemas().get('data')
 
     def has_table(self, connection, table_name, schema=None):
-        return table_name in self.get_table_names(connection, schema)
+        return False
 
     def has_sequence(self, connection, sequence_name, schema=None):
         return False
