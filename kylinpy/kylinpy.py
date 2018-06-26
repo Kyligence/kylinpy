@@ -133,10 +133,10 @@ def _is_v2(obj):
 def compact_response(extract_v2=None, extract_v1=None):
     def fn(request):
         def wrapper(self, *args, **kwargs):
-            # todo rewrite this
+            # todo refactor here
             obj = request(self, *args, **kwargs)
-            body = obj if isinstance(obj, list) else obj.body
-            headers = None if isinstance(obj, list) else obj.headers
+            body = obj if isinstance(obj, list) or isinstance(obj, dict) else obj.body
+            headers = None if isinstance(obj, list) or isinstance(obj, dict) else obj.headers
             # always return {'data': ENTITY}
             if _is_v2(body):
                 body = body['data'].get(
@@ -237,7 +237,7 @@ class _OriginalAPIMixin(object):
         if self.client.version == 'v1':
             models = self.client.fetch(
                 'models', params={'projectName': self.project})
-            return [e for e in models if e['name'] == name][0]
+            return [e for e in models.body if e['name'] == name][0]
 
     @compact_response(extract_v2="models")
     @only_kap_api
