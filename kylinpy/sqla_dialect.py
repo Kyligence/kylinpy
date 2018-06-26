@@ -92,6 +92,7 @@ class KylinDialect(default.DefaultDialect):
             'host': url.host,
             'port': url.port,
             'project': re.sub('/$', '', url.database or 'default'),
+            'session': url.query.get('session'),
             'version': url.query.get('version'),
             'prefix': url.query.get('prefix'),
         }

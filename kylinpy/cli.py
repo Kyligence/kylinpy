@@ -22,21 +22,24 @@ sys.excepthook = exception_handler  # noqa
 @click.option('-h', '--host', required=True, help='kylin/kap host name')
 @click.option('-P', '--port', default=7070, help='kylin/kap port, default: 7070')
 @click.option('-u', '--username', required=True, help='kylin/kap username')
-@click.option('-p', '--password', required=True, help='kylin/kap password')
+@click.option('-p', '--password', required=False, help='kylin/kap password')
+@click.option('-s', '--session', required=False, help='session id')
 @click.option('--project', required=True, help='kylin/kap project')
 @click.option('--prefix', default='/kylin/api', help='kylin/kap RESTful prefix of url, default: /kylin/api')
 @click.option('--debug/--no-debug', default=False, help='show debug infomation')
 @click.option('--api2/--api1', default=False, help='API version; default is api1; --api1 used by KYLIN; --api2 used by KAP')
 @click.pass_context
-def main(ctx, host, port, username, password, project, prefix, debug, api2):
+def main(ctx, host, port, username, password, session, project, prefix, debug, api2):
     if debug:
         logging.basicConfig(level=logging.DEBUG)
 
     _version = 'v2' if api2 else 'v1'
-    ctx.obj = Kylinpy(host, username, password, port, project, **{
+    ctx.obj = Kylinpy(host, username, port, project, **{
         'version': _version,
         'prefix': prefix,
-        'is_debug': debug
+        'is_debug': debug,
+        'password': password,
+        'session': session
     })
 
 

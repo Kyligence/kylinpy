@@ -26,14 +26,18 @@ from .utils._compat import as_unicode
 
 
 class Client(object):
-    def __init__(self, scheme, host, port, username, password, **kwargs):
+    def __init__(self, scheme, host, port, username, **kwargs):
         self.scheme = scheme
         self.host = re.sub('/$', '', host)
         self.port = port
         self.username = username
-        self.password = password
+        self.password = kwargs.get('password', None)
         self.version = kwargs.get('version', 'v1')
         self.prefix = re.sub('(^/|/$)', '', kwargs.get('prefix', 'kylin/api'))
+        self.session = kwargs.get('session', None)
+
+        if not self.password and not self.session:
+            raise KylinError('Need password or session')
 
     def _prepare_url(self, endpoint, query=None):
         if endpoint.startswith('/'):
@@ -47,12 +51,12 @@ class Client(object):
 
         return url
 
-    def _prepare_headers(self, method='GET', session=False):
+    def _prepare_headers(self, method='GET'):
         headers = {
             'User-Agent': 'Kylin Python Client'
         }
 
-        if not session:
+        if not self.session:
             _auth_str = as_unicode('{}:{}').format(
                 self.username, self.password)
             _auth = base64.b64encode(
@@ -60,8 +64,7 @@ class Client(object):
             ).decode('ascii')
             headers.update({'Authorization': 'Basic {}'.format(_auth)})
         else:
-            # todo session
-            pass
+            headers.update({'Cookie': self.session})
 
         if method in ['POST', 'PUT']:
             headers['Content-Type'] = 'application/json'
@@ -92,13 +95,15 @@ class Client(object):
 ==========================[QUERY]===============================
             """, method, url, headers, body)
 
-            with contextlib.closing(urllib.request.urlopen(req, body)) as fd:
+            Response = namedtuple('Response', ['headers', 'body'])
+            with contextlib.closing(urllib.request.urlopen(req, body)) as resp:
                 try:
-                    dumps = json.loads(fd.read().decode("utf-8"))
+                    response_headers = dict(resp.info())
+                    response_body = json.loads(resp.read().decode("utf-8"))
                 except ValueError:
                     raise KylinError('KYLIN JSON object could not decoded')
 
-            return dumps
+            return Response(response_headers, response_body)
 
         except urllib.error.HTTPError as e:
             err = e.read()
@@ -128,19 +133,18 @@ def _is_v2(obj):
 def compact_response(extract_v2=None, extract_v1=None):
     def fn(request):
         def wrapper(self, *args, **kwargs):
+            # todo rewrite this
             obj = request(self, *args, **kwargs)
-            # todo:
-            # if self.is_debug
-            #     return obj
-
+            body = obj if isinstance(obj, list) else obj.body
+            headers = None if isinstance(obj, list) else obj.headers
             # always return {'data': ENTITY}
-            if _is_v2(obj):
-                obj = obj['data'].get(
-                    extract_v2, None) if extract_v2 else obj['data']
+            if _is_v2(body):
+                body = body['data'].get(
+                    extract_v2, None) if extract_v2 else body['data']
             else:
-                obj = obj.get(extract_v1, None) if extract_v1 else obj
+                body = body.get(extract_v1, None) if extract_v1 else body
 
-            return {'data': obj}
+            return {'data': body, 'headers': headers}
         return wrapper
     return fn
 
@@ -150,16 +154,6 @@ def only_kap_api(fn):
         if self.client.version == 'v1':
             raise KAPOnlyError
         return fn(self, *args, **kwargs)
-    return wrapper
-
-
-def cache_resp(fn):
-    cached = {}
-
-    def wrapper(*args):
-        if fn.__name__ not in cached:
-            cached[fn.__name__] = fn(*args)
-        return cached[fn.__name__]
     return wrapper
 
 
@@ -207,6 +201,7 @@ class _OriginalAPIMixin(object):
         _params = {
             'offset': 0,
             'limit': 50000,
+            'pageSize': 200,
             'projectName': self.project
         }
         _params.update(params)
@@ -274,6 +269,17 @@ class _OriginalAPIMixin(object):
             'startTime': 0
         }
         return self.client.fetch('cubes/{}/rebuild'.format(cube_name), method='PUT', body=_body)
+
+    @only_kap_api
+    def disable_cube(self, cube_name):
+        return self.client.fetch('cubes/{}/disable'.format(cube_name), method='PUT')
+
+    @only_kap_api
+    def purge_cube(self, cube_name):
+        _body = {
+            'mpValues': "",
+        }
+        return self.client.fetch('cubes/{}/purge'.format(cube_name), method='PUT', body=_body)
 
 
 class _ExtendedAPIMixin(object):
@@ -395,17 +401,17 @@ class _ExtendedAPIMixin(object):
 
 
 class Kylinpy(_OriginalAPIMixin, _ExtendedAPIMixin):
-    def __init__(self, host, username, password, port=7070, project='default', **kwargs):
+    def __init__(self, host, username, port=7070, project='default', **kwargs):
         if host.startswith(('http://', 'https://')):
             scheme, host = host.split('://')
         else:
             scheme, host = ('http', host)
 
-        self.client = Client(scheme, host, port, as_unicode(
-            username), as_unicode(password), **kwargs)
+        self.client = Client(scheme, host, port, as_unicode(username), **kwargs)
         self.project = project
         self.is_debug = kwargs.get('is_debug', False)
 
     def __str__(self):
         c = self.client
-        return 'kylin://{c.username}:{c.password}@{c.host}:{c.port}/{self.project}'.format(**locals())
+        return 'kylin://{c.username}:{c.password}@{c.host}:{c.port}/{self.project}'\
+            .format(**locals())
