@@ -296,8 +296,9 @@ class _ExtendedAPIMixin(object):
                 table_name))
 
     @compact_response()
-    def get_table_names(self):
-        return [t['table_NAME'] for t in self.tables_and_columns()['data']]
+    def get_table_names(self, schema=None):
+        return [t['table_NAME'] for t in self.tables_and_columns()['data']
+                if t['table_SCHEM'] == schema]
 
     @compact_response()
     def list_schemas(self):
