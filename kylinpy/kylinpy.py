@@ -160,7 +160,11 @@ def only_kap_api(fn):
 class _OriginalAPIMixin(object):
     @compact_response(extract_v1='userDetails')
     def authentication(self):
-        return self.client.fetch(endpoint='user/authentication', method='POST')
+        info = self.client.fetch(endpoint='user/authentication', method='POST')
+        if info is None or not info.body:
+            raise KylinUnauthorizedError('Unauthorized error')
+        else:
+            return info
 
     @compact_response(extract_v2='projects')
     def projects(self):
