@@ -95,6 +95,7 @@ class KylinDialect(default.DefaultDialect):
             'session': url.query.get('session'),
             'version': url.query.get('version'),
             'prefix': url.query.get('prefix'),
+            'scheme': url.query.get('scheme'),
         }
         return [], dict([e for e in args.items() if e[1]])
 

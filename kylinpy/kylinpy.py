@@ -12,6 +12,7 @@ import time
 from collections import namedtuple
 
 from six.moves import urllib
+import ssl
 
 from .errors import (
     KylinUnauthorizedError,
@@ -96,7 +97,7 @@ class Client(object):
             """, method, url, headers, body)
 
             Response = namedtuple('Response', ['headers', 'body'])
-            with contextlib.closing(urllib.request.urlopen(req, body)) as resp:
+            with contextlib.closing(urllib.request.urlopen(req, body, context=ssl._create_unverified_context())) as resp:
                 try:
                     response_headers = dict(resp.info())
                     response_body = json.loads(resp.read().decode("utf-8"))
@@ -406,10 +407,10 @@ class _ExtendedAPIMixin(object):
 
 
 class Kylinpy(_OriginalAPIMixin, _ExtendedAPIMixin):
-    def __init__(self, host, username, port=7070, project='default', **kwargs):
+    def __init__(self, scheme, host, username, port=7070, project='default', **kwargs):
         if host.startswith(('http://', 'https://')):
             scheme, host = host.split('://')
-        else:
+        elif scheme != 'https':
             scheme, host = ('http', host)
 
         self.client = Client(scheme, host, port, as_unicode(username), **kwargs)
