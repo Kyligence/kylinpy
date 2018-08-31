@@ -411,6 +411,7 @@ class Kylinpy(_OriginalAPIMixin, _ExtendedAPIMixin):
         if host.startswith(('http://', 'https://')):
             _, host = host.split('://')
         scheme = kwargs.get('scheme', 'http')
+        kwargs.pop('scheme', None)
 
         self.client = Client(scheme, host, port, as_unicode(username), **kwargs)
         self.project = project
