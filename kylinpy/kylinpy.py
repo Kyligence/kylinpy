@@ -407,11 +407,10 @@ class _ExtendedAPIMixin(object):
 
 
 class Kylinpy(_OriginalAPIMixin, _ExtendedAPIMixin):
-    def __init__(self, scheme, host, username, port=7070, project='default', **kwargs):
+    def __init__(self, host, username, port=7070, project='default', **kwargs):
         if host.startswith(('http://', 'https://')):
-            scheme, host = host.split('://')
-        elif scheme != 'https':
-            scheme, host = ('http', host)
+            _, host = host.split('://')
+        scheme = kwargs.get('scheme', 'http')
 
         self.client = Client(scheme, host, port, as_unicode(username), **kwargs)
         self.project = project
