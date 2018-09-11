@@ -30,7 +30,7 @@ class Cursor(object):
 
         resp = self.connection.query(query).get('data')
         self.description = [[
-            get_col(c['label']),
+            get_col(c['label'].encode('utf-8')),
             c['columnTypeName'].lower(),
             c['displaySize'],
             0,
