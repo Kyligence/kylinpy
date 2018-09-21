@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 
 from .kylinpy import Kylinpy
 
-__version__ = '0.0.999'
+__version__ = '1.6.0'
 
 __all__ = [
     'Kylinpy',
