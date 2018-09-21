@@ -1,17 +1,23 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import re
 
 from sqlalchemy.types import (
-    CHAR,
-    VARCHAR,
-    INTEGER,
     BIGINT,
-    SMALLINT,
-    FLOAT,
-    DECIMAL,
     BOOLEAN,
+    CHAR,
     DATE,
     DATETIME,
+    DECIMAL,
+    FLOAT,
+    INTEGER,
+    SMALLINT,
     TIMESTAMP,
+    VARCHAR,
 )
 
 KylinType = dict(
@@ -37,9 +43,9 @@ KylinType = dict(
 
 
 def kylin_to_sqla(s):
-    type_re = re.compile('^({})\(?(\d+)?,?(\d+)?\)?$'.format(
-        '|'.join(KylinType.keys())
-    ), flags=re.IGNORECASE)
+    type_re = re.compile(
+        '^({})\(?(\d+)?,?(\d+)?\)?$'.format('|'.join(KylinType.keys())),
+        flags=re.IGNORECASE)
     try:
         type_tuple = type_re.match(s).groups()
         _type, _args = type_tuple[0].upper(), [int(e)

@@ -1,15 +1,19 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 from .logger import logger
 
 
 class _BaseError(Exception):
     def __init__(self, msg):
-        logger.debug('''
+        logger.debug("""
 ==========================[RAW ERROR]===============================
  ERROR: %s \n
 ==========================[RAW ERROR]===============================
-        ''', msg)
+        """, msg)
         self.msg = msg or ''
         super(_BaseError, self).__init__(msg)
 

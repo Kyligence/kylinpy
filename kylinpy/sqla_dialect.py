@@ -1,15 +1,19 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
-import re
 import itertools
+import re
 
 from sqlalchemy import pool
-from sqlalchemy.sql import compiler
 from sqlalchemy.engine import default
+from sqlalchemy.sql import compiler
 
 from .kylindb import KylinDB
-from .utils.sqla_types import kylin_to_sqla
 from .utils.keywords import CALCITE_KEYWORDS
+from .utils.sqla_types import kylin_to_sqla
 
 SUPERSET_KEYWORDS = set([
     '__timestamp',
@@ -17,15 +21,14 @@ SUPERSET_KEYWORDS = set([
 
 
 class KylinIdentifierPreparer(compiler.IdentifierPreparer):
-    compiler.IdentifierPreparer.reserved_words = set(
-        itertools.chain(*[[e.lower(), e] for e in CALCITE_KEYWORDS])
-    )
+    compiler.IdentifierPreparer.reserved_words = \
+        set(itertools.chain(*[[e.lower(), e] for e in CALCITE_KEYWORDS]))
     compiler.IdentifierPreparer.reserved_words.update(SUPERSET_KEYWORDS)
 
     def __init__(self, dialect, initial_quote='"',
                  final_quote=None, escape_quote='"', omit_schema=True):
         super(KylinIdentifierPreparer, self).__init__(
-            dialect, initial_quote, final_quote, escape_quote, omit_schema
+            dialect, initial_quote, final_quote, escape_quote, omit_schema,
         )
 
     def format_label(self, label, name=None):
@@ -127,7 +130,7 @@ class KylinDialect(default.DefaultDialect):
             table_name).get('data')
         return [{
             'name': col['column_NAME'],
-            'type': kylin_to_sqla(col['datatype'])
+            'type': kylin_to_sqla(col['datatype']),
         } for col in columns]
 
     def get_foreign_keys(self, connection, table_name, schema=None, **kw):

@@ -1,18 +1,23 @@
 #!/usr/bin/env python
-
-from __future__ import division
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
-import sys
 import json
 import logging
+import sys
+
 import click
 
 from kylinpy import Kylinpy
 
+click.disable_unicode_literals_warning = True
+
 
 def exception_handler(exception_type, exception, traceback):
-    print("%s: %s" % (exception_type.__name__, exception))
+    print('%s: %s' % (exception_type.__name__, exception))
 
 
 sys.excepthook = exception_handler  # noqa
@@ -25,9 +30,12 @@ sys.excepthook = exception_handler  # noqa
 @click.option('-p', '--password', required=False, help='kylin/kap password')
 @click.option('-s', '--session', required=False, help='session id')
 @click.option('--project', required=True, help='kylin/kap project')
-@click.option('--prefix', default='/kylin/api', help='kylin/kap RESTful prefix of url, default: /kylin/api')
+@click.option('--prefix', default='/kylin/api',
+              help='kylin/kap RESTful prefix of url, default: /kylin/api')
 @click.option('--debug/--no-debug', default=False, help='show debug infomation')
-@click.option('--api2/--api1', default=False, help='API version; default is api1; --api1 used by KYLIN; --api2 used by KAP')
+@click.option('--api2/--api1', default=False,
+              help='API version; default is api1; '
+                   '--api1 used by KYLIN; --api2 used by KAP')
 @click.pass_context
 def main(ctx, host, port, username, password, session, project, prefix, debug, api2):
     if debug:
@@ -39,7 +47,7 @@ def main(ctx, host, port, username, password, session, project, prefix, debug, a
         'prefix': prefix,
         'is_debug': debug,
         'password': password,
-        'session': session
+        'session': session,
     })
 
 
@@ -67,10 +75,12 @@ def users(ctx):
 def auth(ctx):
     print(json.dumps(ctx.obj.authentication(), indent=4, sort_keys=True))
 
+
 @main.command(help='show cubes')
 @click.pass_context
 def cubes(ctx):
     print(json.dumps(ctx.obj.cubes(), indent=4, sort_keys=True))
+
 
 @main.command(help='get sample sql of cube, KAP only')
 @click.option('--name', required=True, help='cube name')

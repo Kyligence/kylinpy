@@ -1,26 +1,27 @@
 # -*- coding: utf-8 -*-
-
-from __future__ import division
 from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import base64
+from collections import namedtuple
 import contextlib
 import datetime
 import json
 import re
+import ssl
 import time
-from collections import namedtuple
 
 from six.moves import urllib
-import ssl
 
 from .errors import (
-    KylinUnauthorizedError,
-    KylinUserDisabled,
+    KAPOnlyError,
+    KylinConfusedResponse,
     KylinConnectionError,
     KylinError,
-    KylinConfusedResponse,
-    KAPOnlyError
+    KylinUnauthorizedError,
+    KylinUserDisabled,
 )
 from .logger import logger
 from .utils._compat import as_unicode
@@ -54,15 +55,13 @@ class Client(object):
 
     def _prepare_headers(self, method='GET'):
         headers = {
-            'User-Agent': 'Kylin Python Client'
+            'User-Agent': 'Kylin Python Client',
         }
 
         if not self.session:
             _auth_str = as_unicode('{}:{}').format(
                 self.username, self.password)
-            _auth = base64.b64encode(
-                _auth_str.encode('utf-8')
-            ).decode('ascii')
+            _auth = base64.b64encode(_auth_str.encode('utf-8')).decode('ascii')
             headers.update({'Authorization': 'Basic {}'.format(_auth)})
         else:
             headers.update({'Cookie': self.session})
@@ -97,10 +96,11 @@ class Client(object):
             """, method, url, headers, body)
 
             Response = namedtuple('Response', ['headers', 'body'])
-            with contextlib.closing(urllib.request.urlopen(req, body, context=ssl._create_unverified_context())) as resp:
+            with contextlib.closing(urllib.request.urlopen(
+                    req, body, context=ssl._create_unverified_context())) as resp:
                 try:
                     response_headers = dict(resp.info())
-                    response_body = json.loads(resp.read().decode("utf-8"))
+                    response_body = json.loads(as_unicode(resp.read()))
                 except ValueError:
                     raise KylinError('KYLIN JSON object could not decoded')
 
@@ -109,7 +109,7 @@ class Client(object):
         except urllib.error.HTTPError as e:
             err = e.read()
             try:
-                err = json.loads(err.decode("utf-8"))['msg']
+                err = json.loads(err.decode('utf-8'))['msg']
             except(ValueError, AttributeError, KeyError):
                 logger.debug(err)
                 raise KylinConfusedResponse('Confused Response')
@@ -124,7 +124,7 @@ class Client(object):
                 raise KylinError(err)
 
         except urllib.error.URLError as e:
-            raise KylinConnectionError("{}".format(str(e.args[0])))
+            raise KylinConnectionError('{}'.format(str(e.args[0])))
 
 
 def _is_v2(obj):
@@ -137,7 +137,8 @@ def compact_response(extract_v2=None, extract_v1=None):
             # todo refactor here
             obj = request(self, *args, **kwargs)
             body = obj if isinstance(obj, list) or isinstance(obj, dict) else obj.body
-            headers = None if isinstance(obj, list) or isinstance(obj, dict) else obj.headers
+            headers = None if \
+                isinstance(obj, list) or isinstance(obj, dict) else obj.headers
             # always return {'data': ENTITY}
             if _is_v2(body):
                 body = body['data'].get(
@@ -171,7 +172,7 @@ class _OriginalAPIMixin(object):
     def projects(self):
         _params = {
             'pageSize': 1000,
-            'pageOffset': 0
+            'pageOffset': 0,
         }
         return self.client.fetch(endpoint='projects', params=_params)
 
@@ -182,7 +183,7 @@ class _OriginalAPIMixin(object):
             'limit': 50000,
             'offset': 0,
             'project': self.project,
-            'sql': sql
+            'sql': sql,
         }
         _body.update(body)
 
@@ -197,7 +198,7 @@ class _OriginalAPIMixin(object):
     def tables(self, ext=False):
         _params = {
             'project': self.project,
-            'ext': ext
+            'ext': ext,
         }
         return self.client.fetch(endpoint='tables', params=_params)
 
@@ -207,7 +208,7 @@ class _OriginalAPIMixin(object):
             'offset': 0,
             'limit': 50000,
             'pageSize': 200,
-            'projectName': self.project
+            'projectName': self.project,
         }
         _params.update(params)
         return self.client.fetch(endpoint='cubes', params=_params)
@@ -225,26 +226,27 @@ class _OriginalAPIMixin(object):
         if self.client.version == 'v1':
             return self.client.fetch('cube_desc/{}/desc'.format(name))
 
-    @compact_response(extract_v2="users")
+    @compact_response(extract_v2='users')
     @only_kap_api
     def users(self):
         _params = {
             'pageSize': 1000,
-            'pageOffset': 0
+            'pageOffset': 0,
         }
         return self.client.fetch('kap/user/users', params=_params)
 
-    @compact_response(extract_v2="model")
+    @compact_response(extract_v2='model')
     def model_desc(self, name):
         if self.client.version == 'v2':
-            return self.client.fetch('model_desc/{self.project}/{name}'.format(**locals()))
+            return self.client.fetch(
+                'model_desc/{self.project}/{name}'.format(**locals()))
         # v1 did not implement model_desc/<project>/<model_name>
         if self.client.version == 'v1':
             models = self.client.fetch(
                 'models', params={'projectName': self.project})
             return [e for e in models.body if e['name'] == name][0]
 
-    @compact_response(extract_v2="models")
+    @compact_response(extract_v2='models')
     @only_kap_api
     def list_models(self):
         return self.client.fetch('models')
@@ -253,7 +255,7 @@ class _OriginalAPIMixin(object):
     def create_model(self, model_desc):
         _body = {
             'modelDescData': model_desc,
-            'project': self.project
+            'project': self.project,
         }
         return self.client.fetch('models', method='PUT', body=_body)
 
@@ -261,19 +263,20 @@ class _OriginalAPIMixin(object):
     def create_cube(self, cube_desc):
         _body = {
             'cubeDescData': cube_desc,
-            'project': self.project
+            'project': self.project,
         }
         return self.client.fetch('cubes', method='PUT', body=_body)
 
     @only_kap_api
     def build_cube(self, cube_name):
         _body = {
-            'buildType': "BUILD",
+            'buildType': 'BUILD',
             'endTime': int(time.mktime(datetime.datetime.now().timetuple())),
-            'mpValues': "",
-            'startTime': 0
+            'mpValues': '',
+            'startTime': 0,
         }
-        return self.client.fetch('cubes/{}/rebuild'.format(cube_name), method='PUT', body=_body)
+        return self.client.fetch(
+            'cubes/{}/rebuild'.format(cube_name), method='PUT', body=_body)
 
     @only_kap_api
     def disable_cube(self, cube_name):
@@ -282,9 +285,10 @@ class _OriginalAPIMixin(object):
     @only_kap_api
     def purge_cube(self, cube_name):
         _body = {
-            'mpValues': "",
+            'mpValues': '',
         }
-        return self.client.fetch('cubes/{}/purge'.format(cube_name), method='PUT', body=_body)
+        return self.client.fetch(
+            'cubes/{}/purge'.format(cube_name), method='PUT', body=_body)
 
 
 class _ExtendedAPIMixin(object):
@@ -293,9 +297,10 @@ class _ExtendedAPIMixin(object):
         try:
             table = [t for t in self.tables()['data']
                      if t['name'] == table_name and t['database'] == schema_name][0]
-            return [c for c in table['columns'] if c['name'] == column_name][0]['datatype']
+            return [c for c in table['columns']
+                    if c['name'] == column_name][0]['datatype']
         except IndexError:
-            logger.error("column {} not found on {}.{}".format(
+            logger.error('column {} not found on {}.{}'.format(
                 column_name,
                 schema_name,
                 table_name))
@@ -335,14 +340,15 @@ class _ExtendedAPIMixin(object):
                 'column_NAME': col['column_NAME'],
                 'datatype': self._get_column_datatype(
                     col['column_NAME'],
-                    '{}.{}'.format(col['table_SCHEM'], col['table_NAME']))
+                    '{}.{}'.format(col['table_SCHEM'], col['table_NAME'])),
             }
             for col in columns
         ]
 
     @compact_response()
     def get_cube_names(self):
-        return [cube['name'] for cube in self.cubes()['data'] if cube['status'] == 'READY']
+        return [cube['name'] for cube in self.cubes()['data']
+                if cube['status'] == 'READY']
 
     @compact_response()
     def get_cube_columns(self, cube_name):
@@ -378,10 +384,10 @@ class _ExtendedAPIMixin(object):
             schema, table = _get_origin_table(table_label).split('.')
             datatype = self._get_column_datatype(column, '{}.{}'.format(schema, table))
             is_derived = bool(dim['derived'])
-            label = "{}.{}".format(table_label, column)
+            label = '{}.{}'.format(table_label, column)
             has_dimensions.add(label)
             _row = Row(schema, table, column, datatype, is_derived,
-                       table_label, column_label,)
+                       table_label, column_label)
             cube_describe.append(_row._asdict())
 
         for rowkey in rowkey_columns:
@@ -392,10 +398,10 @@ class _ExtendedAPIMixin(object):
             column = column_label
             schema, table = _get_origin_table(table_label).split('.')
             datatype = self._get_column_datatype(column, '{}.{}'.format(schema, table))
-            label = "{}.{}".format(table_label, column)
+            label = '{}.{}'.format(table_label, column)
             has_dimensions.add(label)
             _row = Row(schema, table, column, datatype, False,
-                       table_label, column_label,)
+                       table_label, column_label)
             cube_describe.append(_row._asdict())
 
         return cube_describe

@@ -1,7 +1,13 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
+from .errors import KylinConnectionError, KylinDBAPIError
 from .kylinpy import Kylinpy
-from .utils.kylin_types import kylin_to_python
 from .logger import logger
-from .errors import KylinDBAPIError, KylinConnectionError
+from .utils.kylin_types import kylin_to_python
 
 
 class Cursor(object):
@@ -36,11 +42,12 @@ class Cursor(object):
             0,
             c['precision'],
             c['scale'],
-            c['isNullable']
+            c['isNullable'],
         ] for c in resp['columnMetas']]
 
         self.results = [[
-            kylin_to_python(resp['columnMetas'][idx]['columnTypeName'], cell) for (idx, cell) in enumerate(row)
+            kylin_to_python(resp['columnMetas'][idx]['columnTypeName'], cell)
+            for (idx, cell) in enumerate(row)
         ] for row in resp['results']]
         self.rowcount = len(self.results)
         self.fetched_rows = 0
