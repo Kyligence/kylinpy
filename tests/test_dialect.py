@@ -4,12 +4,10 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from .kylinpy import Kylinpy
-from .sqla_dialect import KylinDialect
+from sqlalchemy import create_engine
 
-__version__ = '1.6.0'
 
-__all__ = [
-    'Kylinpy',
-    'KylinDialect',
-]
+def test_connection():
+    dsn = 'kylin://ADMIN:KYLIN@sandbox:7070'
+    kylin = create_engine(dsn)
+    assert str(kylin.url) == dsn
