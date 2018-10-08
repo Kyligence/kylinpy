@@ -7,6 +7,7 @@ from __future__ import unicode_literals
 from .errors import KylinConnectionError, KylinDBAPIError
 from .kylinpy import Kylinpy
 from .logger import logger
+from .utils._compat import as_unicode
 from .utils.kylin_types import kylin_to_python
 
 
@@ -31,12 +32,12 @@ class Cursor(object):
         def get_col(x):
             for l in kwargs.get('labels', set()):
                 if l.lower() == x.lower():
-                    return l
-            return x
+                    return as_unicode(l)
+            return as_unicode(x)
 
         resp = self.connection.query(query).get('data')
         self.description = [[
-            get_col(c['label'].encode('utf-8')),
+            get_col(c['label']),
             c['columnTypeName'].lower(),
             c['displaySize'],
             0,
