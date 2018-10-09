@@ -307,8 +307,11 @@ class _ExtendedAPIMixin(object):
 
     @compact_response()
     def get_table_names(self, schema=None):
-        return [t['table_NAME'] for t in self.tables_and_columns()['data']
-                if t['table_SCHEM'] == schema]
+        if schema is not None:
+            return [t['table_NAME'] for t in self.tables_and_columns()['data']
+                    if t['table_SCHEM'] == schema]
+        else:
+            return [t['table_NAME'] for t in self.tables_and_columns()['data']]
 
     @compact_response()
     def list_schemas(self):
@@ -413,15 +416,21 @@ class _ExtendedAPIMixin(object):
 
 
 class Kylinpy(_OriginalAPIMixin, _ExtendedAPIMixin):
-    def __init__(self, host, username, port=7070, project='default', **kwargs):
+    def __init__(self, host, username, port=7070, project='default', **connect_args):
         if host.startswith(('http://', 'https://')):
             _, host = host.split('://')
-        scheme = kwargs.get('scheme', 'http')
-        kwargs.pop('scheme', None)
+        scheme = connect_args.get('scheme', 'http')
+        connect_args.pop('scheme', None)
 
-        self.client = Client(scheme, host, port, as_unicode(username), **kwargs)
+        # for refactor http client
+        sesseion = connect_args.get('session', None)  # noqa
+        prefix = re.sub('(^/|/$)', '', connect_args.get('prefix', 'kylin/api'))  # noqa
+        version = connect_args.get('version', 'v1')  # noqa
+        is_ssl = connect_args.get('is_ssl', None)  # noqa
+
+        self.client = Client(scheme, host, port, username, **connect_args)
         self.project = project
-        self.is_debug = kwargs.get('is_debug', False)
+        self.is_debug = connect_args.get('is_debug', False)
 
     def __str__(self):
         c = self.client

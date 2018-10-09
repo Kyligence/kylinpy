@@ -89,6 +89,7 @@ class KylinDialect(default.DefaultDialect):
         self.returns_unicode_strings = True
 
     def create_connect_args(self, url):
+        # url with query is deprecated
         args = {
             'username': url.username,
             'password': url.password,
