@@ -112,9 +112,9 @@ class KylinDB(Kylinpy):
         super(KylinDB, self).__init__(**kwargs)
 
     @classmethod
-    def connect(cls, **kwargs):
+    def connect(cls, *args, **kwargs):
         try:
-            return cls(**kwargs)
+            return cls(*args, **kwargs)
         except TypeError:
             raise KylinConnectionError
 

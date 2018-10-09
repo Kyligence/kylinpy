@@ -4,11 +4,10 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import json
-
-from mock import patch
+from mock import Mock
 
 from kylinpy import kylinpy
+from kylinpy.kylinpy import Client
 from kylinpy.errors import (  # noqa
     KylinUnauthorizedError,
     KylinUserDisabled,
@@ -19,111 +18,119 @@ from kylinpy.errors import (  # noqa
 )
 
 
-class MockResponse(object):
-    def __init__(self, json_data):
-        self.json_data = json.dumps(json_data, sort_keys=True)
-
-    def close(self):
-        pass
-
-    def getcode(self):
-        pass
-
-    def info(self):
-        return {}
-
-    def read(self):
-        return self.json_data
-
-
-@patch('six.moves.urllib.request.urlopen')
-def test_authentication(response):
-    response.side_effect = [
-        MockResponse({'userDetails': {'authorities': {}}}),
-        MockResponse({'data': {'authorities': {}}, 'code': 000, 'msg': ''}),
-    ]
+def test_authentication():
+    response = Mock()
+    response.body = {'userDetails': {'authorities': {}}}
+    response.headers = {}
+    Client.fetch = Mock(return_value=response)
     v1 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v1').authentication()
+
+    response = Mock()
+    response.body = {'data': {'authorities': {}}, 'code': 000, 'msg': ''}
+    response.headers = {}
+    Client.fetch = Mock(return_value=response)
     v2 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v2').authentication()
     assert v1 == v2
 
 
-@patch('six.moves.urllib.request.urlopen')
-def test_projects(response):
-    response.side_effect = [
-        MockResponse([]),
-        MockResponse({'data': {'projects': []}, 'code': 000, 'msg': ''}),
-    ]
+def test_projects():
+    response = Mock()
+    response.body = []
+    response.headers = {}
+    Client.fetch = Mock(return_value=response)
     v1 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v1').projects()
+
+    response = Mock()
+    response.body = {'data': {'projects': []}, 'code': 000, 'msg': ''}
+    response.headers = {}
+    Client.fetch = Mock(return_value=response)
     v2 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v2').projects()
     assert v1 == v2
 
 
-@patch('six.moves.urllib.request.urlopen')
-def test_query(response):
-    response.side_effect = [
-        MockResponse({}),
-        MockResponse({'data': {}, 'code': 000, 'msg': ''}),
-    ]
+def test_query():
+    response = Mock()
+    response.body = {}
+    response.headers = {}
+    Client.fetch = Mock(return_value=response)
     v1 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v1').query('sql')
+
+    response = Mock()
+    response.body = {'data': {}, 'code': 000, 'msg': ''}
+    response.headers = {}
+    Client.fetch = Mock(return_value=response)
     v2 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v2').query('sql')
     assert v1 == v2
 
 
-@patch('six.moves.urllib.request.urlopen')
-def test_tables_and_columns(response):
-    response.side_effect = [
-        MockResponse([]),
-        MockResponse({'data': [], 'code': 000, 'msg': ''}),
-    ]
+def test_tables_and_columns():
+    response = Mock()
+    response.body = []
+    response.headers = {}
+    Client.fetch = Mock(return_value=response)
     v1 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v1').tables_and_columns()
+
+    response = Mock()
+    response.body = {'data': [], 'code': 000, 'msg': ''}
+    response.headers = {}
+    Client.fetch = Mock(return_value=response)
     v2 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v2').tables_and_columns()
     assert v1 == v2
 
 
-@patch('six.moves.urllib.request.urlopen')
-def test_tables(response):
-    response.side_effect = [
-        MockResponse({}),
-        MockResponse({'data': {}, 'code': 000, 'msg': ''}),
-    ]
+def test_tables():
+    response = Mock()
+    response.body = {}
+    response.headers = {}
+    Client.fetch = Mock(return_value=response)
     v1 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v1').tables()
+
+    response = Mock()
+    response.body = {'data': {}, 'code': 000, 'msg': ''}
+    response.headers = {}
+    Client.fetch = Mock(return_value=response)
     v2 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v2').tables()
     assert v1 == v2
 
 
-@patch('six.moves.urllib.request.urlopen')
-def test_cubes(response):
-    response.side_effect = [
-        MockResponse([]),
-        MockResponse({'data': {'cubes': []}, 'code': 000, 'msg': ''}),
-    ]
-
+def test_cubes():
+    response = Mock()
+    response.body = []
+    response.headers = {}
+    Client.fetch = Mock(return_value=response)
     v1 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v1').cubes()
+
+    response = Mock()
+    response.body = {'data': {'cubes': []}, 'code': 000, 'msg': ''}
+    response.headers = {}
+    Client.fetch = Mock(return_value=response)
     v2 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v2').cubes()
     assert v1 == v2
 
 
-@patch('six.moves.urllib.request.urlopen')
-def test_cube_desc(response):
-    response.side_effect = [
-        MockResponse({}),
-        MockResponse({'data': {'cube': {}}, 'code': 000, 'msg': ''}),
-    ]
-
+def test_cube_desc():
+    response = Mock()
+    response.body = []
+    response.headers = {}
+    Client.fetch = Mock(return_value=response)
     v1 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v1').cube_desc('cube_name')
+
+    response = Mock()
+    response.body = {'data': {'cube': []}, 'code': 000, 'msg': ''}
+    response.headers = {}
     v2 = kylinpy.Kylinpy(host='host', username='username',
                          password='password', version='v2').cube_desc('cube_name')
     assert v1 == v2
