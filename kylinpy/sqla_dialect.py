@@ -5,7 +5,6 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import itertools
-import re
 
 from sqlalchemy import pool
 from sqlalchemy.engine import default
@@ -89,19 +88,15 @@ class KylinDialect(default.DefaultDialect):
         self.returns_unicode_strings = True
 
     def create_connect_args(self, url):
-        # url with query is deprecated
-        args = {
+        kwargs = {
+            'host': url.host,
+            'port': url.port or 7070,
             'username': url.username,
             'password': url.password,
-            'host': url.host,
-            'port': url.port,
-            'project': re.sub('/$', '', url.database or 'default'),
-            'session': url.query.get('session'),
-            'version': url.query.get('version'),
-            'prefix': url.query.get('prefix'),
-            'scheme': url.query.get('scheme'),
+            'project': url.database or 'default',
         }
-        return [], dict([e for e in args.items() if e[1]])
+        kwargs.update(url.query)
+        return [], kwargs
 
     def do_execute(self, cursor, statement, parameters, context=None):
         cursor.execute(statement, parameters,
@@ -110,9 +105,6 @@ class KylinDialect(default.DefaultDialect):
 
     def get_table_names(self, connection, schema=None, **kw):
         conn = connection.connect()
-        source = conn.engine.url.query.get('source', 'table')
-        if source == 'cube':
-            return conn.connection.connection.get_cube_names().get('data')
         return conn.connection.connection.get_table_names(schema).get('data')
 
     def get_schema_names(self, connection, schema=None, **kw):
@@ -120,6 +112,7 @@ class KylinDialect(default.DefaultDialect):
         return conn.connection.connection.list_schemas().get('data')
 
     def has_table(self, connection, table_name, schema=None):
+        # disable check table
         return False
 
     def has_sequence(self, connection, sequence_name, schema=None):

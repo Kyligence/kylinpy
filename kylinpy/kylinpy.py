@@ -416,21 +416,23 @@ class _ExtendedAPIMixin(object):
 
 
 class Kylinpy(_OriginalAPIMixin, _ExtendedAPIMixin):
-    def __init__(self, host, username, port=7070, project='default', **connect_args):
+    def __init__(self, host, username, password, port=7070, project='default',
+                 **connect_args):
         if host.startswith(('http://', 'https://')):
             _, host = host.split('://')
+
         scheme = connect_args.get('scheme', 'http')
         connect_args.pop('scheme', None)
-
         # for refactor http client
         sesseion = connect_args.get('session', None)  # noqa
         prefix = re.sub('(^/|/$)', '', connect_args.get('prefix', 'kylin/api'))  # noqa
         version = connect_args.get('version', 'v1')  # noqa
         is_ssl = connect_args.get('is_ssl', None)  # noqa
-
+        connect_args['password'] = password
         self.client = Client(scheme, host, port, username, **connect_args)
         self.project = project
         self.is_debug = connect_args.get('is_debug', False)
+        self.connect_version = connect_args.get('version', 'v1')
 
     def __str__(self):
         c = self.client
