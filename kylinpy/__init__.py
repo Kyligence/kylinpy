@@ -7,7 +7,7 @@ from __future__ import unicode_literals
 from .kylinpy import Kylinpy
 from .sqla_dialect import KylinDialect
 
-__version__ = '1.6.2'
+__version__ = '1.6.3'
 
 __all__ = [
     'Kylinpy',
