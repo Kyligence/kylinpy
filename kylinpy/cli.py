@@ -42,11 +42,10 @@ def main(ctx, host, port, username, password, session, project, prefix, debug, a
         logging.basicConfig(level=logging.DEBUG)
 
     _version = 'v2' if api2 else 'v1'
-    ctx.obj = Kylinpy(host, username, port, project, **{
+    ctx.obj = Kylinpy(host, username, password, port, project, **{
         'version': _version,
         'prefix': prefix,
         'is_debug': debug,
-        'password': password,
         'session': session,
     })
 

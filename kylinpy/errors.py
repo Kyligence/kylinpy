@@ -4,45 +4,38 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from .logger import logger
-
 
 class _BaseError(Exception):
     def __init__(self, msg):
-        logger.debug("""
-==========================[RAW ERROR]===============================
- ERROR: %s \n
-==========================[RAW ERROR]===============================
-        """, msg)
-        self.msg = msg or ''
-        super(_BaseError, self).__init__(msg)
-
-    def __str__(self):
-        return self.msg
+        self.msg = msg
 
 
 class KylinUnauthorizedError(_BaseError):
-    """Exception raised by unauthorized"""
+    pass
 
 
 class KylinUserDisabled(_BaseError):
-    """Exception raised by unauthorized"""
+    pass
 
 
 class KylinConnectionError(_BaseError):
-    """Exception raised by connection refused"""
+    pass
 
 
 class KylinError(_BaseError):
-    """Exception raised by otherwise"""
+    pass
+
+
+class KylinQueryError(_BaseError):
+    pass
 
 
 class KylinConfusedResponse(_BaseError):
-    """Exception raised by confused response"""
+    pass
 
 
 class KylinDBAPIError(_BaseError):
-    """Exception raised dbapi error"""
+    pass
 
 
 class KAPOnlyError(_BaseError):

@@ -18,4 +18,4 @@ else:
     def as_unicode(s):
         if isinstance(s, str):
             return s.decode('utf-8')
-        return unicode(s)
+        return unicode(s) # noqa

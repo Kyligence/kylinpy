@@ -4,7 +4,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from .errors import KylinConnectionError, KylinDBAPIError
+from .errors import KylinConnectionError, KylinDBAPIError, KylinQueryError
 from .kylinpy import Kylinpy
 from .logger import logger
 from .utils._compat import as_unicode
@@ -36,6 +36,9 @@ class Cursor(object):
             return as_unicode(x)
 
         resp = self.connection.query(query).get('data')
+        if resp.get('columnMetas') is None:
+            raise KylinQueryError(resp.get('exception'))
+
         self.description = [[
             get_col(c['label']),
             c['columnTypeName'].lower(),
@@ -108,15 +111,15 @@ class KylinDB(Kylinpy):
     apilevel = '2.0'
     Error = KylinDBAPIError
 
-    def __init__(self, **kwargs):
-        super(KylinDB, self).__init__(**kwargs)
+    def __init__(self, *args, **kwargs):
+        super(KylinDB, self).__init__(*args, **kwargs)
 
     @classmethod
     def connect(cls, *args, **kwargs):
         try:
             return cls(*args, **kwargs)
         except TypeError:
-            raise KylinConnectionError
+            raise KylinConnectionError('Kylin service may be interrupted')
 
     def close(self):
         return
