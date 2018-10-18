@@ -37,7 +37,7 @@ class Cursor(object):
 
         resp = self.connection.query(query).get('data')
         if resp.get('columnMetas') is None:
-            raise KylinQueryError(resp.get('exception'))
+            raise KylinQueryError(resp.get('exception') or resp.get('exceptionMessage'))
 
         self.description = [[
             get_col(c['label']),
