@@ -59,6 +59,12 @@ class TestDialect(unittest.TestCase):
     def test_bad_query(self):
         dsn = 'kylin://ADMIN:KYLIN@sandbox:7070/learn_kylin'
         kylin = create_engine(dsn)
-        Client.fetch = Mock(return_value=self.json_loads('bad_query'))
-        with self.assertRaises(KylinQueryError):
+        Client.fetch = Mock(return_value={'exception': 'exception info'})
+        with self.assertRaises(KylinQueryError) as error:
             kylin.execute('SELECT NOT_EXISTS_COLUMN FROM KYLIN_SALES').fetchall()
+        self.assertEqual('exception info', str(error.exception))
+
+        Client.fetch = Mock(return_value={'exceptionMessage': 'exception info'})
+        with self.assertRaises(KylinQueryError) as error:
+            kylin.execute('SELECT NOT_EXISTS_COLUMN FROM KYLIN_SALES').fetchall()
+        self.assertEqual('exception info', str(error.exception))
