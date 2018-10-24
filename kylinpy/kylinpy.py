@@ -15,6 +15,7 @@ import time
 
 from six.moves import urllib
 
+from .client import Client as HTTPClient
 from .errors import (
     KAPOnlyError,
     KylinConfusedResponse,
@@ -415,26 +416,94 @@ class _ExtendedAPIMixin(object):
         return cube_measures
 
 
-class Kylinpy(_OriginalAPIMixin, _ExtendedAPIMixin):
+class Kylinpy(object):
+    def __init__(self, host, username, password, port=7070, **connect_args):
+        if host.startswith(('http://', 'https://')):
+            _, self.host = host.split('://')
+        else:
+            self.host = host
+        self.port = port
+        self.username = username
+        self.password = password
+        auth = connect_args.get('auth', 'basic')
+        is_ssl = connect_args.get('is_ssl', None)
+        prefix = connect_args.get('prefix', 'kylin/api')
+        timeout = connect_args.get('timeout', 30)
+        self.scheme = 'https' if is_ssl else 'http'
+
+        headers = {
+            'User-Agent': 'Kylin Python Client',
+        }
+
+        if auth == 'basic':
+            headers = self.basic_auth(headers)
+
+        self.client = HTTPClient(
+            host='{self.scheme}://{self.host}:{self.port}'.format(**locals()),
+            prefix=prefix,
+            timeout=timeout,
+            request_headers=headers
+        )
+
+    def basic_auth(self, headers):
+        _headers = headers.copy()
+        _auth = as_unicode('{}:{}').format(self.username, self.password)
+        _auth = base64.b64encode(_auth.encode('utf-8')).decode('ascii')
+        _headers.update({'Authorization': 'Basic {}'.format(_auth)})
+        return _headers
+
+    def set_v2_api(self, headers):
+        _headers = headers.copy()
+        _headers.update({'Accept': 'application/vnd.apache.kylin-v2+json'})
+        return _headers
+
+    def __repr__(self):
+        dsn = ('{self.scheme}://'
+               '{self.username}:{self.password}@'
+               '{self.host}:{self.port}')
+        return dsn.format(**locals())
+
+
+class Project(object):
     def __init__(self, host, username, password, port=7070, project='default',
                  **connect_args):
-        if host.startswith(('http://', 'https://')):
-            _, host = host.split('://')
-
-        scheme = connect_args.get('scheme', 'http')
-        connect_args.pop('scheme', None)
-        # for refactor http client
-        sesseion = connect_args.get('session', None)  # noqa
-        prefix = re.sub('(^/|/$)', '', connect_args.get('prefix', 'kylin/api'))  # noqa
-        version = connect_args.get('version', 'v1')  # noqa
-        is_ssl = connect_args.get('is_ssl', None)  # noqa
-        connect_args['password'] = password
-        self.client = Client(scheme, host, port, username, **connect_args)
+        self._client = Kylinpy(host, username, password, port, **connect_args)
+        self.client = self._client.client
         self.project = project
-        self.is_debug = connect_args.get('is_debug', False)
-        self.connect_version = connect_args.get('version', 'v1')
 
-    def __str__(self):
-        c = self.client
-        return 'kylin://{c.username}:{c.password}@{c.host}:{c.port}/{self.project}'\
-            .format(**locals())
+    def query(self, sql, limit=50000, offset=0, acceptPartial=False):
+        request_body = {
+            'acceptPartial': acceptPartial,
+            'limit': limit,
+            'offset': offset,
+            'project': self.project,
+            'sql': sql,
+        }
+        return self.client.query.post(request_body=request_body)
+
+    def __repr__(self):
+        return str(self._client) + '/' + self.project
+
+
+class Cube(object):
+    def __init__(self):
+        pass
+
+    def __repr__(self):
+        pass
+
+
+class Dimension(object):
+    def __init__(self):
+        pass
+
+    def __repr__(self):
+        pass
+
+
+class Measure(object):
+    def __init__(self):
+        pass
+
+    def __repr__(self):
+        pass
