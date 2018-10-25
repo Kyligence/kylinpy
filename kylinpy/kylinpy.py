@@ -470,6 +470,10 @@ class Project(object):
         self._client = Kylinpy(host, username, password, port, **connect_args)
         self.client = self._client.client
         self.project = project
+        self._tables_and_columns = None
+        self._tables_in_hive = None
+        self._cubes = None
+        self._models = None
 
     def query(self, sql, limit=50000, offset=0, acceptPartial=False):
         request_body = {
@@ -481,29 +485,174 @@ class Project(object):
         }
         return self.client.query.post(request_body=request_body)
 
-    def __repr__(self):
+    @property
+    def tables_and_columns(self):
+        if self._tables_and_columns is None:
+            resp = self.client.tables_and_columns.get(
+                query_params={'project': self.project}
+            ).to_object
+            tbl_pair = tuple(
+                ('{}.{}'.format(tbl.get('table_SCHEM'), tbl.get('table_NAME')), tbl)
+                for tbl in resp)
+            for tbl in tbl_pair:
+                tbl[1]['columns'] = {col['column_NAME']: col
+                                     for col in tbl[1]['columns']}
+            self._tables_and_columns = tbl_pair
+        return self._tables_and_columns
+
+    @property
+    def tables_in_hive(self):
+        if self._tables_in_hive is None:
+            self._tables_in_hive = self.client.tables.get(
+                query_params={
+                    'project': self.project,
+                    'ext': True,
+                }
+            ).to_object
+        return self._tables_in_hive
+
+    @property
+    def models(self):
+        if self._models is None:
+            self._models = self.client.models.get(
+                query_params={'projectName': self.project,}
+            ).to_object
+        return self._models
+
+    @property
+    def cubes(self):
+        if self._cubes is None:
+            self._cubes = self.client.cubes.get(
+                query_params={
+                    'offset': 0,
+                    'limit': 50000,
+                    'pageSize': 200,
+                    'projectName': self.project,
+                }
+            ).to_object
+        return self._cubes
+
+    @property
+    def cube_names(self):
+        return tuple(cube.get('name') for cube in self.cubes)
+
+    @property
+    def model_names(self):
+        return tuple(model.get('name') for model in self.models)
+
+    def cube_desc(self, name):
+        return self.client.cube_desc._(name).desc.get().to_object
+
+    def model_desc(self, name):
+        return self.client.model._(name).get().to_object
+
+    def get_datasource(self, cube_name):
+        cube_desc = self.cube_desc(cube_name)
+        model_desc = self.model_desc(cube_desc.get('model_name'))
+        return Datasource(cube_desc, model_desc, self.tables_and_columns)
+
+    def __str__(self):
         return str(self._client) + '/' + self.project
 
+    def __repr__(self):
+        return '<Project Instance: {}>'.format(self.project)
 
-class Cube(object):
-    def __init__(self):
-        pass
+
+class Datasource(object):
+    def __init__(self, cube_desc, model_desc, tables_and_columns):
+        self.cube_desc = cube_desc
+        self.model_desc = model_desc
+        self.tables_and_columns = tables_and_columns
+
+    @property
+    def model_name(self):
+        return self.model_desc.get('name')
+
+    @property
+    def cube_name(self):
+        return self.cube_desc.get('name')
+
+    @property
+    def fact_table(self):
+        return self.model_desc.get('fact_table')
+
+    @property
+    def lookups(self):
+        return tuple((_.get('alias'), _) for _ in self.model_desc.get('lookups'))
+
+    def dimensions(self):
+        _dimensions = []
+        for dim in self.cube_desc.get('dimensions'):
+            table_alias = dim.get('table')
+            table = dict(self.lookups).get(table_alias)
+            table = table.get('table') if table else self.fact_table
+            table_clz = Table(table, table_alias)
+
+            column = dim['column'] if dim['derived'] is None else dim['derived'][0]
+            column_alias = dim['name']
+            tbl_map = dict(self.tables_and_columns)
+            description = tbl_map[table_clz.fullname].get('columns').get(column)
+            column_clz = Column(column, column_alias, description)
+
+            _dimensions.append(Dimension(table_clz, column_clz))
+        return _dimensions
 
     def __repr__(self):
-        pass
+        return ('<Datasource Instance by '
+                'model_name: {self.model_name}, '
+                'cube_name: {self.cube_name}>').format(**locals())
 
 
 class Dimension(object):
-    def __init__(self):
-        pass
+    def __init__(self, table, column):
+        self.table_clz = table
+        self.column_clz = column
 
     def __repr__(self):
-        pass
+        return '<Dimension: {}.{}>'.format(self.table_clz.alias, self.column_clz.alias)
 
 
 class Measure(object):
     def __init__(self):
         pass
 
-    def __repr__(self):
+    def __iter__(self):
         pass
+
+    def __repr__(self):
+        return '<Measure Instance: >'
+
+
+class Table(object):
+    def __init__(self, fullname, alias):
+        self.fullname = fullname
+        self.alias = alias
+
+    @property
+    def scheme(self):
+        return self.fullname.split('.')[0]
+
+    @property
+    def name(self):
+        return self.fullname.split('.')[1]
+
+    def __repr__(self):
+        return ('<Table '
+                'name: {self.fullname}, '
+                'alias: {self.alias}>').format(**locals())
+
+
+class Column(object):
+    def __init__(self, name, alias, description):
+        self.name = name
+        self.alias = alias
+        self.description = description
+
+    @property
+    def type(self):
+        return self.description.get('type_NAME')
+
+    def __repr__(self):
+        return ('<Column '
+                'name: {self.name}, '
+                'alias: {self.alias}>').format(**locals())
