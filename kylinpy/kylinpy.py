@@ -8,8 +8,7 @@ import base64
 from .client import Client as HTTPClient
 from .utils._compat import as_unicode
 
-from .hive_source import HiveSource
-from .cube_source import CubeSource
+from .datasource import HiveSource, CubeSource
 
 
 class Kylinpy(object):

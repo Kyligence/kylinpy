@@ -1,5 +1,11 @@
-from .source_interface import SourceInterface
-from .source_interface import ColumnInterface
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
+from ._source_interface import ColumnInterface
+from ._source_interface import SourceInterface
 
 
 class CubeSource(SourceInterface):
@@ -66,7 +72,7 @@ class _CubeDimension(ColumnInterface):
         return self.column.name
 
     def __repr__(self):
-        return '<Dimension: {}.{}>'.format(self.table_clz.alias, self.column_clz.alias)
+        return '<Dimension: {}.{}>'.format(self.table.alias, self.column.alias)
 
 
 class _CubeMeasure(object):

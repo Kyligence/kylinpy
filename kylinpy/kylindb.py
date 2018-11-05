@@ -28,15 +28,8 @@ class Cursor(object):
 
     @property
     def description(self):
-        def get_col(x):
-            return as_unicode(x)
-            # for l in kwargs.get('labels', set()):
-            #     if l.lower() == x.lower():
-            #         return as_unicode(l)
-            # return as_unicode(x)
-
         return tuple([
-            get_col(c['label']),
+            as_unicode(c['label']),
             c['columnTypeName'].lower(),
             c['displaySize'],
             None,

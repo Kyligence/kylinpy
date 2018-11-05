@@ -93,7 +93,7 @@ class KylinDialect(default.DefaultDialect):
             'port': url.port or 7070,
             'username': url.username,
             'password': url.password,
-            'project': url.database or 'default',
+            'project': url.database or 'DEFAULT',
         }
         kwargs.update(url.query)
         return [], kwargs
@@ -105,14 +105,15 @@ class KylinDialect(default.DefaultDialect):
 
     def get_table_names(self, connection, schema=None, **kw):
         conn = connection.connect()
-        return conn.connection.connection.get_table_names(schema).get('data')
+        return conn.connection.connection.source_table_names
 
     def get_schema_names(self, connection, schema=None, **kw):
         conn = connection.connect()
-        return conn.connection.connection.list_schemas().get('data')
+        tables = conn.connection.connection.source_table_names
+        return set([tbl.split('.')[0] for tbl in tables])
 
     def has_table(self, connection, table_name, schema=None):
-        # disable check table
+        # disable check table exists
         return False
 
     def has_sequence(self, connection, sequence_name, schema=None):
@@ -120,12 +121,11 @@ class KylinDialect(default.DefaultDialect):
 
     def get_columns(self, connection, table_name, schema=None, **kw):
         conn = connection.connect()
-        columns = conn.connection.connection.get_table_columns(
-            table_name).get('data')
+        dimensions = conn.connection.connection.get_datasource(table_name).dimensions
         return [{
-            'name': col['column_NAME'],
-            'type': kylin_to_sqla(col['datatype']),
-        } for col in columns]
+            'name': dim.name,
+            'type': kylin_to_sqla(dim.datatype),
+        } for dim in dimensions]
 
     def get_foreign_keys(self, connection, table_name, schema=None, **kw):
         return []
