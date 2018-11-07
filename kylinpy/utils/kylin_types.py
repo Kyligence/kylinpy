@@ -7,7 +7,7 @@ from __future__ import unicode_literals
 from datetime import datetime
 import re
 
-from ._compat import text_type
+from .compat import text_type
 from ..logger import logger
 
 true_pattern = re.compile(r'true', flags=re.IGNORECASE)

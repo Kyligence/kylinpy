@@ -10,7 +10,7 @@ import kylinpy
 
 kylin = kylinpy.Project('sandbox', 'ADMIN', 'KYLIN', project='learn_kylin')
 pprint("====== Get source table names in hive =====>")
-pprint(kylin.source_table_names)
+pprint(kylin.get_source_tables())
 
 pprint("====== table name ======")
 tbl = kylin.get_datasource('DEFAULT.KYLIN_SALES')

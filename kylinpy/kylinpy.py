@@ -5,8 +5,15 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import base64
+try:
+    # Python 3
+    import urllib.request as urllib
+except ImportError:
+    # Python 2
+    import urllib2 as urllib
+
 from .client import Client as HTTPClient
-from .utils._compat import as_unicode
+from .utils.compat import as_unicode
 
 from .datasource import HiveSource, CubeSource
 
@@ -53,9 +60,10 @@ class Kylinpy(object):
         return _headers
 
     def __repr__(self):
-        dsn = ('{self.scheme}://'
+        dsn = ('<kylinpy instance '
+               '{self.scheme}://'
                '{self.username}:{self.password}@'
-               '{self.host}:{self.port}')
+               '{self.host}:{self.port}>')
         return dsn.format(**locals())
 
 
@@ -143,9 +151,12 @@ class Project(object):
     def model_names(self):
         return tuple(model.get('name') for model in self._models)
 
-    @property
-    def source_table_names(self):
-        return tuple(self._tables_in_hive.keys())
+    def get_source_tables(self, scheme=None):
+        _full_names = list(self._tables_in_hive.keys())
+        if scheme is None:
+            return _full_names
+        else:
+            return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
 
     def _cube_desc(self, name):
         return self.client.cube_desc._(name).desc.get().to_object
@@ -154,7 +165,7 @@ class Project(object):
         return self.client.model._(name).get().to_object
 
     def get_datasource(self, name):
-        if name in self.source_table_names:
+        if name in self.get_source_tables():
             return HiveSource(name, self._tables_in_hive.get(name))
         if name in self.cube_names:
             cube_desc = self._cube_desc(name)
@@ -165,4 +176,13 @@ class Project(object):
         return str(self._client) + '/' + self.project
 
     def __repr__(self):
-        return '<Project Instance: {}>'.format(self.project)
+        return '<Kylin Project Instance: {}>'.format(self.project)
+
+
+def dsn_proxy(dsn):
+    _ = urllib.urlparse(dsn)
+    project = _.path.lstrip('/')
+    if project:
+        return Project(_.hostname, _.username, _.password, _.port, project)
+    else:
+        return Kylinpy(_.hostname, _.username, _.password, _.port)

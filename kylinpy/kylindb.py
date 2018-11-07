@@ -7,7 +7,7 @@ from __future__ import unicode_literals
 from .errors import KylinConnectionError, KylinDBAPIError
 from .kylinpy import Project
 from .logger import logger
-from .utils._compat import as_unicode
+from .utils.compat import as_unicode
 from .utils.kylin_types import kylin_to_python
 
 
@@ -16,7 +16,7 @@ class Cursor(object):
         self.connection = connection
         self._arraysize = 1
         self.rowcount = -1
-        self.results = None
+        self.results = []
         self.fetched_rows = 0
         self._column_metas = []
 

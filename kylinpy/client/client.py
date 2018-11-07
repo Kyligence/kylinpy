@@ -173,7 +173,7 @@ class Client(object):
         :return: urllib response
         """
         timeout = timeout or self.timeout
-        print("""
+        logging.debug("""
 ==========================[QUERY]===============================
 method: {} 
 url: {} 

@@ -93,7 +93,7 @@ class KylinDialect(default.DefaultDialect):
             'port': url.port or 7070,
             'username': url.username,
             'password': url.password,
-            'project': url.database or 'DEFAULT',
+            'project': url.database or 'default',
         }
         kwargs.update(url.query)
         return [], kwargs
@@ -105,11 +105,11 @@ class KylinDialect(default.DefaultDialect):
 
     def get_table_names(self, connection, schema=None, **kw):
         conn = connection.connect()
-        return conn.connection.connection.source_table_names
+        return conn.connection.connection.get_source_tables(schema)
 
     def get_schema_names(self, connection, schema=None, **kw):
         conn = connection.connect()
-        tables = conn.connection.connection.source_table_names
+        tables = conn.connection.connection.get_source_tables()
         return set([tbl.split('.')[0] for tbl in tables])
 
     def has_table(self, connection, table_name, schema=None):
@@ -121,7 +121,11 @@ class KylinDialect(default.DefaultDialect):
 
     def get_columns(self, connection, table_name, schema=None, **kw):
         conn = connection.connect()
-        dimensions = conn.connection.connection.get_datasource(table_name).dimensions
+        if schema is not None:
+            _fullname = '{}.{}'.format(schema, table_name)
+        else:
+            _fullname = table_name
+        dimensions = conn.connection.connection.get_datasource(_fullname).dimensions
         return [{
             'name': dim.name,
             'type': kylin_to_sqla(dim.datatype),
