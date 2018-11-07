@@ -4,7 +4,6 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from .errors import KylinConnectionError, KylinDBAPIError
 from .kylinpy import Project
 from .logger import logger
 from .utils.compat import as_unicode
@@ -100,17 +99,13 @@ class KylinDB(Project):
     paramstyle = 'pyformat'
     threadsafety = 2
     apilevel = '2.0'
-    Error = KylinDBAPIError
 
     def __init__(self, *args, **kwargs):
         super(KylinDB, self).__init__(*args, **kwargs)
 
     @classmethod
     def connect(cls, *args, **kwargs):
-        try:
-            return cls(*args, **kwargs)
-        except TypeError:
-            raise KylinConnectionError('Kylin service may be interrupted')
+        return cls(*args, **kwargs)
 
     def close(self):
         return

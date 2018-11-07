@@ -1,7 +1,7 @@
 """HTTP Client library"""
 import json
 from .exceptions import handle_error
-import logging
+from ..logger import logger
 
 try:
     # Python 3
@@ -173,7 +173,7 @@ class Client(object):
         :return: urllib response
         """
         timeout = timeout or self.timeout
-        logging.debug("""
+        logger.debug("""
 ==========================[QUERY]===============================
 method: {} 
 url: {} 
