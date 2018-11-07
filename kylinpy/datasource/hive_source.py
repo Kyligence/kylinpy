@@ -32,15 +32,16 @@ class HiveSource(SourceInterface):
 
 class _Column(ColumnInterface):
     def __init__(self, description):
-        self.description = description
+        self.description = description[1] if \
+            isinstance(description, tuple) else description
 
     @property
     def name(self):
-        return self.description.get('name')
+        return self.description.get('name') or self.description.get('column_NAME')
 
     @property
     def datatype(self):
-        return self.description.get('datatype')
+        return self.description.get('datatype') or self.description.get('type_NAME')
 
     def __repr__(self):
         return ('<Column '

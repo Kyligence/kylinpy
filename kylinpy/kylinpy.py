@@ -31,6 +31,7 @@ class Kylinpy(object):
         is_ssl = connect_args.get('is_ssl', None)
         prefix = connect_args.get('prefix', 'kylin/api')
         timeout = connect_args.get('timeout', 30)
+        self.is_pushdown = connect_args.get('is_pushdown', False)
         self.scheme = 'https' if is_ssl else 'http'
 
         headers = {
@@ -72,6 +73,7 @@ class Project(object):
                  **connect_args):
         self._client = Kylinpy(host, username, password, port, **connect_args)
         self.client = self._client.client
+        self.is_pushdown = self._client.is_pushdown
         self.project = project
         self.__tables_and_columns = None
         self.__tables_in_hive = None
@@ -98,10 +100,10 @@ class Project(object):
                 ('{}.{}'.format(tbl.get('table_SCHEM'), tbl.get('table_NAME')), tbl)
                 for tbl in resp)
             for tbl in tbl_pair:
-                tbl[1]['columns'] = {col['column_NAME']: col
-                                     for col in tbl[1]['columns']}
+                tbl[1]['columns'] = [(col['column_NAME'], col)
+                                     for col in tbl[1]['columns']]
             self.__tables_and_columns = tbl_pair
-        return self.__tables_and_columns
+        return dict(self.__tables_and_columns)
 
     @property
     def _tables_in_hive(self):
@@ -152,7 +154,11 @@ class Project(object):
         return tuple(model.get('name') for model in self._models)
 
     def get_source_tables(self, scheme=None):
-        _full_names = list(self._tables_in_hive.keys())
+        if self.is_pushdown:
+            _full_names = list(self._tables_in_hive.keys())
+        else:
+            _full_names = list(self._tables_and_columns.keys())
+
         if scheme is None:
             return _full_names
         else:
@@ -166,7 +172,10 @@ class Project(object):
 
     def get_datasource(self, name):
         if name in self.get_source_tables():
-            return HiveSource(name, self._tables_in_hive.get(name))
+            if self.is_pushdown:
+                return HiveSource(name, self._tables_in_hive.get(name))
+            else:
+                return HiveSource(name, self._tables_and_columns.get(name))
         if name in self.cube_names:
             cube_desc = self._cube_desc(name)
             model_desc = self._model_desc(cube_desc.get('model_name'))

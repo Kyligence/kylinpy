@@ -45,8 +45,8 @@ class CubeSource(SourceInterface):
 
             column = dim['column'] if dim['derived'] is None else dim['derived'][0]
             column_alias = dim['name']
-            tbl_map = dict(self.tables_and_columns)
-            description = tbl_map[table_clz.fullname].get('columns').get(column)
+            tbl_map = self.tables_and_columns
+            description = dict(tbl_map[table_clz.fullname].get('columns')).get(column)
             column_clz = _Column(column, column_alias, description)
 
             _dimensions.append(_CubeDimension(table_clz, column_clz))
