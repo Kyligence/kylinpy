@@ -92,7 +92,7 @@ class Client(object):
         """
         self.host = host
         self.request_headers = request_headers or {}
-        self._prefix = prefix.strip('/')
+        self._prefix = prefix.strip('/') if prefix else None
         # _url_path keeps track of the dynamically built url
         self._url_path = url_path or []
         # These are the supported HTTP verbs

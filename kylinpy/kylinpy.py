@@ -88,7 +88,8 @@ class Project(object):
             'project': self.project,
             'sql': sql,
         }
-        return self.client.query.post(request_body=request_body)
+        response = self.client.query.post(request_body=request_body)
+        return response
 
     @property
     def _tables_and_columns(self):
@@ -147,7 +148,8 @@ class Project(object):
 
     @property
     def cube_names(self):
-        return tuple(cube.get('name') for cube in self._cubes)
+        return tuple(cube.get('name') for cube in self._cubes
+                     if cube['status'] == 'READY')
 
     @property
     def model_names(self):
