@@ -8,6 +8,7 @@ from .kylinpy import Project
 from .logger import logger
 from .utils.compat import as_unicode
 from .utils.kylin_types import kylin_to_python
+from .client import HTTPError
 
 
 class Cursor(object):
@@ -99,6 +100,7 @@ class KylinDB(Project):
     paramstyle = 'pyformat'
     threadsafety = 2
     apilevel = '2.0'
+    Error = HTTPError
 
     def __init__(self, *args, **kwargs):
         super(KylinDB, self).__init__(*args, **kwargs)

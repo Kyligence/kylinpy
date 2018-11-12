@@ -41,15 +41,23 @@ class CubeSource(SourceInterface):
         return _Table(fullname, alias)
 
     @property
-    def lookups(self):
+    def _model_lookups(self):
+        # lookup tables in model
         return tuple((_.get('alias'), _) for _ in self.model_desc.get('lookups'))
+
+    @property
+    def lookups(self):
+        # lookup tables in cube
+        lookups_in_cube = set([d.table.alias for d in self.dimensions]) \
+                          | self.measure_tables
+        return tuple(_ for _ in self._model_lookups if _[0] in lookups_in_cube)
 
     @property
     def dimensions(self):
         _dimensions = []
         for dim in self.cube_desc.get('dimensions'):
             table_alias = dim.get('table')
-            table = dict(self.lookups).get(table_alias)
+            table = dict(self._model_lookups).get(table_alias)
             table = table.get('table') if table else self.fact_table.fullname
             table_clz = _Table(table, table_alias)
 
@@ -68,6 +76,14 @@ class CubeSource(SourceInterface):
         for measure in self.cube_desc.get('measures'):
             _measures.append(_CubeMeasure(measure))
         return _measures
+
+    @property
+    def measure_tables(self):
+        _tables = []
+        for m in self.measures:
+            if m.value_tables:
+                _tables.extend(m.value_tables)
+        return set(_tables)
 
     @property
     def last_modified(self):
@@ -128,6 +144,7 @@ class _CubeMeasure(object):
     def __init__(self, description):
         self._description = description
         self._function = description.get('function')
+        self._paramter_stack = []
 
     @property
     def name(self):
@@ -142,16 +159,26 @@ class _CubeMeasure(object):
         _params = self._get_parameter_values(self._function.get('parameter'))
         return self._get_aggregations_exp(self.measure_type, _params)
 
-    def _get_parameter_values(self, param_obj):
+    @property
+    def value_tables(self):
+        _values_columns = self._get_parameter_values(
+            self._function.get('parameter'), 'column')
+        if _values_columns:
+            _columns = _values_columns.split(', ')
+            return set(c.split('.')[0] for c in _columns)
+        return None
+
+    def _get_parameter_values(self, paramter_obj, param_type=None):
         """ return a parameter string from cube metrics function object. """
-        para_value_str = param_obj['value']
-        while True:
-            if 'next_parameter' in param_obj:
-                param_obj = param_obj['next_parameter']
-                para_value_str = '{}, {}'.format(para_value_str, param_obj['value'])
+        if paramter_obj.get('next_parameter'):
+            self._get_parameter_values(paramter_obj.get('next_parameter'), param_type)
+        else:
+            if param_type is None:
+                self._paramter_stack.append(paramter_obj.get('value'))
             else:
-                break
-        return para_value_str
+                if paramter_obj.get('type') == param_type:
+                    self._paramter_stack.append(paramter_obj.get('value'))
+        return ', '.join(self._paramter_stack)
 
     def _get_aggregations_exp(self, aggregations_key, column_value):
         """return aggregations expression with the column value"""
