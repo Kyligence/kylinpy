@@ -1,5 +1,11 @@
-"""HTTP Client library"""
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import json
+
 from .exceptions import handle_error
 from ..logger import logger
 
@@ -180,11 +186,11 @@ url: {}
 headers: {} 
 body: {}
 ==========================[QUERY]===============================
-""".format(
+""".format(  # noqa
             request.get_method(),
             request.get_full_url(),
             dict(request.header_items()),
-            request.data,))
+            request.data))
         try:
             return opener.open(request, timeout=timeout)
         except HTTPError as err:

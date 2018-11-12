@@ -4,11 +4,11 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from .client import HTTPError
 from .kylinpy import Project
 from .logger import logger
 from .utils.compat import as_unicode
 from .utils.kylin_types import kylin_to_python
-from .client import HTTPError
 
 
 class Cursor(object):

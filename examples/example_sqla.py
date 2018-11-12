@@ -9,14 +9,14 @@ from pprint import pprint
 from sqlalchemy import create_engine, inspect
 
 
-kylin = create_engine("kylin://ADMIN:KYLIN@sandbox/learn_kylin")
+kylin = create_engine('kylin://ADMIN:KYLIN@sandbox/learn_kylin')
 pprint(kylin.table_names())
 
 insp = inspect(kylin)
 pprint(insp.get_columns('DEFAULT.KYLIN_SALES'))
 pprint(insp.get_schema_names())
 
-sql1 = '''
+sql1 = """
 SELECT KYLIN_SALES.OPS_USER_ID AS "KYLIN_SALES.OPS_USER_ID",
        COUNT (1) AS "TRANS_CNT"
 FROM "DEFAULT"."KYLIN_SALES" AS "KYLIN_SALES"
@@ -32,11 +32,11 @@ WHERE KYLIN_CAL_DT.YEAR_BEG_DT >= CAST('2018-11-08' AS DATE)
 GROUP BY KYLIN_SALES.OPS_USER_ID
 ORDER BY "TRANS_CNT" DESC
 LIMIT 10000;
-'''
-sql2 = '''
+"""  # noqa
+
+sql2 = """
 SELECT * FROM KYLIN_SALES LIMIT 10
-'''
+"""
 
 rp = kylin.execute(sql1)
 pprint(rp.fetchall())
-

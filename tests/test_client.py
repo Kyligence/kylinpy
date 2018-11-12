@@ -1,14 +1,20 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import pickle
 import unittest
 
 from kylinpy.client import Client
 from kylinpy.client.exceptions import (
+    BadRequestsError,
     handle_error,
     HTTPError,
-    BadRequestsError,
     NotFoundError,
+    ServiceUnavailableError,
     UnsupportedMediaTypeError,
-    ServiceUnavailableError
 )
 
 try:
@@ -102,7 +108,7 @@ class TestClient(unittest.TestCase):
         self.client._url_path = self.client._url_path + [1]
         url = '{}{}'.format(
             self.host,
-            '/here/there/1?hello=0&world=1&ztest=0&ztest=1'
+            '/here/there/1?hello=0&world=1&ztest=0&ztest=1',
         )
         query_params = {'hello': 0, 'world': 1, 'ztest': [0, 1]}
         built_url = self.client._build_url(query_params)
@@ -175,7 +181,7 @@ class TestClient(unittest.TestCase):
         self.assertDictEqual(
             self.client.__dict__,
             unpickled_client.__dict__,
-            "original client and unpickled client must have the same state"
+            'original client and unpickled client must have the same state',
         )
 
 

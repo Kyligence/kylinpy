@@ -9,9 +9,9 @@ import sys
 PY3 = sys.version_info[0] == 3
 
 if PY3:
-    string_types = str,
-    integer_types = int,
-    class_types = type,
+    string_types = str
+    integer_types = int
+    class_types = type
     text_type = str
     binary_type = bytes
 
@@ -21,10 +21,11 @@ if PY3:
         return str(s)
 
 else:
-    string_types = basestring,
-    integer_types = (int, long)
-    class_types = (type, types.ClassType)
-    text_type = unicode
+    import types
+    string_types = basestring  # noqa
+    integer_types = (int, long)  # noqa
+    class_types = (type, types.ClassType)  # noqa
+    text_type = unicode  # noqa
     binary_type = str
 
     def as_unicode(s):

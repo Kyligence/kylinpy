@@ -13,9 +13,8 @@ except ImportError:
     import urllib2 as urllib
 
 from .client import Client as HTTPClient
+from .datasource import CubeSource, HiveSource
 from .utils.compat import as_unicode
-
-from .datasource import HiveSource, CubeSource
 
 
 class Kylinpy(object):
@@ -45,7 +44,7 @@ class Kylinpy(object):
             host='{self.scheme}://{self.host}:{self.port}'.format(**locals()),
             prefix=prefix,
             timeout=timeout,
-            request_headers=headers
+            request_headers=headers,
         )
 
     def basic_auth(self, headers):
@@ -95,7 +94,7 @@ class Project(object):
     def _tables_and_columns(self):
         if self.__tables_and_columns is None:
             resp = self.client.tables_and_columns.get(
-                query_params={'project': self.project}
+                query_params={'project': self.project},
             ).to_object
             tbl_pair = tuple(
                 ('{}.{}'.format(tbl.get('table_SCHEM'), tbl.get('table_NAME')), tbl)
@@ -113,7 +112,7 @@ class Project(object):
                 query_params={
                     'project': self.project,
                     'ext': True,
-                }
+                },
             ).to_object
 
             self.__tables_in_hive = {}
@@ -129,7 +128,7 @@ class Project(object):
     def _models(self):
         if self.__models is None:
             self.__models = self.client.models.get(
-                query_params={'projectName': self.project,}
+                query_params={'projectName': self.project},
             ).to_object
         return self.__models
 
@@ -142,7 +141,7 @@ class Project(object):
                     'limit': 50000,
                     'pageSize': 200,
                     'projectName': self.project,
-                }
+                },
             ).to_object
         return self.__cubes
 

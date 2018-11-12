@@ -48,8 +48,8 @@ class CubeSource(SourceInterface):
     @property
     def lookups(self):
         # lookup tables in cube
-        lookups_in_cube = set([d.table.alias for d in self.dimensions]) \
-                          | self.measure_tables
+        lookups_in_cube = \
+            set([d.table.alias for d in self.dimensions]) | self.measure_tables
         return tuple(_ for _ in self._model_lookups if _[0] in lookups_in_cube)
 
     @property
@@ -110,7 +110,7 @@ class CubeSource(SourceInterface):
                 _from_clause,
                 self._get_table_clause(_lookup),
                 sql.and_(*_join_clause_and),
-                isouter=_is_left_join
+                isouter=_is_left_join,
             )
         return _from_clause
 
@@ -183,12 +183,12 @@ class _CubeMeasure(object):
     def _get_aggregations_exp(self, aggregations_key, column_value):
         """return aggregations expression with the column value"""
         metrics_expression = {
-            'COUNT_DISTINCT': "COUNT (DISTINCT {})".format(column_value),
-            'COUNT': "COUNT ({})".format(column_value),
-            'SUM': "SUM ({})".format(column_value),
-            'AVG': "AVG ({})".format(column_value),
-            'MIN': "MIN ({})".format(column_value),
-            'MAX': "MAX ({})".format(column_value),
+            'COUNT_DISTINCT': 'COUNT (DISTINCT {})'.format(column_value),
+            'COUNT': 'COUNT ({})'.format(column_value),
+            'SUM': 'SUM ({})'.format(column_value),
+            'AVG': 'AVG ({})'.format(column_value),
+            'MIN': 'MIN ({})'.format(column_value),
+            'MAX': 'MAX ({})'.format(column_value),
         }
         return metrics_expression.get(aggregations_key)
 
