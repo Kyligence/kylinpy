@@ -8,7 +8,7 @@ import codecs
 import os.path
 import re
 
-from setuptools import setup
+from setuptools import find_packages, setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -33,7 +33,7 @@ setup(
     author_email='yongjie.zhao@kyligence.io',
     maintainer='Yongjie Zhao',
     maintainer_email='yongjie.zhao@kyligence.io',
-    packages=['kylinpy', 'kylinpy.utils'],
+    packages=find_packages(),
     url='https://github.com/Kyligence/kylinpy',
     license='MIT License',
     description='Apache Kylin Python Client Library',
