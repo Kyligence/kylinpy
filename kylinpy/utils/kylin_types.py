@@ -7,16 +7,15 @@ from __future__ import unicode_literals
 from datetime import datetime
 import re
 
-import six
-
+from .compat import text_type
 from ..logger import logger
 
 true_pattern = re.compile(r'true', flags=re.IGNORECASE)
 
 KylinType = dict(
-    CHAR=six.text_type,
-    VARCHAR=six.text_type,
-    STRING=six.text_type,
+    CHAR=text_type,
+    VARCHAR=text_type,
+    STRING=text_type,
     DECIMAL=float,
     DOUBLE=float,
     FLOAT=float,

@@ -4,10 +4,10 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from .errors import KylinConnectionError, KylinDBAPIError, KylinQueryError
-from .kylinpy import Kylinpy
+from .client import HTTPError
+from .kylinpy import Project
 from .logger import logger
-from .utils._compat import as_unicode
+from .utils.compat import as_unicode
 from .utils.kylin_types import kylin_to_python
 
 
@@ -15,11 +15,10 @@ class Cursor(object):
     def __init__(self, connection):
         self.connection = connection
         self._arraysize = 1
-
-        self.description = None
         self.rowcount = -1
-        self.results = None
+        self.results = []
         self.fetched_rows = 0
+        self._column_metas = []
 
     def callproc(self):
         logger.warn('Stored procedures not supported in Kylin')
@@ -27,35 +26,28 @@ class Cursor(object):
     def close(self):
         logger.debug('Cursor close called')
 
-    def execute(self, query, *params, **kwargs):
-        # todo query params
-        def get_col(x):
-            for l in kwargs.get('labels', set()):
-                if l.lower() == x.lower():
-                    return as_unicode(l)
-            return as_unicode(x)
-
-        resp = self.connection.query(query).get('data')
-        if resp.get('columnMetas') is None:
-            raise KylinQueryError(resp.get('exception') or resp.get('exceptionMessage'))
-
-        self.description = [[
-            get_col(c['label']),
+    @property
+    def description(self):
+        return tuple([
+            as_unicode(c['label']),
             c['columnTypeName'].lower(),
             c['displaySize'],
-            0,
+            None,
             c['precision'],
             c['scale'],
             c['isNullable'],
-        ] for c in resp['columnMetas']]
+        ] for c in self._column_metas)
 
+    def execute(self, query, *params, **kwargs):
+        resp = self.connection.query(query).to_object
+
+        self._column_metas = resp.get('columnMetas')
         self.results = [[
-            kylin_to_python(resp['columnMetas'][idx]['columnTypeName'], cell)
-            for (idx, cell) in enumerate(row)
+            kylin_to_python(self.description[col][1], cell)
+            for (col, cell) in enumerate(row)
         ] for row in resp['results']]
         self.rowcount = len(self.results)
         self.fetched_rows = 0
-        return self.rowcount
 
     def executemany(self, query, seq_params=[]):
         results = []
@@ -66,7 +58,6 @@ class Cursor(object):
         self.results = results
         self.rowcount = len(self.results)
         self.fetched_rows = 0
-        return self.rowcount
 
     def fetchone(self):
         if self.fetched_rows < self.rowcount:
@@ -105,21 +96,18 @@ class Cursor(object):
         logger.warn('setoutputsize not supported in Kylin')
 
 
-class KylinDB(Kylinpy):
+class KylinDB(Project):
     paramstyle = 'pyformat'
     threadsafety = 2
     apilevel = '2.0'
-    Error = KylinDBAPIError
+    Error = HTTPError
 
     def __init__(self, *args, **kwargs):
         super(KylinDB, self).__init__(*args, **kwargs)
 
     @classmethod
     def connect(cls, *args, **kwargs):
-        try:
-            return cls(*args, **kwargs)
-        except TypeError:
-            raise KylinConnectionError('Kylin service may be interrupted')
+        return cls(*args, **kwargs)
 
     def close(self):
         return
