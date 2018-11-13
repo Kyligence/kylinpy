@@ -17,7 +17,7 @@ from .datasource import CubeSource, HiveSource
 from .utils.compat import as_unicode
 
 
-class Kylinpy(object):
+class KylinClient(object):
     def __init__(self, host, username, password, port=7070, **connect_args):
         if host.startswith(('http://', 'https://')):
             _, self.host = host.split('://')
@@ -70,7 +70,7 @@ class Kylinpy(object):
 class Project(object):
     def __init__(self, host, username, password, port=7070, project='default',
                  **connect_args):
-        self._client = Kylinpy(host, username, password, port, **connect_args)
+        self._client = KylinClient(host, username, password, port, **connect_args)
         self.client = self._client.client
         self.is_pushdown = self._client.is_pushdown
         self.project = project
@@ -196,4 +196,4 @@ def dsn_proxy(dsn):
     if project:
         return Project(_.hostname, _.username, _.password, _port, project)
     else:
-        return Kylinpy(_.hostname, _.username, _.password, _port)
+        return KylinClient(_.hostname, _.username, _.password, _port)
