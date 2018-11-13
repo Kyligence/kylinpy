@@ -192,7 +192,8 @@ class Project(object):
 def dsn_proxy(dsn):
     _ = urllib.urlparse(dsn)
     project = _.path.lstrip('/')
+    _port = _.port or 7070
     if project:
-        return Project(_.hostname, _.username, _.password, _.port, project)
+        return Project(_.hostname, _.username, _.password, _port, project)
     else:
-        return Kylinpy(_.hostname, _.username, _.password, _.port)
+        return Kylinpy(_.hostname, _.username, _.password, _port)
