@@ -6,6 +6,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import logging
+import json
 
 import click
 
@@ -14,12 +15,14 @@ from .kylinpy import dsn_proxy
 
 @click.group()
 @click.option('-d', '--dsn', required=True, help='Kylin DSN')
+@click.option('-a', '--args', help='connect arguments, JSON string')
 @click.option('--debug/--no-debug', default=True, help='Show debug infomation')
 @click.pass_context
-def main(ctx, dsn, debug):
+def main(ctx, dsn, args, debug):
     if debug:
         logging.basicConfig(level=logging.DEBUG)
-    ctx.obj = dsn_proxy(dsn)
+    args = json.loads(args) if args else {}
+    ctx.obj = dsn_proxy(dsn, args)
 
 
 @main.command(help='Kylin query')

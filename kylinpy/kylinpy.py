@@ -30,6 +30,7 @@ class KylinClient(object):
         is_ssl = connect_args.get('is_ssl', None)
         prefix = connect_args.get('prefix', 'kylin/api')
         timeout = connect_args.get('timeout', 30)
+        self.version = connect_args.get('version', 'v1')
         self.is_pushdown = connect_args.get('is_pushdown', False)
         self.scheme = 'https' if is_ssl else 'http'
 
@@ -39,6 +40,9 @@ class KylinClient(object):
 
         if auth == 'basic':
             headers = self.basic_auth(headers)
+
+        if self.version == 'v2':
+            headers = self.set_v2_api(headers)
 
         self.client = HTTPClient(
             host='{self.scheme}://{self.host}:{self.port}'.format(**locals()),
@@ -143,6 +147,8 @@ class Project(object):
                     'projectName': self.project,
                 },
             ).to_object
+        if self._client.version == 'v2':
+            return self.__cubes.get('cubes')
         return self.__cubes
 
     @property
@@ -166,9 +172,15 @@ class Project(object):
             return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
 
     def _cube_desc(self, name):
+        if self._client.version == 'v2':
+            return self.client.cube_desc._(self.project)._(name).get()\
+                .to_object.get('cube')
         return self.client.cube_desc._(name).desc.get().to_object
 
     def _model_desc(self, name):
+        if self._client.version == 'v2':
+            return self.client.model_desc._(self.project)._(name).get()\
+                .to_object.get('model')
         return self.client.model._(name).get().to_object
 
     def get_datasource(self, name):
@@ -189,11 +201,11 @@ class Project(object):
         return '<Kylin Project Instance: {}>'.format(self.project)
 
 
-def dsn_proxy(dsn):
+def dsn_proxy(dsn, connect_args={}):
     _ = urllib.urlparse(dsn)
     project = _.path.lstrip('/')
     _port = _.port or 7070
     if project:
-        return Project(_.hostname, _.username, _.password, _port, project)
+        return Project(_.hostname, _.username, _.password, _port, project, **connect_args)
     else:
-        return KylinClient(_.hostname, _.username, _.password, _port)
+        return KylinClient(_.hostname, _.username, _.password, _port, **connect_args)
