@@ -43,9 +43,9 @@ KylinType = dict(
 
 
 def kylin_to_sqla(s):
-    type_re = re.compile(
-        '^({})\(?(\d+)?,?(\d+)?\)?.*$'.format('|'.join(KylinType.keys())),
-        flags=re.IGNORECASE)
+    type_re = re.compile(  # noqa
+        '^({})\(?(\d+)?,?(\d+)?\)?.*$'.format('|'.join(KylinType.keys())),  # noqa
+        flags=re.IGNORECASE)   # noqa
     type_tuple = type_re.match(s).groups()
     _type, _args = type_tuple[0].upper(), [int(e) for e in type_tuple[1:] if e]
     return KylinType.get(_type)(*_args)

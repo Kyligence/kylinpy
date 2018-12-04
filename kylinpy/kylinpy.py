@@ -178,10 +178,7 @@ class Project(object):
         return self.client.cube_desc._(name).desc.get().to_object
 
     def _model_desc(self, name):
-        if self._client.version == 'v2':
-            return self.client.model_desc._(self.project)._(name).get()\
-                .to_object.get('model')
-        return self.client.model._(name).get().to_object
+        return [_ for _ in self._models if _.get('name') == name][0]
 
     def get_datasource(self, name):
         if name in self.get_source_tables():
