@@ -50,7 +50,7 @@ class KylinClient(object):
             prefix=prefix,
             timeout=timeout,
             request_headers=headers,
-            unverified=unverified
+            unverified=unverified,
         )
 
     def basic_auth(self, headers):
