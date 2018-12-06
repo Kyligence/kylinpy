@@ -5,6 +5,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import json
+import ssl
 
 from .exceptions import handle_error
 from ..logger import logger
@@ -12,12 +13,14 @@ from ..logger import logger
 try:
     # Python 3
     import urllib.request as urllib
+    from urllib.request import HTTPSHandler
     from urllib.parse import urlencode
     from urllib.error import HTTPError
 except ImportError:
     # Python 2
     import urllib2 as urllib
     from urllib2 import HTTPError
+    from urllib2 import HTTPSHandler
     from urllib import urlencode
 
 
@@ -86,7 +89,8 @@ class Client(object):
                  prefix=None,
                  url_path=None,
                  append_slash=False,
-                 timeout=None):
+                 timeout=None,
+                 unverified=None):
         """
         :param host: Base URL for the api. (e.g. https://api.sendgrid.com)
         :type host:  string
@@ -109,6 +113,7 @@ class Client(object):
         # APPEND SLASH set
         self.append_slash = append_slash
         self.timeout = timeout
+        self.unverified = unverified
 
     def _build_prefix_url(self, url):
         """pass the prefix of the URL
@@ -167,7 +172,8 @@ class Client(object):
                       request_headers=self.request_headers,
                       url_path=url_path,
                       append_slash=self.append_slash,
-                      timeout=self.timeout)
+                      timeout=self.timeout,
+                      unverified=self.unverified)
 
     def _make_request(self, opener, request, timeout=None):
         """Make the API call and return the response. This is separated into
@@ -252,7 +258,12 @@ body: {}
                 else:
                     params = None
 
-                opener = urllib.build_opener()
+                if self.unverified:
+                    opener = urllib.build_opener(
+                        HTTPSHandler(context=ssl._create_unverified_context())
+                    )
+                else:
+                    opener = urllib.build_opener()
                 request = urllib.Request(self._build_url(params), data=data)
                 if self.request_headers:
                     for key, value in self.request_headers.items():
