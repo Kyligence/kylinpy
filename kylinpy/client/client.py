@@ -260,7 +260,7 @@ body: {}
 
                 if self.unverified:
                     opener = urllib.build_opener(
-                        HTTPSHandler(context=ssl._create_unverified_context())
+                        HTTPSHandler(context=ssl._create_unverified_context()),
                     )
                 else:
                     opener = urllib.build_opener()
