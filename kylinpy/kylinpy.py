@@ -30,7 +30,7 @@ class KylinClient(object):
         is_ssl = connect_args.get('is_ssl', None)
         prefix = connect_args.get('prefix', 'kylin/api')
         timeout = connect_args.get('timeout', 30)
-        unverified = connect_args.get('unverified', None)
+        unverified = connect_args.get('unverified', True)
         self.version = connect_args.get('version', 'v1')
         self.is_pushdown = connect_args.get('is_pushdown', False)
         self.scheme = 'https' if is_ssl else 'http'
