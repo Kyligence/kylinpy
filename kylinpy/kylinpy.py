@@ -18,7 +18,7 @@ from .utils.compat import as_unicode
 
 
 class KylinClient(object):
-    def __init__(self, host, username, password, port=7070, **connect_args):
+    def __init__(self, host, username=None, password=None, port=7070, **connect_args):
         if host.startswith(('http://', 'https://')):
             _, self.host = host.split('://')
         else:
@@ -26,31 +26,42 @@ class KylinClient(object):
         self.port = port
         self.username = username
         self.password = password
-        auth = connect_args.get('auth', 'basic')
-        is_ssl = connect_args.get('is_ssl', None)
-        prefix = connect_args.get('prefix', 'kylin/api')
-        timeout = connect_args.get('timeout', 30)
-        unverified = connect_args.get('unverified', True)
+        self.auth = connect_args.get('auth', 'basic')
+        self.is_ssl = connect_args.get('is_ssl', None)
+        self.prefix = connect_args.get('prefix', 'kylin/api')
+        self.timeout = connect_args.get('timeout', 30)
+        self.unverified = connect_args.get('unverified', True)
+        self.session = connect_args.get('session', '')
         self.version = connect_args.get('version', 'v1')
         self.is_pushdown = connect_args.get('is_pushdown', False)
-        self.scheme = 'https' if is_ssl else 'http'
+        self.scheme = 'https' if self.is_ssl else 'http'
 
+    def set_user(self, username, password=None, session=None):
+        self.username = username
+        if password:
+            self.password = password
+        else:
+            self.session = session
+
+    def get_client(self):
         headers = {
             'User-Agent': 'Kylin Python Client',
         }
 
-        if auth == 'basic':
+        if self.auth == 'basic':
             headers = self.basic_auth(headers)
+        else:
+            headers = self.session_auth(headers)
 
         if self.version == 'v2':
             headers = self.set_v2_api(headers)
 
-        self.client = HTTPClient(
+        return HTTPClient(
             host='{self.scheme}://{self.host}:{self.port}'.format(**locals()),
-            prefix=prefix,
-            timeout=timeout,
+            prefix=self.prefix,
+            timeout=self.timeout,
             request_headers=headers,
-            unverified=unverified,
+            unverified=self.unverified,
         )
 
     def basic_auth(self, headers):
@@ -60,10 +71,19 @@ class KylinClient(object):
         _headers.update({'Authorization': 'Basic {}'.format(_auth)})
         return _headers
 
+    def session_auth(self, headers):
+        _headers = headers.copy()
+        _headers.update({'Cookie': '{}'.format(self.session)})
+        return _headers
+
     def set_v2_api(self, headers):
         _headers = headers.copy()
         _headers.update({'Accept': 'application/vnd.apache.kylin-v2+json'})
         return _headers
+
+    @property
+    def projects(self):
+        return self.get_client().projects.get().to_object
 
     def __repr__(self):
         dsn = ('<kylinpy instance '
@@ -77,7 +97,7 @@ class Project(object):
     def __init__(self, host, username, password, port=7070, project='default',
                  **connect_args):
         self._client = KylinClient(host, username, password, port, **connect_args)
-        self.client = self._client.client
+        self.client = self._client.get_client()
         self.is_pushdown = self._client.is_pushdown
         self.project = project
         self.__tables_and_columns = None
