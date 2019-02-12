@@ -90,7 +90,8 @@ class Client(object):
                  url_path=None,
                  append_slash=False,
                  timeout=None,
-                 unverified=None):
+                 unverified=None,
+                 mask_auth=True):
         """
         :param host: Base URL for the api. (e.g. https://api.sendgrid.com)
         :type host:  string
@@ -114,6 +115,7 @@ class Client(object):
         self.append_slash = append_slash
         self.timeout = timeout
         self.unverified = unverified
+        self.mask_auth = mask_auth
 
     def _build_prefix_url(self, url):
         """pass the prefix of the URL
@@ -175,6 +177,18 @@ class Client(object):
                       timeout=self.timeout,
                       unverified=self.unverified)
 
+    def _mask_auth_headers(self, headers):
+        if not self.mask_auth:
+            return headers
+
+        _headers = {}
+        for (key, value) in headers.items():
+            if key.lower() == 'authorization':
+                _headers[key] = '******'
+            else:
+                _headers[key] = value
+        return _headers
+
     def _make_request(self, opener, request, timeout=None):
         """Make the API call and return the response. This is separated into
            it's own function, so we can mock it easily for testing.
@@ -198,7 +212,7 @@ body: {}
 """.format(  # noqa
             request.get_method(),
             request.get_full_url(),
-            dict(request.header_items()),
+            self._mask_auth_headers(dict(request.header_items())),
             request.data))
         try:
             return opener.open(request, timeout=timeout)

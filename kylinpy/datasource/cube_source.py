@@ -90,9 +90,9 @@ class CubeSource(SourceInterface):
         return datetime.fromtimestamp(self.cube_desc.get('last_modified') / 1000)
 
     def _get_table_clause(self, tbl_clz):
-            table_clause = sql.table(tbl_clz.name)
-            table_clause.schema = tbl_clz.scheme
-            return sql.alias(table_clause, tbl_clz.alias)
+        table_clause = sql.table(tbl_clz.name)
+        table_clause.schema = tbl_clz.scheme
+        return sql.alias(table_clause, tbl_clz.alias)
 
     @property
     def from_clause(self):

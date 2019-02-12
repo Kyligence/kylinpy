@@ -38,11 +38,13 @@ setup(
     license='MIT License',
     description='Apache Kylin Python Client Library',
     long_description=open('README.rst').read(),
-    install_requires=['click>=6.7,<7'],
+    install_requires=[],
     extras_require={
         'sqlalchemy': ['sqlalchemy>=1.1.0'],
+        'click': ['click>=6.0, <7.0.0'],
     },
-    keywords=['apache kylin', 'kylin', 'kap', 'kyligence', 'cli', 'sqlalchemy dialect'],
+    keywords=['apache kylin', 'kylin', 'kap', 'kyligence',
+              'kyligence enterprise', 'cli', 'sqlalchemy dialect'],
     classifiers=[
         'Environment :: Console',
         'Intended Audience :: Developers',

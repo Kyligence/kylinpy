@@ -13,7 +13,9 @@ except ImportError:
     import urllib2 as urllib
 
 from .client import Client as HTTPClient
+from .client import InternalServerError
 from .datasource import CubeSource, HiveSource
+from .exceptions import KylinQueryError, NoSuchTableError
 from .utils.compat import as_unicode
 
 
@@ -113,7 +115,15 @@ class Project(object):
             'project': self.project,
             'sql': sql,
         }
-        response = self.client.query.post(request_body=request_body)
+        try:
+            response = self.client.query.post(request_body=request_body)
+        except InternalServerError as err:
+            raise KylinQueryError(err)
+
+        err_message = response.to_object.get('exceptionMessage')
+        if err_message:
+            raise KylinQueryError(err_message)
+
         return response
 
     @property
@@ -212,6 +222,8 @@ class Project(object):
             cube_desc = self._cube_desc(name)
             model_desc = self._model_desc(cube_desc.get('model_name'))
             return CubeSource(cube_desc, model_desc, self._tables_and_columns)
+
+        raise NoSuchTableError
 
     def __str__(self):
         return str(self._client) + '/' + self.project
