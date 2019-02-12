@@ -87,7 +87,7 @@ class CubeSource(SourceInterface):
 
     @property
     def last_modified(self):
-        return datetime.fromtimestamp(self.cube_desc.get('last_modified') / 1000)
+        return self.cube_desc.get('last_modified')
 
     def _get_table_clause(self, tbl_clz):
         table_clause = sql.table(tbl_clz.name)
