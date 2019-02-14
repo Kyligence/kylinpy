@@ -64,7 +64,9 @@ is_pushdown                      False
 ============================= ============================================
 
 
-Test connection with Apache Kylin::
+From SQLAlchemy access Apache Kylin
+--------------------------------------
+::
 
     $ python
     >>> import sqlalchemy as sa
@@ -79,6 +81,21 @@ Test connection with Apache Kylin::
      u'KYLIN_COUNTRY',
      u'KYLIN_SALES',
      u'KYLIN_STREAMING_TABLE']
+
+From Pandas access Apache Kylin
+------------------------------------
+::
+
+   $ python
+    >>> import sqlalchemy as sa
+    >>> import pandas as pd
+    >>> kylin_engine = sa.create_engine('kylin://ADMIN:KYLIN@sandbox/learn_kylin', connect_args={'is_ssl': True, 'timeout': 60})
+    >>> sql = 'select * from kylin_sales limit 10'
+    >>> pd.read_sql(sql, kylin_engine)
+
+
+From Superset access Apache Kylin
+-------------------------------------
 
 Now you can configure the DSN in your application to establish the connection with Apache Kylin.
 
