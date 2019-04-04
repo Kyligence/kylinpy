@@ -36,6 +36,8 @@ KylinType = dict(
 
 def kylin_to_python(_type, s):
     try:
+        if "VARCHAR" in str(_type).upper():
+            _type="VARCHAR"
         return KylinType.get(str(_type).upper())(s) if s else s
     except KeyError:
         logger.error(
