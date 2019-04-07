@@ -23,3 +23,7 @@ class NoSuchTableError(KylinError):
 
 class KylinQueryError(KylinError):
     pass
+
+
+class KylinUnsupportedType(KylinError):
+    pass
