@@ -7,10 +7,11 @@ from __future__ import unicode_literals
 from datetime import datetime
 import re
 
-from .compat import text_type
-from ..logger import logger
+from kylinpy.exceptions import KylinUnsupportedType
+from kylinpy.logger import logger
+from kylinpy.utils.compat import text_type
 
-true_pattern = re.compile(r'true', flags=re.IGNORECASE)
+true_pattern = re.compile(r'^true$', flags=re.IGNORECASE)
 
 KylinType = dict(
     CHAR=text_type,
@@ -34,11 +35,15 @@ KylinType = dict(
 )
 
 
+def _convert_type(_type):
+    _type = re.sub(r'\(.*\)', '', _type)
+    return str(_type).upper()
+
+
 def kylin_to_python(_type, s):
     try:
-        if "VARCHAR" in str(_type).upper():
-            _type="VARCHAR"
-        return KylinType.get(str(_type).upper())(s) if s else s
+        return KylinType[_convert_type(_type)](s) if s else s
     except KeyError:
         logger.error(
             'CONVERT ERROR, type: {}, raw string: {}'.format(_type, s))
+        raise KylinUnsupportedType(_type)
