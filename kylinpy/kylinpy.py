@@ -55,7 +55,7 @@ class KylinClient(object):
         else:
             headers = self.session_auth(headers)
 
-        if self.version == 'v2':
+        if self.is_v2:
             headers = self.set_v2_api(headers)
 
         return HTTPClient(
@@ -84,8 +84,18 @@ class KylinClient(object):
         return _headers
 
     @property
+    def is_v2(self):
+        return self.version == 'v2'
+
+    @property
     def projects(self):
-        return self.get_client().projects.get().to_object
+        query_params = {}
+        if self.is_v2:
+            query_params = {
+                'pageOffset': 0,
+                'pageSize': 1000,
+            }
+        return self.get_client().projects.get(query_params=query_params).to_object
 
     def __repr__(self):
         dsn = ('<kylinpy instance '
@@ -175,7 +185,7 @@ class Project(object):
                 query_params={
                     'offset': 0,
                     'limit': 50000,
-                    'pageSize': 200,
+                    'pageSize': 1000,
                     'projectName': self.project,
                 },
             ).to_object
