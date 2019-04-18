@@ -19,7 +19,7 @@ from .exceptions import KylinQueryError, NoSuchTableError
 from .utils.compat import as_unicode
 
 
-class KylinClient(object):
+class Cluster(object):
     def __init__(self, host, username=None, password=None, port=7070, **connect_args):
         if host.startswith(('http://', 'https://')):
             _, self.host = host.split('://')
@@ -108,9 +108,9 @@ class KylinClient(object):
 class Project(object):
     def __init__(self, host, username, password, port=7070, project='default',
                  **connect_args):
-        self._client = KylinClient(host, username, password, port, **connect_args)
-        self.client = self._client.get_client()
-        self.is_pushdown = self._client.is_pushdown
+        self.cluster = Cluster(host, username, password, port, **connect_args)
+        self.client = self.cluster.get_client()
+        self.is_pushdown = self.cluster.is_pushdown
         self.project = project
         self.__tables_and_columns = None
         self.__tables_in_hive = None
@@ -189,7 +189,7 @@ class Project(object):
                     'projectName': self.project,
                 },
             ).to_object
-        if self._client.version == 'v2':
+        if self.cluster.version == 'v2':
             return self.__cubes.get('cubes')
         return self.__cubes
 
@@ -214,7 +214,7 @@ class Project(object):
             return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
 
     def _cube_desc(self, name):
-        if self._client.version == 'v2':
+        if self.cluster.version == 'v2':
             return self.client.cube_desc._(self.project)._(name).get()\
                 .to_object.get('cube')
         return self.client.cube_desc._(name).desc.get().to_object
@@ -222,13 +222,11 @@ class Project(object):
     def _model_desc(self, name):
         return [_ for _ in self._models if _.get('name') == name][0]
 
-    def get_datasource(self, name):
-        if name in self.get_source_tables():
-            if self.is_pushdown:
-                return HiveSource(name, self._tables_in_hive.get(name))
-            else:
-                return HiveSource(name, self._tables_and_columns.get(name))
-        if name in self.cube_names:
+    def get_datasource(self, name, datasource_type='source'):
+        if datasource_type == 'source':
+            return HiveSource(name, self.project, self.cluster)
+
+        if datasource_type == 'cube':
             cube_desc = self._cube_desc(name)
             model_desc = self._model_desc(cube_desc.get('model_name'))
             return CubeSource(cube_desc, model_desc, self._tables_and_columns)
@@ -236,7 +234,7 @@ class Project(object):
         raise NoSuchTableError
 
     def __str__(self):
-        return str(self._client) + '/' + self.project
+        return str(self.cluster) + '/' + self.project
 
     def __repr__(self):
         return '<Kylin Project Instance: {}>'.format(self.project)
@@ -249,4 +247,4 @@ def dsn_proxy(dsn, connect_args={}):
     if project:
         return Project(_.hostname, _.username, _.password, _port, project, **connect_args)
     else:
-        return KylinClient(_.hostname, _.username, _.password, _port, **connect_args)
+        return Cluster(_.hostname, _.username, _.password, _port, **connect_args)

@@ -11,7 +11,7 @@ class SourceInterface(object):
         raise NotImplementedError
 
     @property
-    def dimensions(self):
+    def columns(self):
         raise NotImplementedError
 
 
