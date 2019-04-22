@@ -34,7 +34,8 @@ class KylinService(object):
         except InternalServerError as err:
             raise KylinQueryError(err)
 
-        err_message = response.to_object.get('exceptionMessage')
+        response = response.to_object
+        err_message = response.get('exceptionMessage')
         if err_message:
             raise KylinQueryError(err_message)
 

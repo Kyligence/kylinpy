@@ -109,6 +109,9 @@ class Project(object):
         self.is_pushdown = self.cluster.is_pushdown
         self.project = project
 
+    def query(self, sql):
+        return self.kylin_service.query(sql)
+
     def get_source_tables(self, scheme=None):
         _full_names = [s for s in self.get_all_sources().get('hive', [])]
         if scheme is None:
