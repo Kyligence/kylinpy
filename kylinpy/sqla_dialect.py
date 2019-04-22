@@ -10,9 +10,9 @@ from sqlalchemy import pool
 from sqlalchemy.engine import default
 from sqlalchemy.sql import compiler
 
-from .kylindb import KylinDB
-from .utils.keywords import CALCITE_KEYWORDS
-from .utils.sqla_types import kylin_to_sqla
+from kylinpy.kylindb import KylinDB
+from kylinpy.utils.keywords import CALCITE_KEYWORDS
+from kylinpy.utils.sqla_types import kylin_to_sqla
 
 SUPERSET_KEYWORDS = set([
     '__timestamp',

@@ -13,7 +13,7 @@ except ImportError:
     import urllib2 as urllib
 
 from kylinpy.client import Client as HTTPClient
-from kylinpy.datasource._kylin_service import KylinService
+from kylinpy.kylin_service import KylinService
 from kylinpy.source_factory import SourceFactory
 from kylinpy.exceptions import NoSuchTableError
 from kylinpy.utils.compat import as_unicode

@@ -10,7 +10,7 @@ import logging
 
 import click
 
-from .kylinpy import dsn_proxy
+from kylinpy.kylinpy import dsn_proxy
 
 
 @click.group()
