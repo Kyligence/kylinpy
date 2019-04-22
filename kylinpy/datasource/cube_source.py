@@ -20,6 +20,10 @@ class CubeSource(SourceInterface):
         self.model_desc = model_desc
         self.tables_and_columns = tables_and_columns
 
+    @classmethod
+    def initial(cls, name, project, cluster):
+        pass
+
     @property
     def name(self):
         return self.cube_name
@@ -49,6 +53,10 @@ class CubeSource(SourceInterface):
         lookups_in_cube = \
             set([d.table.alias for d in self.dimensions]) | self.measure_tables
         return tuple(_ for _ in self._model_lookups if _[0] in lookups_in_cube)
+
+    @property
+    def columns(self):
+        return self.dimensions + self.measures
 
     @property
     def dimensions(self):
