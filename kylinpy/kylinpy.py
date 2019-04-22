@@ -13,8 +13,8 @@ except ImportError:
     import urllib2 as urllib
 
 from kylinpy.client import Client as HTTPClient
-from kylinpy.datasource import CubeSource, HiveSource
 from kylinpy.datasource._kylin_service import KylinService
+from kylinpy.source_factory import SourceFactory
 from kylinpy.exceptions import NoSuchTableError
 from kylinpy.utils.compat import as_unicode
 
@@ -100,35 +100,35 @@ class Cluster(object):
 
 
 class Project(object):
-    def __init__(self, host, username, password, port=7070, project='default',
-                 **connect_args):
-        self.cluster = Cluster(host, username, password, port, **connect_args)
-        self.kylin_service = KylinService(self.cluster.get_client(), project)
+    def __init__(self, cluster, project):
+        self.cluster = cluster
+        self.kylin_service = KylinService.initial_from_project(
+            self.cluster.get_client(),
+            project,
+        )
         self.is_pushdown = self.cluster.is_pushdown
         self.project = project
 
     def get_source_tables(self, scheme=None):
-        if self.is_pushdown:
-            _full_names = list(self.kylin_service.tables_in_hive.keys())
-        else:
-            _full_names = list(self.kylin_service.tables_and_columns.keys())
-
+        _full_names = [s for s in self.get_all_sources()['hive']]
         if scheme is None:
             return _full_names
         else:
             return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
 
-    def get_datasource(self, name, datasource_type='source'):
-        if datasource_type == 'source':
-            if self.is_pushdown:
-                return HiveSource(name, self.kylin_service.tables_in_hive.get(name))
-            else:
-                return HiveSource(name, self.kylin_service.tables_and_columns.get(name))
+    def get_all_sources(self):
+        return SourceFactory.get_sources(self.kylin_service, self.is_pushdown)
 
-        if datasource_type == 'cube':
-            return CubeSource.initial(name, self.kylin_service)
-
-        raise NoSuchTableError
+    def get_datasource(self, name, source_type='hive'):
+        _source = SourceFactory(
+            name,
+            source_type,
+            self.kylin_service,
+            self.is_pushdown,
+        ).source
+        if _source is None:
+            raise NoSuchTableError
+        return _source
 
     def __str__(self):
         return str(self.cluster) + '/' + self.project
@@ -141,7 +141,7 @@ def dsn_proxy(dsn, connect_args={}):
     _ = urllib.urlparse(dsn)
     project = _.path.lstrip('/')
     _port = _.port or 7070
+    cluster = Cluster(_.hostname, _.username, _.password, _port, **connect_args)
     if project:
-        return Project(_.hostname, _.username, _.password, _port, project, **connect_args)
-    else:
-        return Cluster(_.hostname, _.username, _.password, _port, **connect_args)
+        return Project(cluster, project)
+    return cluster
