@@ -42,13 +42,14 @@ class KylinService(object):
 
     @property
     def projects(self):
-        query_params = {}
+        query_params = {
+            'pageOffset': 0,
+            'pageSize': 1000,
+        }
+        _projects = self.client.projects.get(query_params=query_params).to_object
         if self.is_v2:
-            query_params = {
-                'pageOffset': 0,
-                'pageSize': 1000,
-            }
-        return self.client.projects.get(query_params=query_params).to_object
+            return _projects.get('projects')
+        return _projects
 
     @property
     def tables_and_columns(self):
@@ -88,10 +89,7 @@ class KylinService(object):
         return self.client.cube_desc._(name).desc.get().to_object
 
     def model_desc(self, name):
-        try:
-            return [_ for _ in self.models if _.get('name') == name][0]
-        except IndexError:
-            print(self.models, name)
+        return [_ for _ in self.models if _.get('name') == name][0]
 
     @property
     def models(self):

@@ -110,7 +110,7 @@ class Project(object):
         self.project = project
 
     def get_source_tables(self, scheme=None):
-        _full_names = [s for s in self.get_all_sources()['hive']]
+        _full_names = [s for s in self.get_all_sources().get('hive', [])]
         if scheme is None:
             return _full_names
         else:

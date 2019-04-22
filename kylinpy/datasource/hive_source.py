@@ -22,7 +22,7 @@ class HiveSource(SourceInterface):
         return cls(name, kylin_service.tables_and_columns.get(name))
 
     @staticmethod
-    def reflect_datasource_names(kylin_service, is_pushdown=False, *args, **kwargs):
+    def reflect_datasource_names(kylin_service, is_pushdown=False):
         if is_pushdown:
             _full_names = list(kylin_service.tables_in_hive.keys())
         else:

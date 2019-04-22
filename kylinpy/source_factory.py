@@ -20,6 +20,7 @@ class SourceFactory(object):
     def get_sources(kylin_service, is_pushdown):
         return {
             source_type: source_types[source_type].reflect_datasource_names(
-                kylin_service, is_pushdown
+                kylin_service,
+                is_pushdown,
             ) for source_type in source_types
         }
