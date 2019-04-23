@@ -15,10 +15,25 @@ except ImportError:
 
 
 class CubeSource(SourceInterface):
+    source_type = 'cube'
+    service_type = 'kylin'
+
     def __init__(self, cube_desc, model_desc, tables_and_columns):
         self.cube_desc = cube_desc
         self.model_desc = model_desc
         self.tables_and_columns = tables_and_columns
+
+    @classmethod
+    def initial(cls, name, kylin_service, *args):
+        cube_desc = kylin_service.cube_desc(name)
+        model_desc = kylin_service.model_desc(cube_desc.get('model_name'))
+        tables_and_columns = kylin_service.tables_and_columns
+        return cls(cube_desc, model_desc, tables_and_columns)
+
+    @staticmethod
+    def reflect_datasource_names(kylin_service, is_pushdown):
+        return tuple(cube.get('name') for cube in kylin_service.cubes
+                     if cube['status'] == 'READY')
 
     @property
     def name(self):
@@ -49,6 +64,10 @@ class CubeSource(SourceInterface):
         lookups_in_cube = \
             set([d.table.alias for d in self.dimensions]) | self.measure_tables
         return tuple(_ for _ in self._model_lookups if _[0] in lookups_in_cube)
+
+    @property
+    def columns(self):
+        return self.dimensions + self.measures
 
     @property
     def dimensions(self):

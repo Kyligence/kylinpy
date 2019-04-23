@@ -4,11 +4,11 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from .client import HTTPError
-from .kylinpy import Project
-from .logger import logger
-from .utils.compat import as_unicode
-from .utils.kylin_types import kylin_to_python
+from kylinpy.client import HTTPError
+from kylinpy.kylinpy import Cluster, Project
+from kylinpy.logger import logger
+from kylinpy.utils.compat import as_unicode
+from kylinpy.utils.kylin_types import kylin_to_python
 
 
 class Cursor(object):
@@ -39,7 +39,7 @@ class Cursor(object):
         ] for c in self._column_metas)
 
     def execute(self, query, *params, **kwargs):
-        resp = self.connection.query(query).to_object
+        resp = self.connection.query(query)
 
         self._column_metas = resp.get('columnMetas')
         self.results = [[
@@ -107,7 +107,9 @@ class KylinDB(Project):
 
     @classmethod
     def connect(cls, *args, **kwargs):
-        return cls(*args, **kwargs)
+        cluster = Cluster(**kwargs)
+        project = kwargs.get('project')
+        return cls(cluster, project)
 
     def close(self):
         return

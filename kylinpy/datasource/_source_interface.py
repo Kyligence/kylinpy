@@ -6,12 +6,20 @@ from __future__ import unicode_literals
 
 
 class SourceInterface(object):
+    source_type = None
+
+    def initial(self, *args, **kwargs):
+        raise NotImplementedError
+
+    def reflect_datasource_names(self, *args, **kwargs):
+        raise NotImplementedError
+
     @property
     def name(self):
         raise NotImplementedError
 
     @property
-    def dimensions(self):
+    def columns(self):
         raise NotImplementedError
 
 
