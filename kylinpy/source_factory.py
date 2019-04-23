@@ -7,26 +7,26 @@ from __future__ import unicode_literals
 from kylinpy.datasource import source_types
 
 
-class SourceFactory(object):
-    def __init__(
-            self,
-            name,
-            source_type,
-            kylin_service,
-            is_pushdown,
-    ):
-        self.source = None
-        self.source = source_types[source_type].initial(
-            name,
-            kylin_service,
+def source_factory(
+    name,
+    source_type,
+    services,
+    is_pushdown,
+):
+    service_type = source_types[source_type].service_type
+    return source_types[source_type].initial(
+        name,
+        services[service_type],
+        is_pushdown,
+    )
+
+
+def get_sources(services, is_pushdown):
+    _sources = dict()
+    for source_type in source_types:
+        service_type = source_types[source_type].service_type
+        _sources[source_type] = source_types[source_type].reflect_datasource_names(
+            services[service_type],
             is_pushdown,
         )
-
-    @staticmethod
-    def get_sources(kylin_service, is_pushdown):
-        return {
-            source_type: source_types[source_type].reflect_datasource_names(
-                kylin_service,
-                is_pushdown,
-            ) for source_type in source_types
-        }
+    return _sources

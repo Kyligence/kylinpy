@@ -10,6 +10,7 @@ from ._source_interface import SourceInterface
 
 class HiveSource(SourceInterface):
     source_type = 'hive'
+    service_type = 'kylin'
 
     def __init__(self, name, table_desc):
         self._name = name

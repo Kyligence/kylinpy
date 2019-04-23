@@ -16,6 +16,7 @@ except ImportError:
 
 class CubeSource(SourceInterface):
     source_type = 'cube'
+    service_type = 'kylin'
 
     def __init__(self, cube_desc, model_desc, tables_and_columns):
         self.cube_desc = cube_desc

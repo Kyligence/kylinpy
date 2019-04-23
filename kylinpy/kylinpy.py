@@ -15,7 +15,7 @@ except ImportError:
 from kylinpy.client import Client as HTTPClient
 from kylinpy.exceptions import NoSuchTableError
 from kylinpy.kylin_service import KylinService
-from kylinpy.source_factory import SourceFactory
+from kylinpy.source_factory import get_sources, source_factory
 from kylinpy.utils.compat import as_unicode
 
 
@@ -102,7 +102,8 @@ class Cluster(object):
 class Project(object):
     def __init__(self, cluster, project):
         self.cluster = cluster
-        self.kylin_service = KylinService.initial_from_project(
+        self.services = dict()
+        self.services['kylin'] = KylinService.initial_from_project(
             self.cluster.get_client(),
             project,
         )
@@ -110,7 +111,7 @@ class Project(object):
         self.project = project
 
     def query(self, sql):
-        return self.kylin_service.query(sql)
+        return self.services['kylin'].query(sql)
 
     def get_source_tables(self, scheme=None):
         _full_names = [s for s in self.get_all_sources().get('hive', [])]
@@ -120,15 +121,15 @@ class Project(object):
             return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
 
     def get_all_sources(self):
-        return SourceFactory.get_sources(self.kylin_service, self.is_pushdown)
+        return get_sources(self.services, self.is_pushdown)
 
     def get_datasource(self, name, source_type='hive'):
-        _source = SourceFactory(
+        _source = source_factory(
             name,
             source_type,
-            self.kylin_service,
+            self.services,
             self.is_pushdown,
-        ).source
+        )
         if _source is None:
             raise NoSuchTableError
         return _source

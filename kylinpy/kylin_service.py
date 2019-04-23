@@ -9,6 +9,8 @@ from kylinpy.exceptions import KylinQueryError
 
 
 class KylinService(object):
+    service_type = 'kylin'
+
     def __init__(self, client, project=None):
         self.client = client
         self.project = project
