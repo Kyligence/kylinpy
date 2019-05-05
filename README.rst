@@ -6,6 +6,8 @@
    :target: https://pypi.python.org/pypi/kylinpy
 .. image:: https://img.shields.io/pypi/dm/kylinpy.svg
    :target: https://pypi.python.org/pypi/kylinpy
+.. image:: https://codecov.io/gh/zhaoyongjie/kylinpy/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/zhaoyongjie/kylinpy
 
 Apache Kylin Python Client Library
 ==================================
