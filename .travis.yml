@@ -1,0 +1,4 @@
+language: python
+install:
+  - pip install codecov tox
+script: tox
