@@ -5,6 +5,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import sys
+import time
 
 PY3 = sys.version_info[0] == 3
 
@@ -32,3 +33,8 @@ else:
         if isinstance(s, str):
             return s.decode('utf-8')
         return unicode(s)  # noqa
+
+
+def to_seconds(date):
+    """ return timestamp for date object compatible py2 """
+    return time.mktime(date.timetuple())
