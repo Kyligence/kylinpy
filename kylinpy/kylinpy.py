@@ -114,14 +114,14 @@ class Project(object):
         return self.services['kylin'].query(sql)
 
     def get_source_tables(self, scheme=None):
-        _full_names = [s for s in self.get_all_sources().get('hive', [])]
+        _full_names = [s for s in self.get_all_sources('hive', 'kylin')]
         if scheme is None:
             return _full_names
         else:
             return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
 
-    def get_all_sources(self):
-        return get_sources(self.services, self.is_pushdown)
+    def get_all_sources(self, source_type, service_type):
+        return get_sources(source_type, self.services[service_type], self.is_pushdown)
 
     def get_datasource(self, name, source_type='hive'):
         _source = source_factory(

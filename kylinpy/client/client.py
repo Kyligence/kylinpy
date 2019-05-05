@@ -16,12 +16,14 @@ try:
     from urllib.request import HTTPSHandler
     from urllib.parse import urlencode
     from urllib.error import HTTPError
+    from urllib.parse import quote
 except ImportError:
     # Python 2
     import urllib2 as urllib
     from urllib2 import HTTPError
     from urllib2 import HTTPSHandler
     from urllib import urlencode
+    from urllib import quote
 
 
 class Response(object):
@@ -231,7 +233,7 @@ body: {}
         :type name: string
         :return: Client object
         """
-        return self._build_client(name)
+        return self._build_client(quote(name))
 
     def __getattr__(self, name):
         """Dynamically add method calls to the url, then call a method.

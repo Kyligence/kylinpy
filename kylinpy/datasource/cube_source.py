@@ -4,8 +4,9 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from ._source_interface import ColumnInterface
-from ._source_interface import SourceInterface
+from ._source_interface import (
+    DimensionInterface, MeasureInterface, SourceInterface,
+)
 from ..utils.sqla_types import kylin_to_sqla
 
 try:
@@ -66,10 +67,6 @@ class CubeSource(SourceInterface):
         return tuple(_ for _ in self._model_lookups if _[0] in lookups_in_cube)
 
     @property
-    def columns(self):
-        return self.dimensions + self.measures
-
-    @property
     def dimensions(self):
         _dimensions = []
         for dim in self.cube_desc.get('dimensions'):
@@ -106,6 +103,10 @@ class CubeSource(SourceInterface):
     def last_modified(self):
         return self.cube_desc.get('last_modified')
 
+    @property
+    def identity(self):
+        return self.cube_desc.get('uuid')
+
     def _get_table_clause(self, tbl_clz):
         table_clause = sql.table(tbl_clz.name)
         table_clause.schema = tbl_clz.scheme
@@ -131,16 +132,13 @@ class CubeSource(SourceInterface):
             )
         return _from_clause
 
-    def __getattr__(self, item):
-        return self.cube_desc.get(item)
-
     def __repr__(self):
         return ('<Cube Instance by '
                 'model_name: {self.model_name}, '
                 'cube_name: {self.cube_name}>').format(**locals())
 
 
-class _CubeDimension(ColumnInterface):
+class _CubeDimension(DimensionInterface):
     def __init__(self, table_clz, column_clz):
         self.table = table_clz
         self.column = column_clz
@@ -151,13 +149,17 @@ class _CubeDimension(ColumnInterface):
 
     @property
     def name(self):
-        return self.column.name
+        return '{}.{}'.format(self.table.alias, self.column.name)
+
+    @property
+    def verbose(self):
+        return self.column.alias
 
     def __repr__(self):
         return '<Dimension: {}.{}>'.format(self.table.alias, self.column.alias)
 
 
-class _CubeMeasure(object):
+class _CubeMeasure(MeasureInterface):
     def __init__(self, description):
         self._description = description
         self._function = description.get('function')
@@ -165,6 +167,10 @@ class _CubeMeasure(object):
 
     @property
     def name(self):
+        return self._description.get('name')
+
+    @property
+    def verbose(self):
         return self._description.get('name')
 
     @property
