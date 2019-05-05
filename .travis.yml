@@ -2,3 +2,5 @@ language: python
 install:
   - pip install codecov tox
 script: tox
+after_success:
+  - codecov
