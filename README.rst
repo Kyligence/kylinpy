@@ -1,6 +1,10 @@
 .. image:: https://img.shields.io/pypi/v/kylinpy.svg
    :target: https://pypi.python.org/pypi/kylinpy
+.. image:: https://img.shields.io/github/license/kyligence/kylinpy.svg
+   :target: https://pypi.python.org/pypi/kylinpy
 .. image:: https://img.shields.io/pypi/pyversions/kylinpy.svg
+   :target: https://pypi.python.org/pypi/kylinpy
+.. image:: https://img.shields.io/pypi/dm/kylinpy.svg
    :target: https://pypi.python.org/pypi/kylinpy
 
 Apache Kylin Python Client Library
