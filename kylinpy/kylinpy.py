@@ -14,7 +14,7 @@ except ImportError:
 
 from kylinpy.client import Client as HTTPClient
 from kylinpy.exceptions import NoSuchTableError
-from kylinpy.kylin_service import KylinService
+from kylinpy.service import KylinService
 from kylinpy.source_factory import get_sources, source_factory
 from kylinpy.utils.compat import as_unicode
 
