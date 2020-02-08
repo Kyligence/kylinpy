@@ -8,8 +8,8 @@ from ._source_interface import ColumnInterface
 from ._source_interface import SourceInterface
 
 
-class HiveSource(SourceInterface):
-    source_type = 'hive'
+class TableSource(SourceInterface):
+    source_type = 'table'
     service_type = 'kylin'
 
     def __init__(self, name, table_desc):
