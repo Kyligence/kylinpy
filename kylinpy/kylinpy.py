@@ -15,7 +15,7 @@ except ImportError:
 from kylinpy.client import Client as HTTPClient
 from kylinpy.exceptions import NoSuchTableError
 from kylinpy.service import KylinService
-from kylinpy.source_factory import get_sources, source_factory
+from kylinpy.datasource import CubeSource, TableSource
 from kylinpy.utils.compat import as_unicode
 
 
@@ -114,23 +114,32 @@ class Project(object):
         return self.services['kylin'].query(sql)
 
     def get_source_tables(self, scheme=None):
-        _full_names = [s for s in self.get_all_sources('hive', 'kylin')]
+        _full_names = [s for s in self.get_all_sources('table', 'kylin')]
         if scheme is None:
             return _full_names
         else:
             return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
 
     def get_all_sources(self, source_type, service_type):
-        return get_sources(source_type, self.services[service_type], self.is_pushdown)
+        if source_type == 'table':
+            return TableSource.reflect_datasource_names(
+                self.services[service_type],
+                self.is_pushdown,
+            )
+        elif source_type == 'cube':
+            return CubeSource.reflect_datasource_names(
+                self.services[service_type],
+                self.is_pushdown,
+            )
+        else:
+            raise NoSuchTableError
 
-    def get_datasource(self, name, source_type='hive'):
-        _source = source_factory(
-            name,
-            source_type,
-            self.services,
-            self.is_pushdown,
-        )
-        if _source is None:
+    def get_datasource(self, name, source_type='table'):
+        if source_type == 'table':
+            _source = TableSource.initial(name, self.services['kylin'], self.is_pushdown)
+        elif source_type == 'cube':
+            _source = CubeSource.initial(name, self.services['kylin'], self.is_pushdown)
+        else:
             raise NoSuchTableError
         return _source
 
