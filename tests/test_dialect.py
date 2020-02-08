@@ -8,11 +8,8 @@ import json
 import os
 
 from sqlalchemy import create_engine
-from sqlalchemy.dialects import registry
 
 from kylinpy.utils.compat import as_unicode
-
-registry.register('kylin', 'kylinpy.sqla_dialect', 'KylinDialect')
 
 
 class TestDialect(object):
