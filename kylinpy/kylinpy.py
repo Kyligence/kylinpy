@@ -14,9 +14,8 @@ except ImportError:
     import urllib2 as urllib
 
 from kylinpy.client import Client as HTTPClient
-from kylinpy.exceptions import NoSuchTableError
 from kylinpy.service import KylinService, V2Service
-from kylinpy.datasource import CubeSource, TableSource
+from kylinpy.datasource import TableSource
 from kylinpy.utils.compat import as_unicode
 
 SERVICES = {
