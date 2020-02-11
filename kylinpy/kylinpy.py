@@ -15,12 +15,13 @@ except ImportError:
 
 from kylinpy.client import Client as HTTPClient
 from kylinpy.exceptions import NoSuchTableError
-from kylinpy.service import KylinService
+from kylinpy.service import KylinService, V2Service
 from kylinpy.datasource import CubeSource, TableSource
 from kylinpy.utils.compat import as_unicode
 
 SERVICES = {
     'v1': KylinService,
+    'v2': V2Service,
 }
 
 
@@ -113,11 +114,12 @@ class Project(object):
     def __init__(self, cluster, project):
         self.cluster = cluster
         self.cluster.service.project = project
+        self.service = self.cluster.service
         self.is_pushdown = self.cluster.is_pushdown
         self.project = project
 
     def query(self, sql):
-        return self.cluster.service.query(sql)
+        return self.service.query(sql)
 
     def get_source_tables(self, scheme=None):
         _full_names = [s for s in self.get_all_sources('table')]
@@ -128,17 +130,17 @@ class Project(object):
 
     def get_all_sources(self, source_type):
         if source_type == 'table':
-            return TableSource.reflect_datasource_names(self.cluster.service, self.is_pushdown)
+            return TableSource.reflect_datasource_names(self.service, self.is_pushdown)
         elif source_type == 'cube':
-            return CubeSource.reflect_datasource_names(self.cluster.service, self.is_pushdown)
+            return CubeSource.reflect_datasource_names(self.service, self.is_pushdown)
         else:
             raise NoSuchTableError
 
     def get_datasource(self, name, source_type='table'):
         if source_type == 'table':
-            _source = TableSource.initial(name, self.cluster.service, self.is_pushdown)
+            _source = TableSource.initial(name, self.service, self.is_pushdown)
         elif source_type == 'cube':
-            _source = CubeSource.initial(name, self.cluster.service, self.is_pushdown)
+            _source = CubeSource.initial(name, self.service, self.is_pushdown)
         else:
             raise NoSuchTableError
         return _source
