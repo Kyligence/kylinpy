@@ -68,8 +68,7 @@ class Response(object):
         """
         return self._headers
 
-    @property
-    def to_object(self):
+    def json(self):
         """
         :return: object of response from the API
         """

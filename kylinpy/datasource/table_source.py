@@ -10,7 +10,6 @@ from ._source_interface import SourceInterface
 
 class TableSource(SourceInterface):
     source_type = 'table'
-    service_type = 'kylin'
 
     def __init__(self, name, table_desc):
         self._name = name

@@ -9,8 +9,6 @@ from kylinpy.exceptions import KylinQueryError
 
 
 class KylinService(object):
-    service_type = 'kylin'
-
     def __init__(self, client, project=None):
         self.client = client
         self.project = project
@@ -28,7 +26,7 @@ class KylinService(object):
         except InternalServerError as err:
             raise KylinQueryError(err)
 
-        response = response.to_object
+        response = response.json()
         err_message = response.get('exceptionMessage')
         if err_message:
             raise KylinQueryError(err_message)
@@ -41,12 +39,12 @@ class KylinService(object):
             'pageOffset': 0,
             'pageSize': 1000,
         }
-        _projects = self.client.get(endpoint='/projects', params=params).to_object
+        _projects = self.client.get(endpoint='/projects', params=params).json()
         return _projects
 
     @property
     def tables_and_columns(self):
-        resp = self.client.get(endpoint='/tables_and_columns', params={'project': self.project}).to_object
+        resp = self.client.get(endpoint='/tables_and_columns', params={'project': self.project}).json()
         tbl_pair = tuple(('{}.{}'.format(tbl.get('table_SCHEM'), tbl.get('table_NAME')), tbl) for tbl in resp)
         for tbl in tbl_pair:
             tbl[1]['columns'] = [(col['column_NAME'], col) for col in tbl[1]['columns']]
@@ -54,7 +52,7 @@ class KylinService(object):
 
     @property
     def tables_in_hive(self):
-        tables = self.client.get(endpoint='/tables', params={'project': self.project, 'ext': True}).to_object
+        tables = self.client.get(endpoint='/tables', params={'project': self.project, 'ext': True}).json()
 
         __tables_in_hive = {}
         for tbl in tables:
@@ -66,7 +64,7 @@ class KylinService(object):
         return __tables_in_hive
 
     def cube_desc(self, name):
-        return self.client.get(endpoint='/cube_desc/{}/desc'.format(name)).to_object
+        return self.client.get(endpoint='/cube_desc/{}/desc'.format(name)).json()
 
     def model_desc(self, name):
         return [_ for _ in self.models if _.get('name') == name][0]
@@ -80,7 +78,7 @@ class KylinService(object):
                 'pageOffset': 0,
                 'pageSize': 1000,
             },
-        ).to_object
+        ).json()
         return _models
 
     @property
@@ -94,5 +92,5 @@ class KylinService(object):
                 'pageSize': 1000,
                 'projectName': self.project,
             },
-        ).to_object
+        ).json()
         return _cubes
