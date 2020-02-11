@@ -3,8 +3,11 @@ import json
 
 import pytest
 
+from kylinpy.client import HTTPError
 from kylinpy.kylinpy import dsn_proxy
 from kylinpy.exceptions import KylinQueryError
+
+from .test_client import MockException
 
 
 def read(filename):
@@ -87,4 +90,11 @@ class TestKylinService(object):
         response['exceptionMessage'] = 'foobar'
         mc.return_value.json.return_value = response
         with pytest.raises(KylinQueryError):
+            project.service.query(sql='select count(*) from kylin_sales')
+
+    def test_http_error_query(self, mocker):
+        project = dsn_proxy('kylin://ADMIN:KYLIN@example/learn_kylin')
+        mc = mocker.patch('kylinpy.client.client.Client._make_request')
+        mc.side_effect = MockException(500)
+        with pytest.raises(HTTPError):
             project.service.query(sql='select count(*) from kylin_sales')
