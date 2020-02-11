@@ -5,6 +5,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import base64
+import logging
 try:
     # Python 3
     import urllib.request as urllib
@@ -32,11 +33,14 @@ class Cluster(object):
         self.is_ssl = connect_args.get('is_ssl', None)
         self.prefix = connect_args.get('prefix', 'kylin/api')
         self.timeout = connect_args.get('timeout', 30)
-        self.unverified = connect_args.get('unverified', True)
+        self.unverified = bool(connect_args.get('unverified', True))
         self.session = connect_args.get('session', '')
         self.version = connect_args.get('version', 'v1')
-        self.is_pushdown = connect_args.get('is_pushdown', False)
+        self.is_pushdown = bool(connect_args.get('is_pushdown', False))
+        self.is_debug = bool(connect_args.get('is_debug', False))
         self.scheme = 'https' if self.is_ssl else 'http'
+        if self.is_debug:
+            logging.basicConfig(level=logging.DEBUG)
 
     def set_user(self, username, password=None, session=None):
         self.username = username
@@ -64,6 +68,7 @@ class Cluster(object):
             timeout=self.timeout,
             request_headers=headers,
             unverified=self.unverified,
+            mask_auth=(not self.is_debug),
         )
 
     def basic_auth(self, headers):

@@ -50,19 +50,20 @@ class KylinService(object):
 
     @property
     def projects(self):
-        query_params = {
+        params = {
             'pageOffset': 0,
             'pageSize': 1000,
         }
-        _projects = self.client.projects.get(query_params=query_params).to_object
+        _projects = self.client.get(endpoint='/projects', params=params).to_object
         if self.is_v2:
             return _projects.get('projects')
         return _projects
 
     @property
     def tables_and_columns(self):
-        resp = self.client.tables_and_columns.get(
-            query_params={'project': self.project},
+        resp = self.client.get(
+            endpoint='/tables_and_columns',
+            params={'project': self.project},
         ).to_object
         tbl_pair = tuple(
             ('{}.{}'.format(tbl.get('table_SCHEM'), tbl.get('table_NAME')), tbl)
@@ -75,7 +76,7 @@ class KylinService(object):
     @property
     def tables_in_hive(self):
         tables = self.client.tables.get(
-            query_params={
+            params={
                 'project': self.project,
                 'ext': True,
             },
@@ -102,7 +103,7 @@ class KylinService(object):
     @property
     def models(self):
         _models = self.client.models.get(
-            query_params={
+            params={
                 'projectName': self.project,
                 'pageOffset': 0,
                 'pageSize': 1000,
@@ -115,7 +116,7 @@ class KylinService(object):
     @property
     def cubes(self):
         _cubes = self.client.cubes.get(
-            query_params={
+            params={
                 'pageOffset': 0,
                 'offset': 0,
                 'limit': 50000,
