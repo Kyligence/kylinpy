@@ -65,7 +65,7 @@ class Cluster(object):
         else:
             headers = self.session_auth(headers)
 
-        if self.is_v2:
+        if self.version == 'v2':
             headers = self.set_v2_api(headers)
 
         return HTTPClient(
@@ -95,10 +95,6 @@ class Cluster(object):
         return _headers
 
     @property
-    def is_v2(self):
-        return self.version == 'v2'
-
-    @property
     def projects(self):
         return self.service.projects
 
@@ -121,29 +117,22 @@ class Project(object):
     def query(self, sql):
         return self.service.query(sql)
 
-    def get_source_tables(self, scheme=None):
-        _full_names = [s for s in self.get_all_sources('table')]
+    def get_tables_with_schema(self, scheme=None):
+        _full_names = self.get_all_tables()
         if scheme is None:
             return _full_names
         else:
             return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
 
-    def get_all_sources(self, source_type):
-        if source_type == 'table':
-            return TableSource.reflect_datasource_names(self.service, self.is_pushdown)
-        elif source_type == 'cube':
-            return CubeSource.reflect_datasource_names(self.service, self.is_pushdown)
-        else:
-            raise NoSuchTableError
+    def get_all_tables(self):
+        if self.is_pushdown:
+            return list(self.service.tables_in_hive.keys())
+        return list(self.service.tables_and_columns.keys())
 
-    def get_datasource(self, name, source_type='table'):
-        if source_type == 'table':
-            _source = TableSource.initial(name, self.service, self.is_pushdown)
-        elif source_type == 'cube':
-            _source = CubeSource.initial(name, self.service, self.is_pushdown)
-        else:
-            raise NoSuchTableError
-        return _source
+    def get_datasource(self, name):
+        if self.is_pushdown:
+            TableSource(name, self.service.tables_in_hive.get(name))
+        return TableSource(name, self.service.tables_and_columns.get(name))
 
     def __str__(self):
         return str(self.cluster) + '/' + self.project

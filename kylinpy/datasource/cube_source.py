@@ -23,18 +23,6 @@ class CubeSource(SourceInterface):
         self.model_desc = model_desc
         self.tables_and_columns = tables_and_columns
 
-    @classmethod
-    def initial(cls, name, kylin_service, *args):
-        cube_desc = kylin_service.cube_desc(name)
-        model_desc = kylin_service.model_desc(cube_desc.get('model_name'))
-        tables_and_columns = kylin_service.tables_and_columns
-        return cls(cube_desc, model_desc, tables_and_columns)
-
-    @staticmethod
-    def reflect_datasource_names(kylin_service, is_pushdown):
-        return tuple(cube.get('name') for cube in kylin_service.cubes
-                     if cube['status'] == 'READY')
-
     @property
     def name(self):
         return self.cube_name

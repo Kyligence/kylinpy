@@ -15,20 +15,6 @@ class TableSource(SourceInterface):
         self._name = name
         self.table_desc = table_desc
 
-    @classmethod
-    def initial(cls, name, kylin_service, is_pushdown=False):
-        if is_pushdown:
-            cls(name, kylin_service.tables_in_hive.get(name))
-        return cls(name, kylin_service.tables_and_columns.get(name))
-
-    @staticmethod
-    def reflect_datasource_names(kylin_service, is_pushdown=False):
-        if is_pushdown:
-            _full_names = list(kylin_service.tables_in_hive.keys())
-        else:
-            _full_names = list(kylin_service.tables_and_columns.keys())
-        return _full_names
-
     @property
     def name(self):
         return self._name
