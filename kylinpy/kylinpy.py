@@ -19,6 +19,10 @@ from kylinpy.service import KylinService
 from kylinpy.datasource import CubeSource, TableSource
 from kylinpy.utils.compat import as_unicode
 
+SERVICES = {
+    'v1': KylinService,
+}
+
 
 class Cluster(object):
     def __init__(self, host, username=None, password=None, port=7070, **connect_args):
@@ -41,6 +45,7 @@ class Cluster(object):
         self.scheme = 'https' if self.is_ssl else 'http'
         if self.is_debug:
             logging.basicConfig(level=logging.DEBUG)
+        self.service = SERVICES[self.version](self.get_client())
 
     def set_user(self, username, password=None, session=None):
         self.username = username
@@ -94,7 +99,7 @@ class Cluster(object):
 
     @property
     def projects(self):
-        return KylinService.initial_from_cluster(self.get_client()).projects
+        return self.service.projects
 
     def __repr__(self):
         dsn = ('<kylinpy instance '
@@ -107,43 +112,33 @@ class Cluster(object):
 class Project(object):
     def __init__(self, cluster, project):
         self.cluster = cluster
-        self.services = dict()
-        self.services['kylin'] = KylinService.initial_from_project(
-            self.cluster.get_client(),
-            project,
-        )
+        self.cluster.service.project = project
         self.is_pushdown = self.cluster.is_pushdown
         self.project = project
 
     def query(self, sql):
-        return self.services['kylin'].query(sql)
+        return self.cluster.service.query(sql)
 
     def get_source_tables(self, scheme=None):
-        _full_names = [s for s in self.get_all_sources('table', 'kylin')]
+        _full_names = [s for s in self.get_all_sources('table')]
         if scheme is None:
             return _full_names
         else:
             return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
 
-    def get_all_sources(self, source_type, service_type):
+    def get_all_sources(self, source_type):
         if source_type == 'table':
-            return TableSource.reflect_datasource_names(
-                self.services[service_type],
-                self.is_pushdown,
-            )
+            return TableSource.reflect_datasource_names(self.cluster.service, self.is_pushdown)
         elif source_type == 'cube':
-            return CubeSource.reflect_datasource_names(
-                self.services[service_type],
-                self.is_pushdown,
-            )
+            return CubeSource.reflect_datasource_names(self.cluster.service, self.is_pushdown)
         else:
             raise NoSuchTableError
 
     def get_datasource(self, name, source_type='table'):
         if source_type == 'table':
-            _source = TableSource.initial(name, self.services['kylin'], self.is_pushdown)
+            _source = TableSource.initial(name, self.cluster.service, self.is_pushdown)
         elif source_type == 'cube':
-            _source = CubeSource.initial(name, self.services['kylin'], self.is_pushdown)
+            _source = CubeSource.initial(name, self.cluster.service, self.is_pushdown)
         else:
             raise NoSuchTableError
         return _source

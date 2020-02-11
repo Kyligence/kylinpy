@@ -15,14 +15,6 @@ class KylinService(object):
         self.client = client
         self.project = project
 
-    @classmethod
-    def initial_from_cluster(cls, client):
-        return cls(client)
-
-    @classmethod
-    def initial_from_project(cls, client, project):
-        return cls(client, project)
-
     @property
     def is_v2(self):
         return 'application/vnd.apache.kylin-v2+json' \
