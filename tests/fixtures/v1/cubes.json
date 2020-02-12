@@ -1,0 +1,249 @@
+[
+    {
+        "cost": 786,
+        "create_time_utc": 0,
+        "cuboid_bytes": null,
+        "cuboid_bytes_recommend": null,
+        "cuboid_last_optimized": 0,
+        "descriptor": "kylin_sales_cube",
+        "display_name": null,
+        "input_records_count": 10000,
+        "input_records_size": 1529831,
+        "isStandardPartitioned": true,
+        "is_streaming": false,
+        "last_modified": 1560061109000,
+        "model": "kylin_sales_model",
+        "name": "kylin_sales_cube",
+        "owner": "ADMIN",
+        "partitionDateColumn": "KYLIN_SALES.PART_DT",
+        "partitionDateStart": 1325376000000,
+        "project": "learn_kylin",
+        "segments": [
+            {
+                "binary_signature": null,
+                "blackout_cuboids": [],
+                "create_time_utc": 1560061280047,
+                "cuboid_shard_nums": {},
+                "date_range_end": 1561852800000,
+                "date_range_start": 1325376000000,
+                "dictionaries": {
+                    "BUYER_ACCOUNT.ACCOUNT_BUYER_LEVEL": "/dict/DEFAULT.KYLIN_ACCOUNT/ACCOUNT_BUYER_LEVEL/e00c45c1-fe60-84d0-f9c1-4e7ea7c95e6b.dict",
+                    "BUYER_ACCOUNT.ACCOUNT_COUNTRY": "/dict/DEFAULT.KYLIN_ACCOUNT/ACCOUNT_COUNTRY/29649534-7556-c399-e497-0cac325af673.dict",
+                    "BUYER_COUNTRY.NAME": "/dict/DEFAULT.KYLIN_COUNTRY/NAME/2c2691f9-d1b3-541e-2a3d-0071d7e6aefb.dict",
+                    "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL2_NAME": "/dict/DEFAULT.KYLIN_CATEGORY_GROUPINGS/CATEG_LVL2_NAME/c8521bc3-99aa-2e8a-8cf4-9c660022e265.dict",
+                    "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL3_NAME": "/dict/DEFAULT.KYLIN_CATEGORY_GROUPINGS/CATEG_LVL3_NAME/85fd5082-2095-67e7-3140-73080d206ea1.dict",
+                    "KYLIN_CATEGORY_GROUPINGS.META_CATEG_NAME": "/dict/DEFAULT.KYLIN_CATEGORY_GROUPINGS/META_CATEG_NAME/2352f1bc-d91e-9b58-171a-dbd61bf5db07.dict",
+                    "KYLIN_SALES.LEAF_CATEG_ID": "/dict/DEFAULT.KYLIN_SALES/LEAF_CATEG_ID/76909909-d99a-8bfe-d9c8-17fbcd20a834.dict",
+                    "KYLIN_SALES.LSTG_FORMAT_NAME": "/dict/DEFAULT.KYLIN_SALES/LSTG_FORMAT_NAME/86bdc17a-cde4-ee1c-89bb-7fec32764572.dict",
+                    "KYLIN_SALES.LSTG_SITE_ID": "/dict/DEFAULT.KYLIN_SALES/LSTG_SITE_ID/b206c373-8628-abe0-0f93-257874495cd2.dict",
+                    "KYLIN_SALES.OPS_REGION": "/dict/DEFAULT.KYLIN_SALES/OPS_REGION/08e83bac-b704-97a7-f0a5-cbeb042c0a97.dict",
+                    "KYLIN_SALES.OPS_USER_ID": "/dict/DEFAULT.KYLIN_SALES/OPS_USER_ID/a88fb89e-ab65-531d-1dc8-905cc9ebc1f1.dict",
+                    "KYLIN_SALES.SELLER_ID": "/dict/DEFAULT.KYLIN_SALES/SELLER_ID/0b4ffbfe-a358-1fbc-3b7b-8386596f9d03.dict",
+                    "SELLER_ACCOUNT.ACCOUNT_COUNTRY": "/dict/DEFAULT.KYLIN_ACCOUNT/ACCOUNT_COUNTRY/29649534-7556-c399-e497-0cac325af673.dict",
+                    "SELLER_ACCOUNT.ACCOUNT_SELLER_LEVEL": "/dict/DEFAULT.KYLIN_ACCOUNT/ACCOUNT_SELLER_LEVEL/b8ee883d-81d1-0280-c78f-d8437ce4c641.dict",
+                    "SELLER_COUNTRY.NAME": "/dict/DEFAULT.KYLIN_COUNTRY/NAME/2c2691f9-d1b3-541e-2a3d-0071d7e6aefb.dict"
+                },
+                "dimension_range_info_map": {
+                    "BUYER_ACCOUNT.ACCOUNT_BUYER_LEVEL": {
+                        "max": "5",
+                        "min": "0"
+                    },
+                    "BUYER_ACCOUNT.ACCOUNT_COUNTRY": {
+                        "max": "US",
+                        "min": "CN"
+                    },
+                    "BUYER_COUNTRY.NAME": {
+                        "max": "United States",
+                        "min": "China"
+                    },
+                    "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL2_NAME": {
+                        "max": "YarGarden & Outdoor Living",
+                        "min": "Action Figures"
+                    },
+                    "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL3_NAME": {
+                        "max": "Wristwatches",
+                        "min": "1970-Now"
+                    },
+                    "KYLIN_CATEGORY_GROUPINGS.META_CATEG_NAME": {
+                        "max": "eBay Premier",
+                        "min": "Abbigliamento e accessori"
+                    },
+                    "KYLIN_SALES.BUYER_ID": {
+                        "max": "10009998",
+                        "min": "10000001"
+                    },
+                    "KYLIN_SALES.LEAF_CATEG_ID": {
+                        "max": "175750",
+                        "min": "65"
+                    },
+                    "KYLIN_SALES.LSTG_FORMAT_NAME": {
+                        "max": "Others",
+                        "min": "ABIN"
+                    },
+                    "KYLIN_SALES.LSTG_SITE_ID": {
+                        "max": "211",
+                        "min": "0"
+                    },
+                    "KYLIN_SALES.OPS_REGION": {
+                        "max": "Shanghai",
+                        "min": "Beijing"
+                    },
+                    "KYLIN_SALES.OPS_USER_ID": {
+                        "max": "MODELER",
+                        "min": "ADMIN"
+                    },
+                    "KYLIN_SALES.PART_DT": {
+                        "max": "2014-01-01",
+                        "min": "2012-01-01"
+                    },
+                    "KYLIN_SALES.SELLER_ID": {
+                        "max": "10000999",
+                        "min": "10000000"
+                    },
+                    "KYLIN_SALES.TRANS_ID": {
+                        "max": "9999",
+                        "min": "0"
+                    },
+                    "SELLER_ACCOUNT.ACCOUNT_COUNTRY": {
+                        "max": "US",
+                        "min": "CN"
+                    },
+                    "SELLER_ACCOUNT.ACCOUNT_SELLER_LEVEL": {
+                        "max": "5",
+                        "min": "1"
+                    },
+                    "SELLER_COUNTRY.NAME": {
+                        "max": "United States",
+                        "min": "China"
+                    }
+                },
+                "input_records": 10000,
+                "input_records_size": 1529831,
+                "last_build_job_id": "005ead4c-d033-f74e-01d0-932735e17a31",
+                "last_build_time": 1560062145719,
+                "name": "20120101000000_20190630000000",
+                "rowkey_stats": [
+                    [
+                        "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL3_NAME",
+                        126,
+                        1
+                    ],
+                    [
+                        "KYLIN_SALES.OPS_USER_ID",
+                        3,
+                        1
+                    ],
+                    [
+                        "BUYER_ACCOUNT.ACCOUNT_COUNTRY",
+                        7,
+                        1
+                    ],
+                    [
+                        "SELLER_ACCOUNT.ACCOUNT_COUNTRY",
+                        7,
+                        1
+                    ],
+                    [
+                        "SELLER_ACCOUNT.ACCOUNT_SELLER_LEVEL",
+                        5,
+                        1
+                    ],
+                    [
+                        "KYLIN_SALES.OPS_REGION",
+                        3,
+                        1
+                    ],
+                    [
+                        "KYLIN_CATEGORY_GROUPINGS.META_CATEG_NAME",
+                        43,
+                        1
+                    ],
+                    [
+                        "KYLIN_SALES.LEAF_CATEG_ID",
+                        133,
+                        1
+                    ],
+                    [
+                        "BUYER_ACCOUNT.ACCOUNT_BUYER_LEVEL",
+                        6,
+                        1
+                    ],
+                    [
+                        "BUYER_COUNTRY.NAME",
+                        7,
+                        1
+                    ],
+                    [
+                        "SELLER_COUNTRY.NAME",
+                        7,
+                        1
+                    ],
+                    [
+                        "KYLIN_SALES.LSTG_SITE_ID",
+                        7,
+                        1
+                    ],
+                    [
+                        "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL2_NAME",
+                        93,
+                        1
+                    ],
+                    [
+                        "KYLIN_SALES.LSTG_FORMAT_NAME",
+                        5,
+                        1
+                    ],
+                    [
+                        "KYLIN_SALES.SELLER_ID",
+                        1000,
+                        2
+                    ]
+                ],
+                "size_kb": 95636,
+                "snapshots": {
+                    "DEFAULT.KYLIN_ACCOUNT": "/table_snapshot/DEFAULT.KYLIN_ACCOUNT/e6e5f927-afac-c34d-4c2e-319c3b944a90.snapshot",
+                    "DEFAULT.KYLIN_CAL_DT": "/table_snapshot/DEFAULT.KYLIN_CAL_DT/b7683b18-1a7a-f319-8376-bbbf2710ba14.snapshot",
+                    "DEFAULT.KYLIN_CATEGORY_GROUPINGS": "/table_snapshot/DEFAULT.KYLIN_CATEGORY_GROUPINGS/f349cccb-0e74-d295-9e3d-87be7c5e1e9c.snapshot",
+                    "DEFAULT.KYLIN_COUNTRY": "/table_snapshot/DEFAULT.KYLIN_COUNTRY/34c27222-7ba9-71c6-c2d7-a01dd454e6b1.snapshot"
+                },
+                "source_offset_end": 0,
+                "source_offset_start": 0,
+                "status": "READY",
+                "storage_location_identifier": "KYLIN_QMRPWWI991",
+                "total_shards": 1,
+                "uuid": "b5999bec-2381-77c7-cafb-c59407a7a032"
+            }
+        ],
+        "size_kb": 95636,
+        "snapshots": {},
+        "status": "READY",
+        "uuid": "2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b",
+        "version": "2.6.2.0"
+    },
+    {
+        "cost": 93,
+        "create_time_utc": 0,
+        "cuboid_bytes": null,
+        "cuboid_bytes_recommend": null,
+        "cuboid_last_optimized": 0,
+        "descriptor": "kylin_streaming_cube",
+        "display_name": null,
+        "input_records_count": 0,
+        "input_records_size": 0,
+        "isStandardPartitioned": true,
+        "is_streaming": true,
+        "last_modified": 1560061109000,
+        "model": "kylin_streaming_model",
+        "name": "kylin_streaming_cube",
+        "owner": "ADMIN",
+        "partitionDateColumn": "KYLIN_STREAMING_TABLE.MINUTE_START",
+        "partitionDateStart": 0,
+        "project": "learn_kylin",
+        "segments": [],
+        "size_kb": 0,
+        "snapshots": {},
+        "status": "DISABLED",
+        "uuid": "40a27d9d-c5f3-45c4-9b8b-513552219193",
+        "version": "2.6.2.0"
+    }
+]

@@ -1,0 +1,37 @@
+[
+    {
+        "create_time_utc": 0,
+        "description": null,
+        "ext_filters": [],
+        "last_modified": 1560061109000,
+        "last_update_time": null,
+        "models": [
+            "kylin_sales_model",
+            "kylin_streaming_model"
+        ],
+        "name": "learn_kylin",
+        "override_kylin_properties": {},
+        "owner": null,
+        "realizations": [
+            {
+                "realization": "kylin_sales_cube",
+                "type": "CUBE"
+            },
+            {
+                "realization": "kylin_streaming_cube",
+                "type": "CUBE"
+            }
+        ],
+        "status": null,
+        "tables": [
+            "DEFAULT.KYLIN_CAL_DT",
+            "DEFAULT.KYLIN_CATEGORY_GROUPINGS",
+            "DEFAULT.KYLIN_STREAMING_TABLE",
+            "DEFAULT.KYLIN_ACCOUNT",
+            "DEFAULT.KYLIN_COUNTRY",
+            "DEFAULT.KYLIN_SALES"
+        ],
+        "uuid": "2fbca32a-a33e-4b69-83dd-0bb8b1f8c91b",
+        "version": "2.6.2.0"
+    }
+]

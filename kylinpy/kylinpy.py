@@ -5,18 +5,25 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import base64
+import logging
 try:
     # Python 3
-    import urllib.request as urllib
+    from urllib.request import urlparse
+    from urllib.parse import parse_qsl
 except ImportError:
     # Python 2
-    import urllib2 as urllib
+    from urlparse import urlparse
+    from urlparse import parse_qsl
 
 from kylinpy.client import Client as HTTPClient
-from kylinpy.exceptions import NoSuchTableError
-from kylinpy.kylin_service import KylinService
-from kylinpy.source_factory import get_sources, source_factory
+from kylinpy.service import KylinService, V2Service
+from kylinpy.datasource import TableSource
 from kylinpy.utils.compat import as_unicode
+
+SERVICES = {
+    'v1': KylinService,
+    'v2': V2Service,
+}
 
 
 class Cluster(object):
@@ -30,13 +37,17 @@ class Cluster(object):
         self.password = password
         self.auth = connect_args.get('auth', 'basic')
         self.is_ssl = connect_args.get('is_ssl', None)
-        self.prefix = connect_args.get('prefix', 'kylin/api')
+        self.prefix = connect_args.get('prefix', '/kylin/api')
         self.timeout = connect_args.get('timeout', 30)
-        self.unverified = connect_args.get('unverified', True)
+        self.unverified = bool(connect_args.get('unverified', True))
         self.session = connect_args.get('session', '')
         self.version = connect_args.get('version', 'v1')
-        self.is_pushdown = connect_args.get('is_pushdown', False)
+        self.is_pushdown = bool(connect_args.get('is_pushdown', False))
+        self.is_debug = bool(connect_args.get('is_debug', False))
         self.scheme = 'https' if self.is_ssl else 'http'
+        if self.is_debug:
+            logging.basicConfig(level=logging.DEBUG)
+        self.service = SERVICES[self.version](self.get_client())
 
     def set_user(self, username, password=None, session=None):
         self.username = username
@@ -55,7 +66,7 @@ class Cluster(object):
         else:
             headers = self.session_auth(headers)
 
-        if self.is_v2:
+        if self.version == 'v2':
             headers = self.set_v2_api(headers)
 
         return HTTPClient(
@@ -64,6 +75,7 @@ class Cluster(object):
             timeout=self.timeout,
             request_headers=headers,
             unverified=self.unverified,
+            mask_auth=(not self.is_debug),
         )
 
     def basic_auth(self, headers):
@@ -84,12 +96,8 @@ class Cluster(object):
         return _headers
 
     @property
-    def is_v2(self):
-        return self.version == 'v2'
-
-    @property
     def projects(self):
-        return KylinService.initial_from_cluster(self.get_client()).projects
+        return self.service.projects
 
     def __repr__(self):
         dsn = ('<kylinpy instance '
@@ -102,37 +110,30 @@ class Cluster(object):
 class Project(object):
     def __init__(self, cluster, project):
         self.cluster = cluster
-        self.services = dict()
-        self.services['kylin'] = KylinService.initial_from_project(
-            self.cluster.get_client(),
-            project,
-        )
+        self.cluster.service.project = project
+        self.service = self.cluster.service
         self.is_pushdown = self.cluster.is_pushdown
         self.project = project
 
     def query(self, sql):
-        return self.services['kylin'].query(sql)
+        return self.service.query(sql)
 
-    def get_source_tables(self, scheme=None):
-        _full_names = [s for s in self.get_all_sources('hive', 'kylin')]
+    def get_tables_with_schema(self, scheme=None):
+        _full_names = self.get_all_tables()
         if scheme is None:
             return _full_names
         else:
             return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
 
-    def get_all_sources(self, source_type, service_type):
-        return get_sources(source_type, self.services[service_type], self.is_pushdown)
+    def get_all_tables(self):
+        if self.is_pushdown:
+            return list(self.service.tables_in_hive.keys())
+        return list(self.service.tables_and_columns.keys())
 
-    def get_datasource(self, name, source_type='hive'):
-        _source = source_factory(
-            name,
-            source_type,
-            self.services,
-            self.is_pushdown,
-        )
-        if _source is None:
-            raise NoSuchTableError
-        return _source
+    def get_datasource(self, name):
+        if self.is_pushdown:
+            TableSource(name, self.service.tables_in_hive.get(name))
+        return TableSource(name, self.service.tables_and_columns.get(name))
 
     def __str__(self):
         return str(self.cluster) + '/' + self.project
@@ -141,11 +142,12 @@ class Project(object):
         return '<Kylin Project Instance: {}>'.format(self.project)
 
 
-def dsn_proxy(dsn, connect_args={}):
-    _ = urllib.urlparse(dsn)
-    project = _.path.lstrip('/')
-    _port = _.port or 7070
-    cluster = Cluster(_.hostname, _.username, _.password, _port, **connect_args)
+def dsn_proxy(dsn):
+    url = urlparse(dsn)
+    project = url.path.lstrip('/')
+    port = url.port or 7070
+    query = dict(parse_qsl(url.query) or {})
+    cluster = Cluster(url.hostname, url.username, url.password, port, **query)
     if project:
         return Project(cluster, project)
     return cluster

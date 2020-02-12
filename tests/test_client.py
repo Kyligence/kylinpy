@@ -9,12 +9,8 @@ import unittest
 
 from kylinpy.client import Client
 from kylinpy.client.exceptions import (
-    BadRequestsError,
     handle_error,
     HTTPError,
-    NotFoundError,
-    ServiceUnavailableError,
-    UnsupportedMediaTypeError,
 )
 
 try:
@@ -87,9 +83,6 @@ class TestClient(unittest.TestCase):
         self.assertEqual(default_client.host, self.host)
         self.assertEqual(default_client.request_headers, {})
         self.assertIs(default_client.timeout, None)
-        methods = ['delete', 'get', 'patch', 'post', 'put']
-        self.assertEqual(default_client.methods, methods)
-        self.assertEqual(default_client._url_path, [])
 
         request_headers = {'X-Test': 'test', 'X-Test2': 1}
         client = Client(host=self.host,
@@ -97,21 +90,16 @@ class TestClient(unittest.TestCase):
                         timeout=10)
         self.assertEqual(client.host, self.host)
         self.assertEqual(client.request_headers, request_headers)
-        methods = ['delete', 'get', 'patch', 'post', 'put']
-        self.assertEqual(client.methods, methods)
-        self.assertEqual(client._url_path, [])
         self.assertEqual(client.timeout, 10)
 
     def test__build_url(self):
-        self.client._url_path = self.client._url_path + ['here']
-        self.client._url_path = self.client._url_path + ['there']
-        self.client._url_path = self.client._url_path + [1]
         url = '{}{}'.format(
             self.host,
-            '/here/there/1?hello=0&world=1&ztest=0&ztest=1',
+            '/here/there?hello=0&world=1&ztest=0&ztest=1',
         )
+        endpoint = '/here/there'
         query_params = {'hello': 0, 'world': 1, 'ztest': [0, 1]}
-        built_url = self.client._build_url(query_params)
+        built_url = self.client._build_url(endpoint, query_params)
         self.assertEqual(built_url, url)
 
     def test__update_headers(self):
@@ -119,61 +107,6 @@ class TestClient(unittest.TestCase):
         self.client._update_headers(request_headers)
         self.assertIn('X-Test', self.client.request_headers)
         self.client.request_headers.pop('X-Test', None)
-
-    def test__build_client(self):
-        new_client = self.client._build_client('test')
-        self.assertTrue(new_client)
-
-    def test__(self):
-        self.assertEqual(self.client._url_path, [])
-        client = self.client._('hello')
-        url_path = ['hello']
-        self.assertEqual(client._url_path[0], url_path[0])
-
-    def test__getattr__(self):
-        mock_client = MockClient(self.host, 200)
-        client = mock_client.__getattr__('hello')
-        url_path = ['hello']
-        self.assertEqual(client._url_path, url_path)
-        self.assertEqual(client.__getattr__('get').__name__, 'http_request')
-
-        # Test GET
-        mock_client._url_path + ['test']
-        r = mock_client.get()
-        self.assertEqual(r.status_code, 200)
-
-        # Test POST
-        r = mock_client.put()
-        self.assertEqual(r.status_code, 200)
-
-        # Test PATCH
-        r = mock_client.patch()
-        self.assertEqual(r.status_code, 200)
-
-        # Test POST
-        mock_client.response_code = 201
-        r = mock_client.post()
-        self.assertEqual(r.status_code, 201)
-
-        # Test DELETE
-        mock_client.response_code = 204
-        r = mock_client.delete()
-        self.assertEqual(r.status_code, 204)
-
-        mock_client.response_code = 400
-        self.assertRaises(BadRequestsError, mock_client.get)
-
-        mock_client.response_code = 404
-        self.assertRaises(NotFoundError, mock_client.post)
-
-        mock_client.response_code = 415
-        self.assertRaises(UnsupportedMediaTypeError, mock_client.patch)
-
-        mock_client.response_code = 503
-        self.assertRaises(ServiceUnavailableError, mock_client.delete)
-
-        mock_client.response_code = 523
-        self.assertRaises(HTTPError, mock_client.delete)
 
     def test_client_pickle_unpickle(self):
         pickled_client = pickle.dumps(self.client)

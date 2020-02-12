@@ -16,8 +16,7 @@ class HTTPError(Exception):
         self.body = error.read()
         self.headers = error.hdrs
 
-    @property
-    def to_object(self):
+    def json(self):
         """
         :return: object of response error from the API
         """
@@ -27,7 +26,7 @@ class HTTPError(Exception):
             return {'exception': self.body.decode('utf-8')}
 
     def __str__(self):
-        return self.to_object.get('exception')
+        return self.json().get('exception')
 
 
 class BadRequestsError(HTTPError):

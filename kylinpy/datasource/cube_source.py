@@ -17,24 +17,11 @@ except ImportError:
 
 class CubeSource(SourceInterface):
     source_type = 'cube'
-    service_type = 'kylin'
 
     def __init__(self, cube_desc, model_desc, tables_and_columns):
         self.cube_desc = cube_desc
         self.model_desc = model_desc
         self.tables_and_columns = tables_and_columns
-
-    @classmethod
-    def initial(cls, name, kylin_service, *args):
-        cube_desc = kylin_service.cube_desc(name)
-        model_desc = kylin_service.model_desc(cube_desc.get('model_name'))
-        tables_and_columns = kylin_service.tables_and_columns
-        return cls(cube_desc, model_desc, tables_and_columns)
-
-    @staticmethod
-    def reflect_datasource_names(kylin_service, is_pushdown):
-        return tuple(cube.get('name') for cube in kylin_service.cubes
-                     if cube['status'] == 'READY')
 
     @property
     def name(self):
@@ -61,10 +48,34 @@ class CubeSource(SourceInterface):
 
     @property
     def lookups(self):
-        # lookup tables in cube
-        lookups_in_cube = \
-            set([d.table.alias for d in self.dimensions]) | self.measure_tables
-        return tuple(_ for _ in self._model_lookups if _[0] in lookups_in_cube)
+        # lookup-tables and middle-join tables (snowflake schema)
+        lookups_and_joins = {}
+
+        # lookup-tables in cube
+        lookups_in_cube = set([d.table.alias for d in self.dimensions]) | self.measure_tables
+
+        # adding index for model lookups
+        model_lookups_map = {}
+        for (idx, l) in enumerate(self._model_lookups):
+            (alias, lookup) = l
+            lookup['__idx'] = idx
+            model_lookups_map[alias] = lookup
+
+        for tbl in lookups_in_cube:
+            join_table = model_lookups_map.get(tbl)
+            while join_table:
+                if join_table.get('alias') not in lookups_and_joins:
+                    lookups_and_joins[join_table.get('alias')] = join_table
+
+                foreign_table = join_table.get('join').get('foreign_key')[0].split('.')[0]
+                if foreign_table == self.fact_table.alias:
+                    join_table = None
+                else:
+                    join_table = model_lookups_map.get(foreign_table)
+
+        # sorted by model lookups
+        rv = lookups_and_joins.values()
+        return tuple(sorted(rv, key=lambda x: x['__idx']))
 
     @property
     def dimensions(self):
@@ -116,18 +127,29 @@ class CubeSource(SourceInterface):
     def from_clause(self):
         _from_clause = self._get_table_clause(self.fact_table)
 
-        for _, lookup in self.lookups:
+        for lookup in self.lookups:
             _join_clause_and = []
             for (idx, pk) in enumerate(lookup['join']['primary_key']):
                 fk = lookup['join']['foreign_key'][idx]
-                _join_clause_and.append(sql.literal_column(fk) == sql.literal_column(pk))
+                fk_table, fk_column = fk.split('.')
+                pk_table, pk_column = pk.split('.')
+                fk_table_quoted = sql.quoted_name(fk_table, True)
+                fk_column_quoted = sql.quoted_name(fk_column, True)
+                pk_table_quoted = sql.quoted_name(pk_table, True)
+                pk_column_quoted = sql.quoted_name(pk_column, True)
+
+                pk_column = sql.column(fk_column_quoted,
+                                       _selectable=sql.table(fk_table_quoted))
+                fk_column = sql.column(pk_column_quoted,
+                                       _selectable=sql.table(pk_table_quoted))
+                _join_clause_and.append(pk_column == fk_column)
 
             _lookup = _Table(lookup.get('table'), lookup.get('alias'))
-            _is_left_join = lookup['join']['type'] == 'left'
+            _is_left_join = lookup['join']['type'].lower() == 'left'
             _from_clause = sql.join(
-                _from_clause,
-                self._get_table_clause(_lookup),
-                sql.and_(*_join_clause_and),
+                left=_from_clause,
+                right=self._get_table_clause(_lookup),
+                onclause=sql.and_(*_join_clause_and),
                 isouter=_is_left_join,
             )
         return _from_clause

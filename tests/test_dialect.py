@@ -8,11 +8,8 @@ import json
 import os
 
 from sqlalchemy import create_engine
-from sqlalchemy.dialects import registry
 
 from kylinpy.utils.compat import as_unicode
-
-registry.register('kylin', 'kylinpy.sqla_dialect', 'KylinDialect')
 
 
 class TestDialect(object):
@@ -24,12 +21,17 @@ class TestDialect(object):
         f = open(os.path.join(here, 'fixtures', '{}.json'.format(filename)), 'r').read()
         return json.loads(f)
 
-    def test_connection(self):
-        kylin = create_engine(self.dsn)
-        assert as_unicode(kylin.url) == self.dsn
-        assert kylin.url.host == 'sandbox'
-        assert kylin.url.username == 'ADMIN'
-        assert kylin.url.password == 'KYLIN'
+    @property
+    def engine(self):
+        return create_engine(self.dsn)
 
-        kylin = create_engine(self.cn_dsn)
-        assert as_unicode(kylin.url) == self.cn_dsn
+    def test_connection(self):
+        engine = create_engine(self.cn_dsn)
+        assert as_unicode(engine.url) == self.cn_dsn
+
+        engine = create_engine('kylin://aa@bb123:aa@bb123@hello.world.com:1024/learn_kylin')
+        assert engine.url.username == 'aa@bb123'
+        assert engine.url.password == 'aa@bb123'
+        assert engine.url.host == 'hello.world.com'
+        assert engine.url.port == 1024
+        assert engine.url.database == 'learn_kylin'
