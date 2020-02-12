@@ -9,9 +9,11 @@ import logging
 try:
     # Python 3
     from urllib.request import urlparse
+    from urllib.parse import parse_qsl
 except ImportError:
     # Python 2
     from urlparse import urlparse
+    from urlparse import parse_qsl
 
 from kylinpy.client import Client as HTTPClient
 from kylinpy.service import KylinService, V2Service
@@ -35,7 +37,7 @@ class Cluster(object):
         self.password = password
         self.auth = connect_args.get('auth', 'basic')
         self.is_ssl = connect_args.get('is_ssl', None)
-        self.prefix = connect_args.get('prefix', 'kylin/api')
+        self.prefix = connect_args.get('prefix', '/kylin/api')
         self.timeout = connect_args.get('timeout', 30)
         self.unverified = bool(connect_args.get('unverified', True))
         self.session = connect_args.get('session', '')
@@ -140,11 +142,12 @@ class Project(object):
         return '<Kylin Project Instance: {}>'.format(self.project)
 
 
-def dsn_proxy(dsn, connect_args={}):
-    _ = urlparse(dsn)
-    project = _.path.lstrip('/')
-    _port = _.port or 7070
-    cluster = Cluster(_.hostname, _.username, _.password, _port, **connect_args)
+def dsn_proxy(dsn):
+    url = urlparse(dsn)
+    project = url.path.lstrip('/')
+    port = url.port or 7070
+    query = dict(parse_qsl(url.query) or {})
+    cluster = Cluster(url.hostname, url.username, url.password, port, **query)
     if project:
         return Project(cluster, project)
     return cluster
