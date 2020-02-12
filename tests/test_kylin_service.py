@@ -35,7 +35,7 @@ class TestKylinService(object):
         mc.return_value.json.return_value = read('tables_and_columns.json')
 
         rv = project.service.tables_and_columns
-        assert list(rv.keys()) == [
+        assert sorted(list(rv.keys())) == [
             'DEFAULT.KYLIN_ACCOUNT',
             'DEFAULT.KYLIN_CAL_DT',
             'DEFAULT.KYLIN_CATEGORY_GROUPINGS',

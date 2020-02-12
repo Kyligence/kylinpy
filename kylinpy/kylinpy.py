@@ -8,10 +8,10 @@ import base64
 import logging
 try:
     # Python 3
-    import urllib.request as urllib
+    from urllib.request import urlparse
 except ImportError:
     # Python 2
-    import urllib2 as urllib
+    from urlparse import urlparse
 
 from kylinpy.client import Client as HTTPClient
 from kylinpy.service import KylinService, V2Service
@@ -141,7 +141,7 @@ class Project(object):
 
 
 def dsn_proxy(dsn, connect_args={}):
-    _ = urllib.urlparse(dsn)
+    _ = urlparse(dsn)
     project = _.path.lstrip('/')
     _port = _.port or 7070
     cluster = Cluster(_.hostname, _.username, _.password, _port, **connect_args)
