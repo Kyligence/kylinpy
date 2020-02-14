@@ -128,17 +128,21 @@ class Project(object):
     def get_all_tables(self):
         if self.is_pushdown:
             return list(self.service.tables_in_hive.keys())
-        return list(self.service.tables_and_columns.keys())
+        else:
+            return list(self.service.tables_and_columns.keys())
 
     def get_table_source(self, name):
         if self.is_pushdown:
-            TableSource(name, self.service.tables_in_hive.get(name))
-        return TableSource(name, self.service.tables_and_columns.get(name))
+            return TableSource(name, self.service.tables_in_hive.get(name))
+        else:
+            return TableSource(name, self.service.tables_and_columns.get(name))
 
     def get_cube_source(self, name):
+        cube_desc = self.service.cube_desc(name)
+        model_name = cube_desc.get('model_name')
         return CubeSource(
-            cube_desc=self.service.cube_desc(name),
-            model_desc=self.service.model_desc(name),
+            cube_desc=cube_desc,
+            model_desc=self.service.model_desc(model_name),
             tables_and_columns=self.service.tables_and_columns,
         )
 

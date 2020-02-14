@@ -4,8 +4,6 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import pytest
-
 from kylinpy.kylinpy import dsn_proxy, SERVICES
 from kylinpy.client import Client
 
@@ -68,12 +66,11 @@ class TestProject(object):
         assert self.project.is_pushdown is False
         assert self.project.project == 'foobar'
 
-    @pytest.fixture(scope='function')
     def test_get_table_source(self, v1_api):
         table = self.project.get_table_source('kylin_sales')
         assert table.name == 'kylin_sales'
 
-    @pytest.fixture(scope='function')
     def test_get_cube_source(self, v1_api):
         cube = self.project.get_cube_source('kylin_sales_cube')
         assert cube.name == 'kylin_sales_cube'
+        assert cube.model_name == 'kylin_sales_model'
