@@ -33,4 +33,3 @@ def v1_api(mocker):
     mocker.patch('kylinpy.service.KylinService.api.tables', return_value=tables)
     mocker.patch('kylinpy.service.KylinService.api.tables_and_columns', return_value=tables_and_columns)
     yield mocker
-

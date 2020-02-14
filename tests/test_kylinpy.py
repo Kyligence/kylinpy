@@ -60,11 +60,36 @@ class TestProject(object):
     def project(self):
         return dsn_proxy('kylin://username:password@example/foobar')
 
-    def test_kylinpy_project(self):
+    def test_init(self):
         assert isinstance(self.project.service, SERVICES['v1'])
         assert self.project.service.project == 'foobar'
         assert self.project.is_pushdown is False
         assert self.project.project == 'foobar'
+
+    def test_query(self, v1_api):
+        rv = self.project.query('select count(*) from kylin_sales')
+        assert 'columnMetas' in rv
+        assert rv['results'] == [['10000']]
+
+    def test_get_all_tables(self, v1_api):
+        assert self.project.get_all_tables() == [
+            'DEFAULT.KYLIN_ACCOUNT',
+            'DEFAULT.KYLIN_CAL_DT',
+            'DEFAULT.KYLIN_CATEGORY_GROUPINGS',
+            'DEFAULT.KYLIN_COUNTRY',
+            'DEFAULT.KYLIN_SALES',
+        ]
+
+        pushdown = dsn_proxy('kylin://username:password@example/foobar?is_pushdown=1')
+        assert pushdown.is_pushdown is True
+        assert pushdown.get_all_tables() == [
+            'DEFAULT.KYLIN_ACCOUNT',
+            'DEFAULT.KYLIN_CAL_DT',
+            'DEFAULT.KYLIN_CATEGORY_GROUPINGS',
+            'DEFAULT.KYLIN_COUNTRY',
+            'DEFAULT.KYLIN_SALES',
+            'DEFAULT.KYLIN_STREAMING_TABLE',
+        ]
 
     def test_get_table_source(self, v1_api):
         table = self.project.get_table_source('kylin_sales')

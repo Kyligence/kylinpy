@@ -105,12 +105,12 @@ class KylinDialect(default.DefaultDialect):
 
     def get_table_names(self, connection, schema=None, **kw):
         conn = connection.connect()
-        tables = conn.connection.connection.get_tables_with_schema(schema)
+        tables = conn.connection.connection.get_all_tables(schema)
         return [tbl.split('.')[1] for tbl in tables]
 
     def get_schema_names(self, connection, schema=None, **kw):
         conn = connection.connect()
-        tables = conn.connection.connection.get_tables_with_schema()
+        tables = conn.connection.connection.get_all_tables()
         return set([tbl.split('.')[0] for tbl in tables])
 
     def has_table(self, connection, table_name, schema=None):

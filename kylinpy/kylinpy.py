@@ -118,18 +118,16 @@ class Project(object):
     def query(self, sql):
         return self.service.query(sql)
 
-    def get_tables_with_schema(self, scheme=None):
-        _full_names = self.get_all_tables()
-        if scheme is None:
-            return _full_names
-        else:
-            return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
-
-    def get_all_tables(self):
+    def get_all_tables(self, scheme=None):
         if self.is_pushdown:
-            return list(self.service.tables_in_hive.keys())
+            _full_names = sorted(list(self.service.tables_in_hive.keys()))
         else:
-            return list(self.service.tables_and_columns.keys())
+            _full_names = sorted(list(self.service.tables_and_columns.keys()))
+
+        if scheme:
+            return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
+        else:
+            return _full_names
 
     def get_table_source(self, name):
         if self.is_pushdown:
