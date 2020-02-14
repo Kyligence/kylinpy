@@ -16,13 +16,13 @@ except ImportError:
     from urlparse import parse_qsl
 
 from kylinpy.client import Client as HTTPClient
-from kylinpy.service import KylinService, V2Service
-from kylinpy.datasource import TableSource
+from kylinpy.service import KylinService, KE3Service
+from kylinpy.datasource import TableSource, CubeSource
 from kylinpy.utils.compat import as_unicode
 
 SERVICES = {
     'v1': KylinService,
-    'v2': V2Service,
+    'v2': KE3Service,
 }
 
 
@@ -130,10 +130,17 @@ class Project(object):
             return list(self.service.tables_in_hive.keys())
         return list(self.service.tables_and_columns.keys())
 
-    def get_datasource(self, name):
+    def get_table_source(self, name):
         if self.is_pushdown:
             TableSource(name, self.service.tables_in_hive.get(name))
         return TableSource(name, self.service.tables_and_columns.get(name))
+
+    def get_cube_source(self, name):
+        return CubeSource(
+            cube_desc=self.service.cube_desc(name),
+            model_desc=self.service.model_desc(name),
+            tables_and_columns=self.service.tables_and_columns,
+        )
 
     def __str__(self):
         return str(self.cluster) + '/' + self.project

@@ -8,7 +8,7 @@ from kylinpy.client import InternalServerError
 from kylinpy.exceptions import KylinQueryError
 
 
-class V2Service(object):
+class KE3Service(object):
     def __init__(self, client, project=None):
         self.client = client
         self.project = project

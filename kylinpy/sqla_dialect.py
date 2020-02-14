@@ -126,7 +126,7 @@ class KylinDialect(default.DefaultDialect):
             _fullname = '{}.{}'.format(schema, table_name)
         else:
             _fullname = table_name
-        dimensions = conn.connection.connection.get_datasource(_fullname).columns
+        dimensions = conn.connection.connection.get_table_source(_fullname).columns
         return [{
             'name': dim.name,
             'type': kylin_to_sqla(dim.datatype),

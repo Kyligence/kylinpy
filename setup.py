@@ -41,7 +41,6 @@ setup(
     install_requires=[],
     extras_require={
         'sqlalchemy': ['sqlalchemy>=1.1.0'],
-        'click': ['click>=6.0, <7.0.0'],
     },
     keywords=['apache kylin', 'kylin', 'kap', 'kyligence',
               'kyligence enterprise', 'cli', 'sqlalchemy dialect'],
@@ -56,6 +55,5 @@ setup(
     ],
     entry_points={
         'sqlalchemy.dialects': ['kylin=kylinpy.sqla_dialect:KylinDialect'],
-        'console_scripts': ['kylinpy=kylinpy.cli:main'],
     },
 )
