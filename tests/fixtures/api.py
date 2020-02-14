@@ -15,7 +15,7 @@ def read(version, filename):
     return json.load(open(os.path.join(here, version, filename)))
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture
 def v1_api(mocker):
     cube_desc = read('v1', 'cube_desc.json')
     cubes = read('v1', 'cubes.json')
