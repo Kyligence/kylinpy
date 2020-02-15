@@ -135,7 +135,9 @@ class Project(object):
             _full_names = sorted(list(self.service.tables_and_columns.keys()))
         return list(set(t.split('.')[0] for t in _full_names))
 
-    def get_table_source(self, name, schema):
+    def get_table_source(self, name, schema=None):
+        if '.' in name:
+            schema, name = name.split('.', 1)
         fullname = '{}.{}'.format(schema, name)
         if self.is_pushdown:
             return TableSource(name, schema, self.service.tables_in_hive.get(fullname))

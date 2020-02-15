@@ -4,8 +4,11 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import pytest
+
 from kylinpy.kylinpy import dsn_proxy, SERVICES
 from kylinpy.client import Client
+from kylinpy.exceptions import NoSuchTableError
 
 
 class TestCluster(object):
@@ -98,6 +101,15 @@ class TestProject(object):
         table = self.project.get_table_source('KYLIN_SALES', 'DEFAULT')
         assert table.name == 'KYLIN_SALES'
         assert table.schema == 'DEFAULT'
+
+    def test_get_table_source_with_schema(self, v1_api):
+        table = self.project.get_table_source('DEFAULT.KYLIN_SALES')
+        assert table.name == 'KYLIN_SALES'
+        assert table.schema == 'DEFAULT'
+
+    def test_get_table_source_error(self, v1_api):
+        with pytest.raises(NoSuchTableError):
+            self.project.get_table_source('foo.bar.zee.hello.world')
 
     def test_get_cube_source(self, v1_api):
         cube = self.project.get_cube_source('kylin_sales_cube')
