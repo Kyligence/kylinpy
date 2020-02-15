@@ -4,16 +4,16 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import pickle
-import unittest
+import json
+
+import pytest
 
 from kylinpy.client import Client
-from kylinpy.client.exceptions import handle_error, HTTPError
+from kylinpy.client.exceptions import HTTPError
 from kylinpy.utils.compat import urllib
 
 
 class MockException(HTTPError):
-
     def __init__(self, code):
         self.code = code
         self.reason = 'REASON'
@@ -24,9 +24,9 @@ class MockException(HTTPError):
 
 
 class MockResponse(urllib.HTTPSHandler):
-
     def __init__(self, response_code):
         self.response_code = response_code
+        self.url = '/foo/bar'
 
     def getcode(self):
         return self.response_code
@@ -35,69 +35,57 @@ class MockResponse(urllib.HTTPSHandler):
         return 'HEADERS'
 
     def read(self):
-        return 'RESPONSE BODY'
-
-    def url(self):
-        return 'URL'
+        return json.dumps({'hello': 'world'}).encode('utf-8')
 
 
-class MockClient(Client):
+class TestClient(object):
+    @pytest.fixture
+    def client(self):
+        host = 'http://example/'
+        request_headers = {'Content-Type': 'application/json'}
+        client = Client(host=host, request_headers=request_headers)
+        yield client
 
-    def __init__(self, host, response_code, timeout=None):
-        self.response_code = 200
-        Client.__init__(self, host)
+    def test_init(self, client):
+        assert client.host == 'http://example'
+        assert client.request_headers == {'Content-Type': 'application/json'}
+        assert client.prefix is None
+        assert client.timeout is None
+        assert client.unverified is None
+        assert client.mask_auth is True
 
-    def _make_request(self, opener, request, timeout=None):
-        if 200 <= self.response_code < 299:  # if successful code
-            return MockResponse(self.response_code)
-        else:
-            raise handle_error(MockException(self.response_code))
+    def test_get(self, client, mocker):
+        mocker.patch('kylinpy.client.client.Client._make_request', return_value=MockResponse(200))
 
+        rv = client.get('/foo/bar', params={'param1': 'x', 'param2': 'y'})
+        assert rv.url == '/foo/bar'
+        assert rv.status_code == 200
+        assert rv.headers == 'HEADERS'
+        assert rv.json() == {'hello': 'world'}
 
-class TestClient(unittest.TestCase):
-    def setUp(self):
-        self.host = 'http://sandbox'
-        self.request_headers = {
-            'Content-Type': 'application/json',
-        }
-        self.client = Client(host=self.host,
-                             request_headers=self.request_headers)
+    def test_post(self, client, mocker):
+        mocker.patch('kylinpy.client.client.Client._make_request', return_value=MockResponse(200))
 
-    def test__init__(self):
-        default_client = Client(host=self.host)
-        self.assertEqual(default_client.host, self.host)
-        self.assertEqual(default_client.request_headers, {})
-        self.assertIs(default_client.timeout, None)
+        rv = client.post('/foo/bar', params={'param1': 'x', 'param2': 'y'})
+        assert rv.url == '/foo/bar'
+        assert rv.status_code == 200
+        assert rv.headers == 'HEADERS'
+        assert rv.json() == {'hello': 'world'}
 
-        request_headers = {'X-Test': 'test', 'X-Test2': 1}
-        client = Client(host=self.host,
-                        request_headers=request_headers,
-                        timeout=10)
-        self.assertEqual(client.host, self.host)
-        self.assertEqual(client.request_headers, request_headers)
-        self.assertEqual(client.timeout, 10)
+    def test_put(self, client, mocker):
+        mocker.patch('kylinpy.client.client.Client._make_request', return_value=MockResponse(200))
 
-    def test__build_url(self):
-        url = '{}{}'.format(
-            self.host,
-            '/here/there?hello=0&world=1&ztest=0&ztest=1',
-        )
-        endpoint = '/here/there'
-        query_params = {'hello': 0, 'world': 1, 'ztest': [0, 1]}
-        built_url = self.client._build_url(endpoint, query_params)
-        self.assertEqual(built_url, url)
+        rv = client.post('/foo/bar', params={'param1': 'x', 'param2': 'y'})
+        assert rv.url == '/foo/bar'
+        assert rv.status_code == 200
+        assert rv.headers == 'HEADERS'
+        assert rv.json() == {'hello': 'world'}
 
-    def test__update_headers(self):
-        request_headers = {'X-Test': 'Test'}
-        self.client._update_headers(request_headers)
-        self.assertIn('X-Test', self.client.request_headers)
-        self.client.request_headers.pop('X-Test', None)
+    def test_delete(self, client, mocker):
+        mocker.patch('kylinpy.client.client.Client._make_request', return_value=MockResponse(200))
 
-    def test_client_pickle_unpickle(self):
-        pickled_client = pickle.dumps(self.client)
-        unpickled_client = pickle.loads(pickled_client)
-        self.assertDictEqual(
-            self.client.__dict__,
-            unpickled_client.__dict__,
-            'original client and unpickled client must have the same state',
-        )
+        rv = client.delete('/foo/bar', params={'param1': 'x', 'param2': 'y'})
+        assert rv.url == '/foo/bar'
+        assert rv.status_code == 200
+        assert rv.headers == 'HEADERS'
+        assert rv.json() == {'hello': 'world'}

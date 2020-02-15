@@ -48,23 +48,15 @@ class Response(object):
 class Client(object):
     """Quickly and easily access any REST or REST-like API."""
 
-    def __init__(self,
-                 host,
-                 request_headers=None,
-                 prefix=None,
-                 timeout=None,
-                 unverified=None,
-                 mask_auth=True):
-        """
-        :param host: Base URL for the api. (e.g. https://api.sendgrid.com)
-        :type host:  string
-        :param request_headers: A dictionary of the headers you want
-                                applied on all calls
-        :type request_headers: dictionary
-        :param prefix: The prefix of the API.
-                        Subclass _build_prefix_url for custom behavior.
-        :type prefix: string
-        """
+    def __init__(
+        self,
+        host,
+        request_headers=None,
+        prefix=None,
+        timeout=None,
+        unverified=None,
+        mask_auth=True,
+    ):
         self.host = host.rstrip('/')
         self.request_headers = request_headers or {}
         self.prefix = prefix.strip('/') if prefix else None
