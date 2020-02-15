@@ -1,0 +1,69 @@
+{
+    "code": "000",
+    "data": {
+        "projects": [
+            {
+                "create_time_utc": 0,
+                "description": null,
+                "ext_filters": [],
+                "last_modified": 0,
+                "last_update_time": null,
+                "models": [
+                    "kylin_sales_model"
+                ],
+                "name": "learn_kylin",
+                "override_kylin_properties": {
+                    "kylin.query.force-limit": "-1",
+                    "kylin.source.default": "0"
+                },
+                "owner": null,
+                "project_dictionaries": null,
+                "realizations": [
+                    {
+                        "realization": "kylin_sales_cube",
+                        "type": "CUBE"
+                    }
+                ],
+                "resource_group_instances": null,
+                "resource_groups": null,
+                "status": null,
+                "suite_id": null,
+                "tables": [],
+                "uuid": "2fbca32a-a33e-4b69-83dd-0bb8b1f8c91b",
+                "version": "3.4.0.0"
+            },
+            {
+                "create_time_utc": 0,
+                "description": null,
+                "ext_filters": [],
+                "last_modified": 0,
+                "last_update_time": null,
+                "models": [
+                    "kylin_streaming_model"
+                ],
+                "name": "learn_kylin_streaming",
+                "override_kylin_properties": {
+                    "kylin.query.force-limit": "-1",
+                    "kylin.source.default": "1"
+                },
+                "owner": null,
+                "project_dictionaries": null,
+                "realizations": [
+                    {
+                        "realization": "kylin_streaming_cube",
+                        "type": "CUBE"
+                    }
+                ],
+                "resource_group_instances": null,
+                "resource_groups": null,
+                "status": null,
+                "suite_id": null,
+                "tables": [],
+                "uuid": "c3930d8e-77ef-48d3-a1cd-421a686f910f",
+                "version": "3.4.0.0"
+            }
+        ],
+        "size": 2
+    },
+    "msg": ""
+}

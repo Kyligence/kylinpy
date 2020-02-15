@@ -8,7 +8,42 @@ from kylinpy.client import InternalServerError
 from kylinpy.exceptions import KylinQueryError
 
 
+class _Api(object):
+    """
+    For testing convenience
+    """
+    @staticmethod
+    def query(client, endpoint, **kwargs):
+        return client.post(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def tables_and_columns(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def projects(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def tables(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def cube_desc(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def models(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def cubes(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+
+
 class KE3Service(object):
+    api = _Api
+
     def __init__(self, client, project=None):
         self.client = client
         self.project = project
@@ -22,11 +57,10 @@ class KE3Service(object):
             'sql': sql,
         }
         try:
-            response = self.client.post(endpoint='/query', json=request_body)
+            response = self.api.query(self.client, '/query', json=request_body)
         except InternalServerError as err:
             raise KylinQueryError(err)
 
-        response = response.json()
         err_message = response.get('exceptionMessage')
         if err_message:
             raise KylinQueryError(err_message)
@@ -39,12 +73,12 @@ class KE3Service(object):
             'pageOffset': 0,
             'pageSize': 1000,
         }
-        _projects = self.client.get(endpoint='/projects', params=params).json()
+        _projects = self.api.projects(self.client, '/projects', params=params)
         return _projects.get('projects')
 
     @property
     def tables_and_columns(self):
-        resp = self.client.get(endpoint='/tables_and_columns', params={'project': self.project}).json()
+        resp = self.api.tables_and_columns(self.client, '/tables_and_columns', params={'project': self.project})
         tbl_pair = tuple(('{}.{}'.format(tbl.get('table_SCHEM'), tbl.get('table_NAME')), tbl) for tbl in resp)
         for tbl in tbl_pair:
             tbl[1]['columns'] = [(col['column_NAME'], col) for col in tbl[1]['columns']]
@@ -52,7 +86,7 @@ class KE3Service(object):
 
     @property
     def tables_in_hive(self):
-        tables = self.client.get(endpoint='/tables', params={'project': self.project, 'ext': True}).json()
+        tables = self.api.tables(self.client, '/tables', params={'project': self.project, 'ext': True})
 
         __tables_in_hive = {}
         for tbl in tables:
@@ -64,7 +98,7 @@ class KE3Service(object):
         return __tables_in_hive
 
     def cube_desc(self, name):
-        _cube_desc = self.client.get(endpoint='/cube_desc/{}/{}'.format(self.project, name)).json()
+        _cube_desc = self.api.cube_desc(self.client, '/cube_desc/{}/{}'.format(self.project, name))
         return _cube_desc.get('cube')
 
     def model_desc(self, name):
@@ -72,26 +106,22 @@ class KE3Service(object):
 
     @property
     def models(self):
-        _models = self.client.get(
-            endpoint='/models',
-            params={
-                'projectName': self.project,
-                'pageOffset': 0,
-                'pageSize': 1000,
-            },
-        ).json()
+        params = {
+            'projectName': self.project,
+            'pageOffset': 0,
+            'pageSize': 1000,
+        }
+        _models = self.api.models(self.client, '/models', params=params)
         return _models.get('models')
 
     @property
     def cubes(self):
-        _cubes = self.client.get(
-            endpoint='/cubes',
-            params={
-                'pageOffset': 0,
-                'offset': 0,
-                'limit': 50000,
-                'pageSize': 1000,
-                'projectName': self.project,
-            },
-        ).json()
+        params = {
+            'pageOffset': 0,
+            'offset': 0,
+            'limit': 50000,
+            'pageSize': 1000,
+            'projectName': self.project,
+        }
+        _cubes = self.api.cubes(self.client, '/cubes', params=params)
         return _cubes.get('cubes')

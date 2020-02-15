@@ -33,3 +33,23 @@ def v1_api(mocker):
     mocker.patch('kylinpy.service.KylinService.api.tables', return_value=tables)
     mocker.patch('kylinpy.service.KylinService.api.tables_and_columns', return_value=tables_and_columns)
     yield mocker
+
+
+@pytest.fixture
+def v2_api(mocker):
+    cube_desc = read('v2', 'cube_desc.json').get('data')
+    cubes = read('v2', 'cubes.json').get('data')
+    models = read('v2', 'models.json').get('data')
+    projects = read('v2', 'projects.json').get('data')
+    query = read('v2', 'query.json').get('data')
+    tables = read('v2', 'tables.json').get('data')
+    tables_and_columns = read('v2', 'tables_and_columns.json').get('data')
+
+    mocker.patch('kylinpy.service.KE3Service.api.cube_desc', return_value=cube_desc)
+    mocker.patch('kylinpy.service.KE3Service.api.cubes', return_value=cubes)
+    mocker.patch('kylinpy.service.KE3Service.api.models', return_value=models)
+    mocker.patch('kylinpy.service.KE3Service.api.projects', return_value=projects)
+    mocker.patch('kylinpy.service.KE3Service.api.query', return_value=query)
+    mocker.patch('kylinpy.service.KE3Service.api.tables', return_value=tables)
+    mocker.patch('kylinpy.service.KE3Service.api.tables_and_columns', return_value=tables_and_columns)
+    yield mocker

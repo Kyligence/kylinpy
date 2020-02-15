@@ -31,14 +31,6 @@ class TableSource(SourceInterface):
     def columns(self):
         return [_Column(col) for col in self.columns_map]
 
-    @property
-    def identity(self):
-        return
-
-    @property
-    def last_modified(self):
-        return
-
     def __repr__(self):
         return ('<Hive Instance '
                 'table_name: {self.name}>').format(**locals())

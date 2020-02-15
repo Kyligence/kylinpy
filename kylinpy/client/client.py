@@ -71,9 +71,6 @@ class Response(object):
         :return: object of response from the API
         """
         if self.body:
-            ct = dict(self.headers).get('Content-Type')
-            if ct and str(ct).startswith('application/vnd.apache.kylin-v2+json'):
-                return _json.loads(self.body.decode('utf-8')).get('data')
             return _json.loads(self.body.decode('utf-8'))
         else:
             return None

@@ -12,16 +12,6 @@ class SourceInterface(object):
     def name(self):
         raise NotImplementedError
 
-    @property
-    def identity(self):
-        """ source identity """
-        raise NotImplementedError
-
-    @property
-    def last_modified(self):
-        """ timestamp for sync source """
-        raise NotImplementedError
-
 
 class ColumnInterface(object):
     @property
