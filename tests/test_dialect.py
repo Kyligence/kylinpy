@@ -51,10 +51,15 @@ class TestDialect(object):
             'KYLIN_SALES',
         ]
 
+    def test_get_schema_names(self, v1_api):
+        engine = create_engine('kylin://ADMIN:KYLIN@sandbox/learn_kylin')
+        insp = inspect(engine)
+        assert insp.get_schema_names() == ['DEFAULT']
+
     def test_get_columns(self, v1_api):
         engine = create_engine('kylin://ADMIN:KYLIN@sandbox/learn_kylin')
         insp = inspect(engine)
-        assert [c.get('name') for c in insp.get_columns('DEFAULT.KYLIN_SALES')] == [
+        assert [c.get('name') for c in insp.get_columns('KYLIN_SALES', 'DEFAULT')] == [
             'TRANS_ID',
             'PART_DT',
             'LSTG_FORMAT_NAME',
@@ -66,8 +71,3 @@ class TestDialect(object):
             'OPS_USER_ID',
             'OPS_REGION',
         ]
-
-    def test_get_schema_names(self, v1_api):
-        engine = create_engine('kylin://ADMIN:KYLIN@sandbox/learn_kylin')
-        insp = inspect(engine)
-        assert insp.get_schema_names() == {'DEFAULT'}

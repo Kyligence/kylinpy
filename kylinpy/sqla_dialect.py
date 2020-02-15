@@ -7,9 +7,11 @@ from __future__ import unicode_literals
 import itertools
 
 from sqlalchemy import pool
+from sqlalchemy.exec import NoSuchTableError as sa_NoSuchTableError
 from sqlalchemy.engine import default
 from sqlalchemy.sql import compiler
 
+from kylinpy.exceptions import NoSuchTableError
 from kylinpy.kylindb import KylinDB
 from kylinpy.utils.keywords import CALCITE_KEYWORDS
 from kylinpy.utils.sqla_types import kylin_to_sqla
@@ -106,12 +108,12 @@ class KylinDialect(default.DefaultDialect):
     def get_table_names(self, connection, schema=None, **kw):
         conn = connection.connect()
         tables = conn.connection.connection.get_all_tables(schema)
-        return [tbl.split('.')[1] for tbl in tables]
+        return tables
 
     def get_schema_names(self, connection, schema=None, **kw):
         conn = connection.connect()
-        tables = conn.connection.connection.get_all_tables()
-        return set([tbl.split('.')[0] for tbl in tables])
+        schemas = conn.connection.connection.get_all_schemas()
+        return schemas
 
     def has_table(self, connection, table_name, schema=None):
         # disable check table exists
@@ -122,15 +124,14 @@ class KylinDialect(default.DefaultDialect):
 
     def get_columns(self, connection, table_name, schema=None, **kw):
         conn = connection.connect()
-        if schema is not None:
-            _fullname = '{}.{}'.format(schema, table_name)
-        else:
-            _fullname = table_name
-        dimensions = conn.connection.connection.get_table_source(_fullname).columns
-        return [{
-            'name': dim.name,
-            'type': kylin_to_sqla(dim.datatype),
-        } for dim in dimensions]
+        try:
+            columns = conn.connection.connection.get_table_source(table_name, schema).columns
+            return [{
+                'name': col.name,
+                'type': kylin_to_sqla(col.datatype),
+            } for col in columns]
+        except NoSuchTableError:
+            raise sa_NoSuchTableError
 
     def get_foreign_keys(self, connection, table_name, schema=None, **kw):
         return []

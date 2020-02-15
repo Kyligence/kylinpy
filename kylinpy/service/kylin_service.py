@@ -22,6 +22,7 @@ class _Api(object):
 
     @staticmethod
     def projects(client, endpoint, **kwargs):
+        import ipdb; ipdb.set_trace()
         return client.get(endpoint=endpoint, **kwargs).json()
 
     @staticmethod
@@ -78,7 +79,7 @@ class KylinService(object):
 
     @property
     def tables_and_columns(self):
-        resp = self.api.tables_and_columns(self.client, endpoint='', params={'project': self.project})
+        resp = self.api.tables_and_columns(self.client, '/tables_and_columns', params={'project': self.project})
         tbl_pair = tuple(('{}.{}'.format(tbl.get('table_SCHEM'), tbl.get('table_NAME')), tbl) for tbl in resp)
         for tbl in tbl_pair:
             tbl[1]['columns'] = [(col['column_NAME'], col) for col in tbl[1]['columns']]

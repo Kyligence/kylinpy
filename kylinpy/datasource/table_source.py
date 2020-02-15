@@ -6,13 +6,17 @@ from __future__ import unicode_literals
 
 from ._source_interface import ColumnInterface
 from ._source_interface import SourceInterface
+from kylinpy.exceptions import NoSuchTableError
 
 
 class TableSource(SourceInterface):
     source_type = 'table'
 
-    def __init__(self, name, table_desc):
+    def __init__(self, name, schema, table_desc):
+        if not table_desc:
+            raise NoSuchTableError
         self._name = name
+        self._schema = schema
         self.table_desc = table_desc
 
     @property
@@ -21,7 +25,7 @@ class TableSource(SourceInterface):
 
     @property
     def schema(self):
-        return self.name.split('.')[0]
+        return self._schema
 
     @property
     def columns_map(self):

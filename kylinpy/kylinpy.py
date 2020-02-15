@@ -118,22 +118,29 @@ class Project(object):
     def query(self, sql):
         return self.service.query(sql)
 
-    def get_all_tables(self, scheme=None):
+    def get_all_tables(self, schema=None):
         if self.is_pushdown:
             _full_names = sorted(list(self.service.tables_in_hive.keys()))
         else:
             _full_names = sorted(list(self.service.tables_and_columns.keys()))
 
-        if scheme:
-            return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
-        else:
-            return _full_names
+        if schema:
+            _full_names = [t for t in _full_names if t.split('.')[0] == schema]
+        return [t.split('.')[1] for t in _full_names]
 
-    def get_table_source(self, name):
+    def get_all_schemas(self):
         if self.is_pushdown:
-            return TableSource(name, self.service.tables_in_hive.get(name))
+            _full_names = sorted(list(self.service.tables_in_hive.keys()))
         else:
-            return TableSource(name, self.service.tables_and_columns.get(name))
+            _full_names = sorted(list(self.service.tables_and_columns.keys()))
+        return list(set(t.split('.')[0] for t in _full_names))
+
+    def get_table_source(self, name, schema):
+        fullname = '{}.{}'.format(schema, name)
+        if self.is_pushdown:
+            return TableSource(name, schema, self.service.tables_in_hive.get(fullname))
+        else:
+            return TableSource(name, schema, self.service.tables_and_columns.get(fullname))
 
     def get_cube_source(self, name):
         cube_desc = self.service.cube_desc(name)

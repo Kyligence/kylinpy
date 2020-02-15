@@ -73,27 +73,31 @@ class TestProject(object):
 
     def test_get_all_tables(self, v1_api):
         assert self.project.get_all_tables() == [
-            'DEFAULT.KYLIN_ACCOUNT',
-            'DEFAULT.KYLIN_CAL_DT',
-            'DEFAULT.KYLIN_CATEGORY_GROUPINGS',
-            'DEFAULT.KYLIN_COUNTRY',
-            'DEFAULT.KYLIN_SALES',
+            'KYLIN_ACCOUNT',
+            'KYLIN_CAL_DT',
+            'KYLIN_CATEGORY_GROUPINGS',
+            'KYLIN_COUNTRY',
+            'KYLIN_SALES',
         ]
 
         pushdown = dsn_proxy('kylin://username:password@example/foobar?is_pushdown=1')
         assert pushdown.is_pushdown is True
         assert pushdown.get_all_tables() == [
-            'DEFAULT.KYLIN_ACCOUNT',
-            'DEFAULT.KYLIN_CAL_DT',
-            'DEFAULT.KYLIN_CATEGORY_GROUPINGS',
-            'DEFAULT.KYLIN_COUNTRY',
-            'DEFAULT.KYLIN_SALES',
-            'DEFAULT.KYLIN_STREAMING_TABLE',
+            'KYLIN_ACCOUNT',
+            'KYLIN_CAL_DT',
+            'KYLIN_CATEGORY_GROUPINGS',
+            'KYLIN_COUNTRY',
+            'KYLIN_SALES',
+            'KYLIN_STREAMING_TABLE',
         ]
 
+    def test_get_all_schema(self, v1_api):
+        assert self.project.get_all_schemas() == ['DEFAULT']
+
     def test_get_table_source(self, v1_api):
-        table = self.project.get_table_source('DEFAULT.KYLIN_SALES')
-        assert table.name == 'DEFAULT.KYLIN_SALES'
+        table = self.project.get_table_source('KYLIN_SALES', 'DEFAULT')
+        assert table.name == 'KYLIN_SALES'
+        assert table.schema == 'DEFAULT'
 
     def test_get_cube_source(self, v1_api):
         cube = self.project.get_cube_source('kylin_sales_cube')

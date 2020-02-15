@@ -13,8 +13,8 @@ class TestTableSource:
         return dsn_proxy('kylin://username:password@example/foobar')
 
     def test_table_source(self, v1_api):
-        table = self.project.get_table_source('DEFAULT.KYLIN_SALES')
-        assert table.name == 'DEFAULT.KYLIN_SALES'
+        table = self.project.get_table_source('KYLIN_SALES', 'DEFAULT')
+        assert table.name == 'KYLIN_SALES'
         assert table.schema == 'DEFAULT'
         assert [c.name for c in table.columns] == [
             'TRANS_ID',
