@@ -1,0 +1,52 @@
+{
+    "code": "000",
+    "data": {
+        "ableToPushdown": false,
+        "affectedRowCount": 0,
+        "columnMetas": [
+            {
+                "autoIncrement": false,
+                "caseSensitive": true,
+                "catelogName": null,
+                "columnType": -5,
+                "columnTypeName": "BIGINT",
+                "currency": false,
+                "definitelyWritable": false,
+                "displaySize": 19,
+                "isNullable": 0,
+                "label": "EXPR$0",
+                "name": "EXPR$0",
+                "precision": 19,
+                "readOnly": true,
+                "scale": 0,
+                "schemaName": null,
+                "searchable": false,
+                "signed": true,
+                "tableName": null,
+                "writable": false
+            }
+        ],
+        "cube": "CUBE[name=kylin_sales_cube]",
+        "duration": 145,
+        "exceptionMessage": null,
+        "hitExceptionCache": false,
+        "isException": false,
+        "lateDecodeEnabled": false,
+        "pushDown": false,
+        "queryId": "d0aa3d45-5a1d-4dc6-a7bf-427e841b6ca6",
+        "results": [
+            [
+                "10000"
+            ]
+        ],
+        "server": "sandbox.hortonworks.com:7070",
+        "sparderUsed": false,
+        "storageCacheUsed": false,
+        "suiteId": null,
+        "timeout": false,
+        "totalScanBytes": 731,
+        "totalScanCount": 731,
+        "traceUrl": null
+    },
+    "msg": ""
+}

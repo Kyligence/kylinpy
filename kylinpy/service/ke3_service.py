@@ -14,34 +14,34 @@ class _Api(object):
     """
     @staticmethod
     def query(client, endpoint, **kwargs):
-        return client.post(endpoint=endpoint, **kwargs).json()
+        return client.post(endpoint=endpoint, **kwargs).json().get('data')
 
     @staticmethod
     def tables_and_columns(client, endpoint, **kwargs):
-        return client.get(endpoint=endpoint, **kwargs).json()
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
 
     @staticmethod
     def projects(client, endpoint, **kwargs):
-        return client.get(endpoint=endpoint, **kwargs).json()
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
 
     @staticmethod
     def tables(client, endpoint, **kwargs):
-        return client.get(endpoint=endpoint, **kwargs).json()
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
 
     @staticmethod
     def cube_desc(client, endpoint, **kwargs):
-        return client.get(endpoint=endpoint, **kwargs).json()
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
 
     @staticmethod
     def models(client, endpoint, **kwargs):
-        return client.get(endpoint=endpoint, **kwargs).json()
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
 
     @staticmethod
     def cubes(client, endpoint, **kwargs):
-        return client.get(endpoint=endpoint, **kwargs).json()
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
 
 
-class KylinService(object):
+class KE3Service(object):
     api = _Api
 
     def __init__(self, client, project=None):
@@ -49,7 +49,7 @@ class KylinService(object):
         self.project = project
 
     def query(self, sql, limit=50000, offset=0, acceptPartial=False):
-        json_data = {
+        request_body = {
             'acceptPartial': acceptPartial,
             'limit': limit,
             'offset': offset,
@@ -57,7 +57,7 @@ class KylinService(object):
             'sql': sql,
         }
         try:
-            response = self.api.query(self.client, '/query', json=json_data)
+            response = self.api.query(self.client, '/query', json=request_body)
         except InternalServerError as err:
             raise KylinQueryError(err)
 
@@ -74,7 +74,7 @@ class KylinService(object):
             'pageSize': 1000,
         }
         _projects = self.api.projects(self.client, '/projects', params=params)
-        return _projects
+        return _projects.get('projects')
 
     @property
     def tables_and_columns(self):
@@ -98,7 +98,8 @@ class KylinService(object):
         return __tables_in_hive
 
     def cube_desc(self, name):
-        return self.api.cube_desc(self.client, '/cube_desc/{}/desc'.format(name))
+        _cube_desc = self.api.cube_desc(self.client, '/cube_desc/{}/{}'.format(self.project, name))
+        return _cube_desc.get('cube')
 
     def model_desc(self, name):
         return [_ for _ in self.models if _.get('name') == name][0]
@@ -110,7 +111,8 @@ class KylinService(object):
             'pageOffset': 0,
             'pageSize': 1000,
         }
-        return self.api.models(self.client, '/models', params=params)
+        _models = self.api.models(self.client, '/models', params=params)
+        return _models.get('models')
 
     @property
     def cubes(self):
@@ -121,4 +123,5 @@ class KylinService(object):
             'pageSize': 1000,
             'projectName': self.project,
         }
-        return self.api.cubes(self.client, '/cubes', params=params)
+        _cubes = self.api.cubes(self.client, '/cubes', params=params)
+        return _cubes.get('cubes')

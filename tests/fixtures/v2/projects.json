@@ -1,0 +1,39 @@
+{
+    "code": "000",
+    "data": {
+        "projects": [
+            {
+                "create_time_utc": 0,
+                "description": null,
+                "ext_filters": [],
+                "last_modified": 0,
+                "last_update_time": null,
+                "models": [
+                    "kylin_sales_model"
+                ],
+                "name": "learn_kylin",
+                "override_kylin_properties": {
+                    "kylin.query.force-limit": "-1",
+                    "kylin.source.default": "0"
+                },
+                "owner": null,
+                "project_dictionaries": null,
+                "realizations": [
+                    {
+                        "realization": "kylin_sales_cube",
+                        "type": "CUBE"
+                    }
+                ],
+                "resource_group_instances": null,
+                "resource_groups": null,
+                "status": null,
+                "suite_id": null,
+                "tables": [],
+                "uuid": "2fbca32a-a33e-4b69-83dd-0bb8b1f8c91b",
+                "version": "3.4.0.0"
+            }
+        ],
+        "size": 1
+    },
+    "msg": ""
+}

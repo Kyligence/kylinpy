@@ -12,20 +12,20 @@ from kylinpy.exceptions import KylinQueryError
 from .test_client import MockException
 
 
-class TestKylinService(object):
+class TestKE3Service(object):
     @property
     def cluster(self):
-        return dsn_proxy('kylin://ADMIN:KYLIN@example')
+        return dsn_proxy('kylin://ADMIN:KYLIN@example?version=v2')
 
     @property
     def project(self):
-        return dsn_proxy('kylin://ADMIN:KYLIN@example/learn_kylin')
+        return dsn_proxy('kylin://ADMIN:KYLIN@example/learn_kylin?version=v2')
 
-    def test_projects(self, v1_api):
+    def test_projects(self, v2_api):
         rv = self.cluster.projects
         assert [e['name'] for e in rv] == ['learn_kylin']
 
-    def test_tables_and_columns(self, v1_api):
+    def test_tables_and_columns(self, v2_api):
         rv = self.project.service.tables_and_columns
         assert sorted(list(rv.keys())) == [
             'DEFAULT.KYLIN_ACCOUNT',
@@ -35,35 +35,35 @@ class TestKylinService(object):
             'DEFAULT.KYLIN_SALES',
         ]
 
-    def test_cubes(self, v1_api):
+    def test_cubes(self, v2_api):
         rv = self.project.service.cubes
-        assert [e['name'] for e in rv] == ['kylin_sales_cube', 'kylin_streaming_cube']
+        assert [e['name'] for e in rv] == ['kylin_sales_cube']
 
-    def test_models(self, v1_api):
+    def test_models(self, v2_api):
         rv = self.project.service.models
-        assert [e['name'] for e in rv] == ['kylin_sales_model', 'kylin_streaming_model']
+        assert [e['name'] for e in rv] == ['kylin_sales_model']
 
-    def test_cube_desc(self, v1_api):
+    def test_cube_desc(self, v2_api):
         rv = self.project.service.cube_desc('kylin_sales_cube')
         assert 'dimensions' in rv
         assert 'measures' in rv
         assert rv['model_name'] == 'kylin_sales_model'
         assert rv['name'] == 'kylin_sales_cube'
 
-    def test_model_desc(self, v1_api):
+    def test_model_desc(self, v2_api):
         rv = self.project.service.model_desc('kylin_sales_model')
         assert 'dimensions' in rv
         assert 'lookups' in rv
         assert 'metrics' in rv
         assert rv['name'] == 'kylin_sales_model'
 
-    def test_query(self, v1_api):
+    def test_query(self, v2_api):
         rv = self.project.service.query(sql='select count(*) from kylin_sales')
         assert 'columnMetas' in rv
         assert 'results' in rv
 
     def test_error_query(self, mocker):
-        mocker.patch('kylinpy.service.KylinService.api.query', return_value={'exceptionMessage': 'foobar'})
+        mocker.patch('kylinpy.service.KE3Service.api.query', return_value={'exceptionMessage': 'foobar'})
 
         with pytest.raises(KylinQueryError):
             self.project.service.query(sql='select count(*) from kylin_sales')

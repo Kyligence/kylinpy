@@ -4,6 +4,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from kylinpy.exceptions import NoSuchTableError
 from ._source_interface import ColumnInterface
 from ._source_interface import SourceInterface
 
@@ -11,8 +12,11 @@ from ._source_interface import SourceInterface
 class TableSource(SourceInterface):
     source_type = 'table'
 
-    def __init__(self, name, table_desc):
+    def __init__(self, name, schema, table_desc):
+        if not table_desc:
+            raise NoSuchTableError
         self._name = name
+        self._schema = schema
         self.table_desc = table_desc
 
     @property
@@ -21,7 +25,7 @@ class TableSource(SourceInterface):
 
     @property
     def schema(self):
-        return self.name.split('.')[0]
+        return self._schema
 
     @property
     def columns_map(self):
@@ -30,14 +34,6 @@ class TableSource(SourceInterface):
     @property
     def columns(self):
         return [_Column(col) for col in self.columns_map]
-
-    @property
-    def identity(self):
-        return
-
-    @property
-    def last_modified(self):
-        return
 
     def __repr__(self):
         return ('<Hive Instance '

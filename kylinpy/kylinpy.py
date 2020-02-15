@@ -16,13 +16,13 @@ except ImportError:
     from urlparse import parse_qsl
 
 from kylinpy.client import Client as HTTPClient
-from kylinpy.service import KylinService, V2Service
-from kylinpy.datasource import TableSource
+from kylinpy.service import KylinService, KE3Service
+from kylinpy.datasource import TableSource, CubeSource
 from kylinpy.utils.compat import as_unicode
 
 SERVICES = {
     'v1': KylinService,
-    'v2': V2Service,
+    'v2': KE3Service,
 }
 
 
@@ -118,22 +118,40 @@ class Project(object):
     def query(self, sql):
         return self.service.query(sql)
 
-    def get_tables_with_schema(self, scheme=None):
-        _full_names = self.get_all_tables()
-        if scheme is None:
-            return _full_names
+    def get_all_tables(self, schema=None):
+        if self.is_pushdown:
+            _full_names = sorted(list(self.service.tables_in_hive.keys()))
         else:
-            return list(filter(lambda tbl: tbl.split('.')[0] == scheme, _full_names))
+            _full_names = sorted(list(self.service.tables_and_columns.keys()))
 
-    def get_all_tables(self):
-        if self.is_pushdown:
-            return list(self.service.tables_in_hive.keys())
-        return list(self.service.tables_and_columns.keys())
+        if schema:
+            _full_names = [t for t in _full_names if t.split('.')[0] == schema]
+        return [t.split('.')[1] for t in _full_names]
 
-    def get_datasource(self, name):
+    def get_all_schemas(self):
         if self.is_pushdown:
-            TableSource(name, self.service.tables_in_hive.get(name))
-        return TableSource(name, self.service.tables_and_columns.get(name))
+            _full_names = sorted(list(self.service.tables_in_hive.keys()))
+        else:
+            _full_names = sorted(list(self.service.tables_and_columns.keys()))
+        return list(set(t.split('.')[0] for t in _full_names))
+
+    def get_table_source(self, name, schema=None):
+        if '.' in name:
+            schema, name = name.split('.', 1)
+        fullname = '{}.{}'.format(schema, name)
+        if self.is_pushdown:
+            return TableSource(name, schema, self.service.tables_in_hive.get(fullname))
+        else:
+            return TableSource(name, schema, self.service.tables_and_columns.get(fullname))
+
+    def get_cube_source(self, name):
+        cube_desc = self.service.cube_desc(name)
+        model_name = cube_desc.get('model_name')
+        return CubeSource(
+            cube_desc=cube_desc,
+            model_desc=self.service.model_desc(model_name),
+            tables_and_columns=self.service.tables_and_columns,
+        )
 
     def __str__(self):
         return str(self.cluster) + '/' + self.project

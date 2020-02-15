@@ -13,8 +13,8 @@ kylin = create_engine('kylin://ADMIN:KYLIN@sandbox/learn_kylin')
 pprint(kylin.table_names())
 
 insp = inspect(kylin)
-pprint(insp.get_columns('DEFAULT.KYLIN_SALES'))
 pprint(insp.get_schema_names())
+pprint(insp.get_columns('KYLIN_SALES', 'DEFAULT'))
 
 sql1 = """
 SELECT KYLIN_SALES.OPS_USER_ID AS "KYLIN_SALES.OPS_USER_ID",

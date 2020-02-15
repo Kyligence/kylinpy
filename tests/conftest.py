@@ -7,3 +7,7 @@ from __future__ import unicode_literals
 from sqlalchemy.dialects import registry
 
 registry.register('kylin', 'kylinpy.sqla_dialect', 'KylinDialect')
+
+pytest_plugins = [
+    'tests.fixtures.api',
+]
