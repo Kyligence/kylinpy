@@ -101,9 +101,7 @@ class KylinDialect(default.DefaultDialect):
         return [], kwargs
 
     def do_execute(self, cursor, statement, parameters, context=None):
-        cursor.execute(statement, parameters,
-                       labels=self.statement_compiler._cached_metadata)
-        self.statement_compiler._cached_metadata = set()
+        super(KylinDialect, self).do_execute(cursor, statement, parameters, context)
 
     def get_table_names(self, connection, schema=None, **kw):
         conn = connection.connect()

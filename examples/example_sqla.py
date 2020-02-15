@@ -5,8 +5,11 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from pprint import pprint
+import logging
 
 from sqlalchemy import create_engine, inspect
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 kylin = create_engine('kylin://ADMIN:KYLIN@sandbox/learn_kylin')

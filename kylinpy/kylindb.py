@@ -6,7 +6,6 @@ from __future__ import unicode_literals
 
 from kylinpy.client import HTTPError
 from kylinpy.kylinpy import Cluster, Project
-from kylinpy.logger import logger
 from kylinpy.utils.compat import as_unicode
 from kylinpy.utils.kylin_types import kylin_to_python
 
@@ -21,10 +20,10 @@ class Cursor(object):
         self._column_metas = []
 
     def callproc(self):
-        logger.warn('Stored procedures not supported in Kylin')
+        pass
 
     def close(self):
-        logger.debug('Cursor close called')
+        pass
 
     @property
     def description(self):
@@ -38,8 +37,8 @@ class Cursor(object):
             c['isNullable'],
         ] for c in self._column_metas)
 
-    def execute(self, query, *params, **kwargs):
-        resp = self.connection.query(query)
+    def execute(self, query, parameters):
+        resp = self.connection.query(query, **parameters)
 
         self._column_metas = resp.get('columnMetas')
         self.results = [[
@@ -79,7 +78,7 @@ class Cursor(object):
         return self.results[fetched_rows:]
 
     def nextset(self):
-        logger.warn('Nextset operation not supported in Kylin')
+        pass
 
     @property
     def arraysize(self):
@@ -90,10 +89,10 @@ class Cursor(object):
         self._arraysize = array_size
 
     def setinputsizes(self):
-        logger.warn('setinputsize not supported in Kylin')
+        pass
 
     def setoutputsize(self):
-        logger.warn('setoutputsize not supported in Kylin')
+        pass
 
 
 class KylinDB(Project):
@@ -112,13 +111,13 @@ class KylinDB(Project):
         return cls(cluster, project)
 
     def close(self):
-        return
+        pass
 
     def commit(self):
-        return
+        pass
 
     def rollback(self):
-        return
+        pass
 
     def cursor(self):
         return Cursor(self)

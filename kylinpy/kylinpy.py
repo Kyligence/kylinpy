@@ -115,8 +115,8 @@ class Project(object):
         self.is_pushdown = self.cluster.is_pushdown
         self.project = project
 
-    def query(self, sql):
-        return self.service.query(sql)
+    def query(self, sql, **parameters):
+        return self.service.query(sql, **parameters)
 
     def get_all_tables(self, schema=None):
         if self.is_pushdown:
