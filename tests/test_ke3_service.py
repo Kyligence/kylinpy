@@ -63,7 +63,7 @@ class TestKE3Service(object):
         assert 'results' in rv
 
     def test_error_query(self, mocker):
-        mocker.patch('kylinpy.service.KylinService.api.query', return_value={'exceptionMessage': 'foobar'})
+        mocker.patch('kylinpy.service.KE3Service.api.query', return_value={'exceptionMessage': 'foobar'})
 
         with pytest.raises(KylinQueryError):
             self.project.service.query(sql='select count(*) from kylin_sales')
