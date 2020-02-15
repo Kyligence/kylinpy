@@ -22,7 +22,6 @@ class _Api(object):
 
     @staticmethod
     def projects(client, endpoint, **kwargs):
-        import ipdb; ipdb.set_trace()
         return client.get(endpoint=endpoint, **kwargs).json()
 
     @staticmethod

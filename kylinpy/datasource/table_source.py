@@ -4,9 +4,9 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from kylinpy.exceptions import NoSuchTableError
 from ._source_interface import ColumnInterface
 from ._source_interface import SourceInterface
-from kylinpy.exceptions import NoSuchTableError
 
 
 class TableSource(SourceInterface):

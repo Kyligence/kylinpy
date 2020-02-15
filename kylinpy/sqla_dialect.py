@@ -6,8 +6,8 @@ from __future__ import unicode_literals
 
 import itertools
 
+import sqlalchemy.exc
 from sqlalchemy import pool
-from sqlalchemy.exec import NoSuchTableError as sa_NoSuchTableError
 from sqlalchemy.engine import default
 from sqlalchemy.sql import compiler
 
@@ -131,7 +131,7 @@ class KylinDialect(default.DefaultDialect):
                 'type': kylin_to_sqla(col.datatype),
             } for col in columns]
         except NoSuchTableError:
-            raise sa_NoSuchTableError
+            raise sqlalchemy.exc.NoSuchTableError
 
     def get_foreign_keys(self, connection, table_name, schema=None, **kw):
         return []
