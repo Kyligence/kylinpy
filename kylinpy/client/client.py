@@ -7,32 +7,16 @@ from __future__ import unicode_literals
 import json as _json
 import ssl
 
-from .exceptions import handle_error
-from ..logger import logger
-
-try:
-    # Python 3
-    import urllib.request as urllib
-    from urllib.request import HTTPSHandler
-    from urllib.parse import urlencode
-    from urllib.error import HTTPError
-except ImportError:
-    # Python 2
-    import urllib2 as urllib
-    from urllib2 import HTTPError
-    from urllib2 import HTTPSHandler
-    from urllib import urlencode
+from kylinpy.utils.compat import urllib
+from kylinpy.utils.compat import HTTPSHandler
+from kylinpy.utils.compat import urlencode
+from kylinpy.utils.compat import HTTPError
+from kylinpy.client.exceptions import handle_error
+from kylinpy.logger import logger
 
 
 class Response(object):
-    """Holds the response from an API call."""
-
     def __init__(self, response):
-        """
-        :param response: The return value from a open call
-                         on a urllib.build_opener()
-        :type response:  urllib response object
-        """
         self._status_code = response.getcode()
         self._body = response.read()
         self._headers = response.info()
@@ -40,36 +24,21 @@ class Response(object):
 
     @property
     def status_code(self):
-        """
-        :return: integer, status code of API call
-        """
         return self._status_code
 
     @property
     def url(self):
-        """
-        :return: string, url of API call
-        """
         return self._url
 
     @property
     def body(self):
-        """
-        :return: response from the API
-        """
         return self._body
 
     @property
     def headers(self):
-        """
-        :return: dict of response headers
-        """
         return self._headers
 
     def json(self):
-        """
-        :return: object of response from the API
-        """
         if self.body:
             return _json.loads(self.body.decode('utf-8'))
         else:
@@ -104,12 +73,6 @@ class Client(object):
         self.mask_auth = mask_auth
 
     def _build_url(self, endpoint=None, params=None):
-        """Build the final URL to be passed to urllib
-
-        :param params: A dictionary of all the query parameters
-        :type params: dictionary
-        :return: string
-        """
         if self.prefix:
             url = '{}/{}'.format(self.host, self.prefix)
         else:
@@ -125,12 +88,6 @@ class Client(object):
         return url
 
     def _update_headers(self, request_headers):
-        """Update the headers for the request
-
-        :param request_headers: headers to set for the API call
-        :type request_headers: dictionary
-        :return: dictionary
-        """
         self.request_headers.update(request_headers)
 
     def _mask_auth_headers(self, headers):
@@ -146,17 +103,6 @@ class Client(object):
         return _headers
 
     def _make_request(self, opener, request, timeout=None):
-        """Make the API call and return the response. This is separated into
-           it's own function, so we can mock it easily for testing.
-
-        :param opener:
-        :type opener:
-        :param request: url payload to request
-        :type request: urllib.Request object
-        :param timeout: timeout value or None
-        :type timeout: float
-        :return: urllib response
-        """
         timeout = timeout or self.timeout
         logger.debug("""
 ==========================[QUERY]===============================

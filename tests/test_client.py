@@ -8,22 +8,8 @@ import pickle
 import unittest
 
 from kylinpy.client import Client
-from kylinpy.client.exceptions import (
-    handle_error,
-    HTTPError,
-)
-
-try:
-    # Python 3
-    import urllib.request as urllib
-except ImportError:
-    # Python 2
-    import urllib2 as urllib
-
-try:
-    basestring
-except NameError:
-    basestring = str
+from kylinpy.client.exceptions import handle_error, HTTPError
+from kylinpy.utils.compat import urllib
 
 
 class MockException(HTTPError):
@@ -69,7 +55,6 @@ class MockClient(Client):
 
 
 class TestClient(unittest.TestCase):
-
     def setUp(self):
         self.host = 'http://sandbox'
         self.request_headers = {
@@ -116,7 +101,3 @@ class TestClient(unittest.TestCase):
             unpickled_client.__dict__,
             'original client and unpickled client must have the same state',
         )
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -7,6 +7,19 @@ from __future__ import unicode_literals
 import sys
 import time
 
+try:
+    # Python 3
+    import urllib.request as urllib  # noqa
+    from urllib.request import HTTPSHandler  # noqa
+    from urllib.parse import urlencode  # noqa
+    from urllib.error import HTTPError # noqa
+except ImportError:
+    # Python 2
+    import urllib2 as urllib  # noqa
+    from urllib2 import HTTPError  # noqa
+    from urllib2 import HTTPSHandler  # noqa
+    from urllib import urlencode  # noqa
+
 PY3 = sys.version_info[0] == 3
 
 if PY3:
