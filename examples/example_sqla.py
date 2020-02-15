@@ -38,8 +38,8 @@ LIMIT 10000;
 """  # noqa
 
 sql2 = """
-SELECT * FROM KYLIN_SALES LIMIT 10
+SELECT * FROM KYLIN_SALES
 """
 
-rp = kylin.execute(sql1)
+rp = kylin.execute(sql2, limit=10, offset=0)
 pprint(rp.fetchall())
