@@ -66,3 +66,8 @@ class TestDialect(object):
             'OPS_USER_ID',
             'OPS_REGION',
         ]
+
+    def test_get_schema_names(self, v1_api):
+        engine = create_engine('kylin://ADMIN:KYLIN@sandbox/learn_kylin')
+        insp = inspect(engine)
+        assert insp.get_schema_names() == {'DEFAULT'}
