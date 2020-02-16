@@ -15,6 +15,7 @@ from kylinpy.exceptions import NoSuchTableError
 from kylinpy.kylindb import Connection
 from kylinpy.utils.keywords import CALCITE_KEYWORDS
 from kylinpy.utils.sqla_types import kylin_to_sqla
+from kylinpy.utils.visitor import add_quotes_to_name_token
 
 SUPERSET_KEYWORDS = set([
     '__timestamp',
@@ -49,7 +50,7 @@ class KylinSQLCompiler(compiler.SQLCompiler):
 
     def visit_column(self, *args, **kwargs):
         result = super(KylinSQLCompiler, self).visit_column(*args, **kwargs)
-        return result
+        return add_quotes_to_name_token(result)
 
     def visit_label(self, *args, **kwargs):
         self.__class__._cached_metadata.add([c.name for c in args][0])
