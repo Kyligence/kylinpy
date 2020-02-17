@@ -36,13 +36,23 @@ class TestCluster(object):
 
     def test_get_client(self):
         cluster = dsn_proxy('kylin://username:password@example')
-        assert isinstance(cluster.get_client(), Client)
+        assert isinstance(cluster._get_client(), Client)
+
+    def test_set_user(self):
+        cluster = dsn_proxy('kylin://username:password@example')
+        cluster.set_user('foo', 'bar')
+        assert cluster.username == 'foo'
+        assert cluster.password == 'bar'
+        assert cluster.service.client.request_headers.get('Authorization') == 'Basic Zm9vOmJhcg=='
 
     def test_basic_auth(self):
         cluster = dsn_proxy('kylin://username:password@example')
-        cluster.username = 'foo'
-        cluster.password = 'bar'
-        assert cluster.basic_auth({}) == {'Authorization': 'Basic Zm9vOmJhcg=='}
+        assert cluster.basic_auth('foo', 'bar') == {'Authorization': 'Basic Zm9vOmJhcg=='}
+
+    def test_set_headers(self):
+        cluster = dsn_proxy('kylin://username:password@example')
+        cluster.set_headers({'Foo': 'bar'})
+        assert cluster.service.client.request_headers.get('Foo') == 'bar'
 
 
 class TestProject(object):

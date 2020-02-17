@@ -47,17 +47,18 @@ class Cluster(object):
         self.scheme = 'https' if self.is_ssl else 'http'
         if self.is_debug:
             logging.basicConfig(level=logging.DEBUG)
-        self.service = SERVICES[self.version](self.get_client())
+        self.service = SERVICES[self.version](self._get_client())
 
-    def get_client(self):
+    def _get_client(self):
         headers = {
             'User-Agent': 'Kylin Python Client',
         }
 
-        headers = self.basic_auth(headers)
-
         if self.version == 'v2':
             headers.update({'Accept': 'application/vnd.apache.kylin-v2+json'})
+
+        if self.username and self.password:
+            headers.update(self.basic_auth(self.username, self.password))
 
         return HTTPClient(
             host='{self.scheme}://{self.host}:{self.port}'.format(**locals()),
@@ -68,12 +69,20 @@ class Cluster(object):
             mask_auth=(not self.is_debug),
         )
 
-    def basic_auth(self, headers):
-        _headers = headers.copy()
-        _auth = as_unicode('{}:{}').format(self.username, self.password)
+    def set_headers(self, headers):
+        self.service.client._update_headers(headers)
+
+    def set_user(self, username, password):
+        self.username = username
+        self.password = password
+        auth = self.basic_auth(username, password)
+        self.set_headers(auth)
+
+    @staticmethod
+    def basic_auth(username, password):
+        _auth = as_unicode('{}:{}').format(username, password)
         _auth = base64.b64encode(_auth.encode('utf-8')).decode('ascii')
-        _headers.update({'Authorization': 'Basic {}'.format(_auth)})
-        return _headers
+        return {'Authorization': 'Basic {}'.format(_auth)}
 
     @property
     def projects(self):
