@@ -4,7 +4,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from kylinpy.client import InternalServerError
+from kylinpy.client import InternalServerError, UnauthorizedError
 from kylinpy.exceptions import KylinQueryError
 
 
@@ -39,6 +39,13 @@ class _Api(object):
     @staticmethod
     def cubes(client, endpoint, **kwargs):
         return client.get(endpoint=endpoint, **kwargs).json()
+
+    @staticmethod
+    def authentication(client, endpoint, **kwargs):
+        rv = client.get(endpoint=endpoint, **kwargs).json()
+        if rv == {}:
+            raise UnauthorizedError
+        return rv
 
 
 class KylinService(object):
@@ -122,3 +129,8 @@ class KylinService(object):
             'projectName': self.project,
         }
         return self.api.cubes(self.client, '/cubes', params=params)
+
+    @property
+    def get_authentication(self):
+        rv = self.api.authentication(self.client, '/user/authentication')
+        return rv.get('userDetails')

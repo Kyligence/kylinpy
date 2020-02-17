@@ -73,3 +73,8 @@ class TestKE3Service(object):
         mc.side_effect = MockException(500)
         with pytest.raises(HTTPError):
             self.project.service.query(sql='select count(*) from kylin_sales')
+
+    def test_get_authentication(self, v2_api):
+        rv = self.project.service.get_authentication
+        assert 'username' in rv
+        assert 'authorities' in rv

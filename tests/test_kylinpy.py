@@ -34,28 +34,15 @@ class TestCluster(object):
         assert cluster2.version == 'v2'
         assert isinstance(cluster2.service, SERVICES['v2'])
 
-    def test_set_user(self):
-        cluster = dsn_proxy('kylin://username:password@example')
-        cluster.set_user(username='foo', password='bar')
-        assert cluster.username == 'foo'
-        assert cluster.password == 'bar'
-
     def test_get_client(self):
         cluster = dsn_proxy('kylin://username:password@example')
         assert isinstance(cluster.get_client(), Client)
 
     def test_basic_auth(self):
         cluster = dsn_proxy('kylin://username:password@example')
-        cluster.set_user(username='foo', password='bar')
+        cluster.username = 'foo'
+        cluster.password = 'bar'
         assert cluster.basic_auth({}) == {'Authorization': 'Basic Zm9vOmJhcg=='}
-
-    def test_session_auth(self):
-        cluster = dsn_proxy('kylin://username:password@example')
-        assert cluster.session_auth({}) == {'Cookie': ''}
-
-    def test_set_v2_api(self):
-        cluster = dsn_proxy('kylin://username:password@example')
-        assert cluster.set_v2_api({}) == {'Accept': 'application/vnd.apache.kylin-v2+json'}
 
 
 class TestProject(object):

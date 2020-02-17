@@ -1,0 +1,21 @@
+{
+    "userDetails": {
+        "accountNonExpired": true,
+        "accountNonLocked": true,
+        "authorities": [
+            {
+                "authority": "ROLE_ADMIN"
+            },
+            {
+                "authority": "ROLE_ANALYST"
+            },
+            {
+                "authority": "ROLE_MODELER"
+            }
+        ],
+        "credentialsNonExpired": true,
+        "enabled": true,
+        "password": null,
+        "username": "ADMIN"
+    }
+}

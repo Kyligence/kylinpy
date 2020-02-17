@@ -1,0 +1,25 @@
+{
+    "code": "000",
+    "data": {
+        "authorities": [
+            {
+                "authority": "ROLE_ADMIN"
+            },
+            {
+                "authority": "ALL_USERS"
+            }
+        ],
+        "defaultPassword": true,
+        "disabled": false,
+        "firstLoginFailedTime": 0,
+        "last_modified": 1581480799399,
+        "locked": false,
+        "lockedTime": 0,
+        "password": "$2a$10$m/4a7yO0MCG52QVoravC9.EVs0SsRJsmKHLQhSfcwPw61qvWikaiG",
+        "username": "ADMIN",
+        "uuid": "ecfb2fb3-2281-4d6e-922e-a4fc26a427fc",
+        "version": "3.4.0.0",
+        "wrongTime": 0
+    },
+    "msg": ""
+}

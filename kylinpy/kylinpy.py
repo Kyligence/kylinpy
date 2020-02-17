@@ -49,25 +49,15 @@ class Cluster(object):
             logging.basicConfig(level=logging.DEBUG)
         self.service = SERVICES[self.version](self.get_client())
 
-    def set_user(self, username, password=None, session=None):
-        self.username = username
-        if password:
-            self.password = password
-        else:
-            self.session = session
-
     def get_client(self):
         headers = {
             'User-Agent': 'Kylin Python Client',
         }
 
-        if self.auth == 'basic':
-            headers = self.basic_auth(headers)
-        else:
-            headers = self.session_auth(headers)
+        headers = self.basic_auth(headers)
 
         if self.version == 'v2':
-            headers = self.set_v2_api(headers)
+            headers.update({'Accept': 'application/vnd.apache.kylin-v2+json'})
 
         return HTTPClient(
             host='{self.scheme}://{self.host}:{self.port}'.format(**locals()),
@@ -83,16 +73,6 @@ class Cluster(object):
         _auth = as_unicode('{}:{}').format(self.username, self.password)
         _auth = base64.b64encode(_auth.encode('utf-8')).decode('ascii')
         _headers.update({'Authorization': 'Basic {}'.format(_auth)})
-        return _headers
-
-    def session_auth(self, headers):
-        _headers = headers.copy()
-        _headers.update({'Cookie': '{}'.format(self.session)})
-        return _headers
-
-    def set_v2_api(self, headers):
-        _headers = headers.copy()
-        _headers.update({'Accept': 'application/vnd.apache.kylin-v2+json'})
         return _headers
 
     @property
