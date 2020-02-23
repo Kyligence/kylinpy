@@ -37,7 +37,7 @@ class Cursor(object):
             c['isNullable'],
         ] for c in self._column_metas)
 
-    def execute(self, query, parameters):
+    def execute(self, query, parameters={}):
         resp = self.connection.query(query, **parameters)
 
         self._column_metas = resp.get('columnMetas')

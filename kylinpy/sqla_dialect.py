@@ -98,7 +98,7 @@ class KylinDialect(default.DefaultDialect):
             'project': url.database or 'default',
         }
         kwargs.update(url.query)
-        return [], kwargs
+        return [[], kwargs]
 
     def do_execute(self, cursor, statement, parameters, context=None):
         super(KylinDialect, self).do_execute(cursor, statement, parameters, context)
