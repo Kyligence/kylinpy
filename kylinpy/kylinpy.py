@@ -16,13 +16,14 @@ except ImportError:
     from urlparse import parse_qsl
 
 from kylinpy.client import Client as HTTPClient
-from kylinpy.service import KylinService, KE3Service
+from kylinpy.service import KylinService, KE3Service, KE4Service
 from kylinpy.datasource import TableSource, CubeSource
 from kylinpy.utils.compat import as_unicode
 
 SERVICES = {
     'v1': KylinService,
     'v2': KE3Service,
+    'v4': KE4Service,
 }
 
 
@@ -56,6 +57,9 @@ class Cluster(object):
 
         if self.version == 'v2':
             headers.update({'Accept': 'application/vnd.apache.kylin-v2+json'})
+
+        if self.version == 'v4':
+            headers.update({'Accept': 'application/vnd.apache.kylin-v4+json'})
 
         if self.username and self.password:
             headers.update(self.basic_auth(self.username, self.password))

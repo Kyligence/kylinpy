@@ -34,6 +34,10 @@ class TestCluster(object):
         assert cluster2.version == 'v2'
         assert isinstance(cluster2.service, SERVICES['v2'])
 
+        cluster4 = dsn_proxy('kylin://name@45中文:pwd12@%+@example.com:9000/?version=v4')
+        assert cluster4.version == 'v4'
+        assert isinstance(cluster4.service, SERVICES['v4'])
+
     def test_get_client(self):
         cluster = dsn_proxy('kylin://username:password@example')
         assert isinstance(cluster._get_client(), Client)

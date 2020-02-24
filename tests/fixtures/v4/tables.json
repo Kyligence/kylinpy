@@ -1,0 +1,889 @@
+{
+    "code": "000",
+    "data": {
+        "size": 6,
+        "tables": [
+            {
+                "columns": [
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "1",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "C_CUSTKEY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "2",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "C_NAME",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "3",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "C_ADDRESS",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "4",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "C_CITY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "5",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "C_NATION",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "6",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "C_REGION",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "7",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "C_PHONE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "8",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "C_MKTSEGMENT",
+                        "null_count": null
+                    }
+                ],
+                "create_time": 1582549456854,
+                "database": "SSB",
+                "exd": {},
+                "foreign_key": [
+                    "P_LINEORDER.LO_CUSTKEY"
+                ],
+                "increment_loading": false,
+                "kafka_bootstrap_servers": null,
+                "last_modified": 1576740365913,
+                "last_snapshot_path": null,
+                "lookup": true,
+                "mvcc": 1,
+                "name": "CUSTOMER",
+                "partitioned_column": null,
+                "partitioned_column_format": null,
+                "primary_key": [
+                    "CUSTOMER.C_CUSTKEY"
+                ],
+                "root_fact": false,
+                "sampling_rows": [],
+                "segment_range": null,
+                "source_type": 9,
+                "starting_offsets": null,
+                "storage_size": 0,
+                "subscribe": null,
+                "table_type": "MANAGED",
+                "top": false,
+                "total_records": 0,
+                "uuid": "563db7aa-ee5c-4b1a-8308-e553a21ba2ed",
+                "version": "4.0.0.0"
+            },
+            {
+                "columns": [
+                    {
+                        "cardinality": null,
+                        "datatype": "date",
+                        "id": "1",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_DATEKEY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "2",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_DATE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "3",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_DAYOFWEEK",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "4",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_MONTH",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "5",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_YEAR",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "6",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_YEARMONTHNUM",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "7",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_YEARMONTH",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "8",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_DAYNUMINWEEK",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "9",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_DAYNUMINMONTH",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "10",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_DAYNUMINYEAR",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "11",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_MONTHNUMINYEAR",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "12",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_WEEKNUMINYEAR",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "13",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_SELLINGSEASON",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "14",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_LASTDAYINWEEKFL",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "15",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_LASTDAYINMONTHFL",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "16",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_HOLIDAYFL",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "17",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "D_WEEKDAYFL",
+                        "null_count": null
+                    }
+                ],
+                "create_time": 1582549456855,
+                "database": "SSB",
+                "exd": {},
+                "foreign_key": [
+                    "P_LINEORDER.LO_ORDERDATE"
+                ],
+                "increment_loading": false,
+                "kafka_bootstrap_servers": null,
+                "last_modified": 1576740365914,
+                "last_snapshot_path": null,
+                "lookup": true,
+                "mvcc": 1,
+                "name": "DATES",
+                "partitioned_column": null,
+                "partitioned_column_format": null,
+                "primary_key": [
+                    "DATES.D_DATEKEY"
+                ],
+                "root_fact": false,
+                "sampling_rows": [],
+                "segment_range": null,
+                "source_type": 9,
+                "starting_offsets": null,
+                "storage_size": 0,
+                "subscribe": null,
+                "table_type": "MANAGED",
+                "top": false,
+                "total_records": 0,
+                "uuid": "79317bc7-62ba-4cf7-8c90-9a551383d3f8",
+                "version": "4.0.0.0"
+            },
+            {
+                "columns": [
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "1",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_ORDERKEY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "2",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_LINENUMBER",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "3",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_CUSTKEY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "4",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_PARTKEY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "5",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_SUPPKEY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "date",
+                        "id": "6",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_ORDERDATE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "7",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_ORDERPRIOTITY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "8",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_SHIPPRIOTITY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "9",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_QUANTITY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "10",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_EXTENDEDPRICE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "11",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_ORDTOTALPRICE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "12",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_DISCOUNT",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "13",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_REVENUE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "14",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_SUPPLYCOST",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "15",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_TAX",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "date",
+                        "id": "16",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_COMMITDATE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "17",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_SHIPMODE",
+                        "null_count": null
+                    }
+                ],
+                "create_time": 1582549456856,
+                "database": "SSB",
+                "exd": {},
+                "foreign_key": [],
+                "increment_loading": false,
+                "kafka_bootstrap_servers": null,
+                "last_modified": 1576740365914,
+                "last_snapshot_path": null,
+                "lookup": false,
+                "mvcc": 1,
+                "name": "LINEORDER",
+                "partitioned_column": null,
+                "partitioned_column_format": null,
+                "primary_key": [],
+                "root_fact": true,
+                "sampling_rows": [],
+                "segment_range": null,
+                "source_type": 9,
+                "starting_offsets": null,
+                "storage_size": 446,
+                "subscribe": null,
+                "table_type": "MANAGED",
+                "top": false,
+                "total_records": 0,
+                "uuid": "d4f37668-f25b-4acb-b543-00571ce2065d",
+                "version": "4.0.0.0"
+            },
+            {
+                "columns": [
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "1",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_ORDERKEY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "2",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_LINENUMBER",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "3",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_CUSTKEY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "4",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_PARTKEY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "5",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_SUPPKEY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "date",
+                        "id": "6",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_ORDERDATE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "7",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_ORDERPRIOTITY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "8",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_SHIPPRIOTITY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "9",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_QUANTITY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "10",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_EXTENDEDPRICE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "11",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_ORDTOTALPRICE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "12",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_DISCOUNT",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "13",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_REVENUE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "14",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_SUPPLYCOST",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "15",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_TAX",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "date",
+                        "id": "16",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_COMMITDATE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "17",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "LO_SHIPMODE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "bigint",
+                        "id": "18",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "V_REVENUE",
+                        "null_count": null
+                    }
+                ],
+                "create_time": 1582549456857,
+                "database": "SSB",
+                "exd": {},
+                "foreign_key": [],
+                "increment_loading": false,
+                "kafka_bootstrap_servers": null,
+                "last_modified": 1576740388254,
+                "last_snapshot_path": null,
+                "lookup": false,
+                "mvcc": 3,
+                "name": "P_LINEORDER",
+                "partitioned_column": null,
+                "partitioned_column_format": null,
+                "primary_key": [],
+                "root_fact": true,
+                "sampling_rows": [],
+                "segment_range": null,
+                "source_type": 9,
+                "starting_offsets": null,
+                "storage_size": 1797798,
+                "subscribe": null,
+                "table_type": "VIEW",
+                "top": false,
+                "total_records": 0,
+                "uuid": "d6e1cd33-da04-421f-848e-4b8bfa1e7373",
+                "version": "4.0.0.0"
+            },
+            {
+                "columns": [
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "1",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "P_PARTKEY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "2",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "P_NAME",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "3",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "P_MFGR",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "4",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "P_CATEGORY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "5",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "P_BRAND",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "6",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "P_COLOR",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "7",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "P_TYPE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "8",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "P_SIZE",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "9",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "P_CONTAINER",
+                        "null_count": null
+                    }
+                ],
+                "create_time": 1582549456858,
+                "database": "SSB",
+                "exd": {},
+                "foreign_key": [
+                    "P_LINEORDER.LO_PARTKEY"
+                ],
+                "increment_loading": false,
+                "kafka_bootstrap_servers": null,
+                "last_modified": 1576740365915,
+                "last_snapshot_path": null,
+                "lookup": false,
+                "mvcc": 1,
+                "name": "PART",
+                "partitioned_column": null,
+                "partitioned_column_format": null,
+                "primary_key": [
+                    "PART.P_PARTKEY"
+                ],
+                "root_fact": true,
+                "sampling_rows": [],
+                "segment_range": null,
+                "source_type": 9,
+                "starting_offsets": null,
+                "storage_size": 41357,
+                "subscribe": null,
+                "table_type": "MANAGED",
+                "top": false,
+                "total_records": 0,
+                "uuid": "2da8ea73-34a8-41af-9d45-64a7cc5ed454",
+                "version": "4.0.0.0"
+            },
+            {
+                "columns": [
+                    {
+                        "cardinality": null,
+                        "datatype": "integer",
+                        "id": "1",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "S_SUPPKEY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "2",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "S_NAME",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "3",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "S_ADDRESS",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "4",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "S_CITY",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "5",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "S_NATION",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "6",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "S_REGION",
+                        "null_count": null
+                    },
+                    {
+                        "cardinality": null,
+                        "datatype": "varchar(4096)",
+                        "id": "7",
+                        "max_value": null,
+                        "min_value": null,
+                        "name": "S_PHONE",
+                        "null_count": null
+                    }
+                ],
+                "create_time": 1582549456859,
+                "database": "SSB",
+                "exd": {},
+                "foreign_key": [
+                    "P_LINEORDER.LO_SUPPKEY"
+                ],
+                "increment_loading": false,
+                "kafka_bootstrap_servers": null,
+                "last_modified": 1576740365916,
+                "last_snapshot_path": null,
+                "lookup": true,
+                "mvcc": 1,
+                "name": "SUPPLIER",
+                "partitioned_column": null,
+                "partitioned_column_format": null,
+                "primary_key": [
+                    "SUPPLIER.S_SUPPKEY"
+                ],
+                "root_fact": false,
+                "sampling_rows": [],
+                "segment_range": null,
+                "source_type": 9,
+                "starting_offsets": null,
+                "storage_size": 0,
+                "subscribe": null,
+                "table_type": "MANAGED",
+                "top": false,
+                "total_records": 0,
+                "uuid": "5152d4db-df27-4488-a97f-d92f0e014d5e",
+                "version": "4.0.0.0"
+            }
+        ]
+    },
+    "msg": ""
+}

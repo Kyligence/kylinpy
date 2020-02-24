@@ -1,0 +1,33 @@
+{
+    "code": "000",
+    "data": {
+        "authorities": [
+            {
+                "authority": "ALL_USERS"
+            },
+            {
+                "authority": "test    team"
+            },
+            {
+                "authority": "ROLE_ADMIN"
+            },
+            {
+                "authority": "qa team"
+            }
+        ],
+        "create_time": 1581574429165,
+        "default_password": false,
+        "disabled": false,
+        "first_login_failed_time": 1582538846566,
+        "last_modified": 1582538847031,
+        "locked": false,
+        "locked_time": 0,
+        "mvcc": 113,
+        "password": "$2a$10$EbUxCZjrDkYv0ioKnKPk4uQodIeu4kTEfEP5iY3zzT2mlW9WzBF/O",
+        "username": "ADMIN",
+        "uuid": "d9392429-dd8a-4508-8998-58f7e78c96b4",
+        "version": "4.0.0.0",
+        "wrong_time": 1
+    },
+    "msg": ""
+}

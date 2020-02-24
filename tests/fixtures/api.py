@@ -57,3 +57,19 @@ def v2_api(mocker):
     mocker.patch('kylinpy.service.KE3Service.api.tables_and_columns', return_value=tables_and_columns)
     mocker.patch('kylinpy.service.KE3Service.api.authentication', return_value=authentication)
     yield mocker
+
+
+@pytest.fixture
+def v4_api(mocker):
+    projects = read('v4', 'projects.json').get('data')
+    query = read('v4', 'query.json').get('data')
+    tables = read('v4', 'tables.json').get('data')
+    tables_and_columns = read('v4', 'tables_and_columns.json').get('data')
+    authentication = read('v4', 'authentication.json').get('data')
+
+    mocker.patch('kylinpy.service.KE4Service.api.projects', return_value=projects)
+    mocker.patch('kylinpy.service.KE4Service.api.query', return_value=query)
+    mocker.patch('kylinpy.service.KE4Service.api.tables', return_value=tables)
+    mocker.patch('kylinpy.service.KE4Service.api.tables_and_columns', return_value=tables_and_columns)
+    mocker.patch('kylinpy.service.KE4Service.api.authentication', return_value=authentication)
+    yield mocker

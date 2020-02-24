@@ -1,0 +1,75 @@
+{
+    "code": "000",
+    "data": {
+        "affectedRowCount": 0,
+        "appMasterURL": "/kylin/sparder/SQL/execution/?id=1029",
+        "columnMetas": [
+            {
+                "autoIncrement": false,
+                "caseSensitive": false,
+                "catelogName": null,
+                "columnType": -5,
+                "columnTypeName": "BIGINT",
+                "currency": false,
+                "definitelyWritable": false,
+                "displaySize": 2147483647,
+                "isNullable": 0,
+                "label": "EXPR$0",
+                "name": "EXPR$0",
+                "precision": 19,
+                "readOnly": false,
+                "scale": 0,
+                "schemaName": null,
+                "searchable": false,
+                "signed": true,
+                "tableName": null,
+                "writable": false
+            }
+        ],
+        "duration": 191,
+        "engineType": "NATIVE",
+        "exception": false,
+        "exceptionMessage": null,
+        "hitExceptionCache": false,
+        "isException": false,
+        "is_prepare": false,
+        "is_timeout": false,
+        "partial": false,
+        "prepare": false,
+        "pushDown": false,
+        "queryId": "0fe272dd-1d95-4a37-91d0-306a6b078960",
+        "queryStatistics": null,
+        "realizations": [
+            {
+                "indexType": "Agg Index",
+                "layoutId": 1,
+                "modelAlias": "AUTO_MODEL_LINEORDER_1",
+                "modelId": "585e565b-4d8b-4667-b697-85840d5081cd",
+                "partialMatchModel": false,
+                "valid": true
+            }
+        ],
+        "resultRowCount": 1,
+        "results": [
+            [
+                "60175"
+            ]
+        ],
+        "scanBytes": [
+            816
+        ],
+        "scanRows": [
+            1
+        ],
+        "server": "sandbox.hortonworks.com:7070",
+        "shufflePartitions": 1,
+        "signature": "1580799525450;1576740365914",
+        "storageCacheUsed": false,
+        "suite": null,
+        "timeout": false,
+        "totalScanBytes": 816,
+        "totalScanRows": 1,
+        "traceUrl": null
+    },
+    "msg": ""
+}

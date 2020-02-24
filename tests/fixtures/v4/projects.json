@@ -1,0 +1,49 @@
+{
+    "code": "000",
+    "data": {
+        "limit": 100000,
+        "offset": 0,
+        "total_size": 1,
+        "value": [
+            {
+                "create_time": 1576739652930,
+                "create_time_utc": 1576739652930,
+                "default_database": "SSB",
+                "description": "created by chang",
+                "ext_filters": [],
+                "last_modified": 1576741492612,
+                "maintain_model_type": "AUTO_MAINTAIN",
+                "mvcc": 2,
+                "name": "ssb",
+                "override_kylin_properties": {
+                    "kap.query.metadata.expose-computed-column": "false",
+                    "kylin.source.default": "9"
+                },
+                "owner": "ADMIN",
+                "segment_config": {
+                    "auto_merge_enabled": true,
+                    "auto_merge_time_ranges": [
+                        "WEEK",
+                        "MONTH",
+                        "QUARTER",
+                        "YEAR"
+                    ],
+                    "retention_range": {
+                        "retention_range_enabled": false,
+                        "retention_range_number": 1,
+                        "retention_range_type": "MONTH"
+                    },
+                    "volatile_range": {
+                        "volatile_range_enabled": false,
+                        "volatile_range_number": 0,
+                        "volatile_range_type": "DAY"
+                    }
+                },
+                "status": "ENABLED",
+                "uuid": "612fb2ec-e71f-4d39-b2b6-1b53a5637f9d",
+                "version": "4.0.0.0"
+            }
+        ]
+    },
+    "msg": ""
+}
