@@ -23,7 +23,6 @@ class TestCluster(object):
         assert cluster.prefix == '/kylin/api'
         assert cluster.timeout == 30
         assert cluster.unverified is True
-        assert cluster.session == ''
         assert cluster.version == 'v1'
         assert cluster.is_pushdown is False
         assert cluster.is_debug is False

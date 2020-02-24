@@ -41,7 +41,6 @@ class Cluster(object):
         self.prefix = connect_args.get('prefix', '/kylin/api')
         self.timeout = connect_args.get('timeout', 30)
         self.unverified = bool(connect_args.get('unverified', True))
-        self.session = connect_args.get('session', '')
         self.version = connect_args.get('version', 'v1')
         self.is_pushdown = bool(connect_args.get('is_pushdown', False))
         self.is_debug = bool(connect_args.get('is_debug', False))
