@@ -52,7 +52,7 @@ class TestClient(object):
         assert client.prefix is None
         assert client.timeout is None
         assert client.unverified is None
-        assert client.mask_auth is True
+        assert client.is_debug is False
 
     def test_get(self, client, mocker):
         mocker.patch('kylinpy.client.client.Client._make_request', return_value=MockResponse(200))

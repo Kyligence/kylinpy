@@ -55,18 +55,18 @@ class Client(object):
         prefix=None,
         timeout=None,
         unverified=None,
-        mask_auth=True,
+        is_debug=False,
     ):
         self.host = host.rstrip('/')
         self.request_headers = request_headers or {}
-        self.prefix = prefix.strip('/') if prefix else None
+        self.prefix = prefix
         self.timeout = timeout
         self.unverified = unverified
-        self.mask_auth = mask_auth
+        self.is_debug = is_debug
 
     def _build_url(self, endpoint=None, params=None):
         if self.prefix:
-            url = '{}/{}'.format(self.host, self.prefix)
+            url = '{}/{}'.format(self.host, self.prefix.strip('/'))
         else:
             url = self.host
 
@@ -83,7 +83,7 @@ class Client(object):
         self.request_headers.update(request_headers)
 
     def _mask_auth_headers(self, headers):
-        if not self.mask_auth:
+        if self.is_debug:
             return headers
 
         _headers = {}

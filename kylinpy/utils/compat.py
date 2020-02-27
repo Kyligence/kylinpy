@@ -10,12 +10,16 @@ import time
 try:
     # Python 3
     import urllib.request as urllib  # noqa
+    from urllib.request import urlparse  # noqa
     from urllib.request import HTTPSHandler  # noqa
     from urllib.parse import urlencode  # noqa
-    from urllib.error import HTTPError # noqa
+    from urllib.parse import parse_qsl  # noqa
+    from urllib.error import HTTPError  # noqa
 except ImportError:
     # Python 2
     import urllib2 as urllib  # noqa
+    from urlparse import urlparse  # noqa
+    from urlparse import parse_qsl  # noqa
     from urllib2 import HTTPError  # noqa
     from urllib2 import HTTPSHandler  # noqa
     from urllib import urlencode  # noqa

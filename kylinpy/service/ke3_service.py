@@ -55,16 +55,17 @@ class KE3Service(object):
         self.client = client
         self.project = project
 
-    def query(self, sql, limit=50000, offset=0, acceptPartial=False):
-        request_body = {
+    def query(self, sql, limit=50000, offset=0, acceptPartial=False, **kwargs):
+        json_data = {
             'acceptPartial': acceptPartial,
             'limit': limit,
             'offset': offset,
             'project': self.project,
             'sql': sql,
         }
+        kwargs.setdefault('json', json_data)
         try:
-            response = self.api.query(self.client, '/query', json=request_body)
+            response = self.api.query(self.client, '/query', **kwargs)
         except InternalServerError as err:
             raise KylinQueryError(err)
 
@@ -74,26 +75,33 @@ class KE3Service(object):
 
         return response
 
-    @property
-    def projects(self):
+    def projects(self, **kwargs):
         params = {
             'pageOffset': 0,
             'pageSize': 1000,
         }
-        _projects = self.api.projects(self.client, '/projects', params=params)
+        kwargs.setdefault('params', params)
+        _projects = self.api.projects(self.client, '/projects', **kwargs)
         return _projects.get('projects')
 
-    @property
-    def tables_and_columns(self):
-        resp = self.api.tables_and_columns(self.client, '/tables_and_columns', params={'project': self.project})
+    def tables_and_columns(self, **kwargs):
+        params = {
+            'project': self.project,
+        }
+        kwargs.setdefault('params', params)
+        resp = self.api.tables_and_columns(self.client, '/tables_and_columns', **kwargs)
         tbl_pair = tuple(('{}.{}'.format(tbl.get('table_SCHEM'), tbl.get('table_NAME')), tbl) for tbl in resp)
         for tbl in tbl_pair:
             tbl[1]['columns'] = [(col['column_NAME'], col) for col in tbl[1]['columns']]
         return dict(tbl_pair)
 
-    @property
-    def tables_in_hive(self):
-        tables = self.api.tables(self.client, '/tables', params={'project': self.project, 'ext': True})
+    def tables_in_hive(self, **kwargs):
+        params = {
+            'project': self.project,
+            'ext': True,
+        }
+        kwargs.setdefault('params', params)
+        tables = self.api.tables(self.client, '/tables', **kwargs)
 
         __tables_in_hive = {}
         for tbl in tables:
@@ -104,25 +112,24 @@ class KE3Service(object):
 
         return __tables_in_hive
 
-    def cube_desc(self, name):
-        _cube_desc = self.api.cube_desc(self.client, '/cube_desc/{}/{}'.format(self.project, name))
+    def cube_desc(self, name, **kwargs):
+        _cube_desc = self.api.cube_desc(self.client, '/cube_desc/{}/{}'.format(self.project, name), **kwargs)
         return _cube_desc.get('cube')
 
-    def model_desc(self, name):
-        return [_ for _ in self.models if _.get('name') == name][0]
+    def model_desc(self, name, **kwargs):
+        return [_ for _ in self.models(**kwargs) if _.get('name') == name][0]
 
-    @property
-    def models(self):
+    def models(self, **kwargs):
         params = {
             'projectName': self.project,
             'pageOffset': 0,
             'pageSize': 1000,
         }
-        _models = self.api.models(self.client, '/models', params=params)
+        kwargs.setdefault('params', params)
+        _models = self.api.models(self.client, '/models', **kwargs)
         return _models.get('models')
 
-    @property
-    def cubes(self):
+    def cubes(self, **kwargs):
         params = {
             'pageOffset': 0,
             'offset': 0,
@@ -130,9 +137,9 @@ class KE3Service(object):
             'pageSize': 1000,
             'projectName': self.project,
         }
-        _cubes = self.api.cubes(self.client, '/cubes', params=params)
+        kwargs.setdefault('params', params)
+        _cubes = self.api.cubes(self.client, '/cubes', **kwargs)
         return _cubes.get('cubes')
 
-    @property
-    def get_authentication(self):
-        return self.api.authentication(self.client, '/user/authentication')
+    def get_authentication(self, **kwargs):
+        return self.api.authentication(self.client, '/user/authentication', **kwargs)

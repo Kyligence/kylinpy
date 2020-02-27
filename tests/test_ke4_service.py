@@ -22,11 +22,11 @@ class TestKE4Service(object):
         return dsn_proxy('kylin://ADMIN:KYLIN@example/ssb?version=v4')
 
     def test_projects(self, v4_api):
-        rv = self.cluster.projects
+        rv = self.project.service.projects(headers={})
         assert [e['name'] for e in rv] == ['ssb']
 
     def test_tables_and_columns(self, v4_api):
-        rv = self.project.service.tables_and_columns
+        rv = self.project.service.tables_and_columns(headers={})
         assert sorted(list(rv.keys())) == [
             'SSB.CUSTOMER',
             'SSB.DATES',
@@ -37,7 +37,7 @@ class TestKE4Service(object):
         ]
 
     def test_tables_in_hive(self, v4_api):
-        rv = self.project.service.tables_in_hive
+        rv = self.project.service.tables_in_hive(headers={})
         assert sorted(list(rv.keys())) == [
             'SSB.CUSTOMER',
             'SSB.DATES',
@@ -48,7 +48,7 @@ class TestKE4Service(object):
         ]
 
     def test_query(self, v4_api):
-        rv = self.project.service.query(sql='select count(*) from P_LINEORDER')
+        rv = self.project.service.query(sql='select count(*) from P_LINEORDER', headers={})
         assert 'columnMetas' in rv
         assert 'results' in rv
 
@@ -65,6 +65,6 @@ class TestKE4Service(object):
             self.project.service.query(sql='select count(*) from P_LINEORDER')
 
     def test_get_authentication(self, v4_api):
-        rv = self.project.service.get_authentication
+        rv = self.project.service.get_authentication(headers={})
         assert 'username' in rv
         assert 'authorities' in rv

@@ -11,63 +11,69 @@ from kylinpy.client import Client
 from kylinpy.exceptions import NoSuchTableError
 
 
-class TestCluster(object):
-    def test_init(self):
-        cluster = dsn_proxy('kylin://name@45中文:pwd12@%+@example.com:9000/')
-        assert cluster.host == 'example.com'
-        assert cluster.port == 9000
-        assert cluster.username == 'name@45中文'
-        assert cluster.password == 'pwd12@%+'
-        assert cluster.auth == 'basic'
-        assert cluster.is_ssl is None
-        assert cluster.prefix == '/kylin/api'
-        assert cluster.timeout == 30
-        assert cluster.unverified is True
-        assert cluster.version == 'v1'
-        assert cluster.is_pushdown is False
-        assert cluster.is_debug is False
-        assert cluster.scheme == 'http'
-        assert isinstance(cluster.service, SERVICES['v1'])
-
-        cluster2 = dsn_proxy('kylin://name@45中文:pwd12@%+@example.com:9000/?version=v2')
-        assert cluster2.version == 'v2'
-        assert isinstance(cluster2.service, SERVICES['v2'])
-
-        cluster4 = dsn_proxy('kylin://name@45中文:pwd12@%+@example.com:9000/?version=v4')
-        assert cluster4.version == 'v4'
-        assert isinstance(cluster4.service, SERVICES['v4'])
-
-    def test_get_client(self):
-        cluster = dsn_proxy('kylin://username:password@example')
-        assert isinstance(cluster._get_client(), Client)
-
-    def test_set_user(self):
-        cluster = dsn_proxy('kylin://username:password@example')
-        cluster.set_user('foo', 'bar')
-        assert cluster.username == 'foo'
-        assert cluster.password == 'bar'
-        assert cluster.service.client.request_headers.get('Authorization') == 'Basic Zm9vOmJhcg=='
-
-    def test_basic_auth(self):
-        cluster = dsn_proxy('kylin://username:password@example')
-        assert cluster.basic_auth('foo', 'bar') == {'Authorization': 'Basic Zm9vOmJhcg=='}
-
-    def test_set_headers(self):
-        cluster = dsn_proxy('kylin://username:password@example')
-        cluster.set_headers({'Foo': 'bar'})
-        assert cluster.service.client.request_headers.get('Foo') == 'bar'
-
-
 class TestProject(object):
     @property
     def project(self):
         return dsn_proxy('kylin://username:password@example/foobar')
 
     def test_init(self):
-        assert isinstance(self.project.service, SERVICES['v1'])
-        assert self.project.service.project == 'foobar'
-        assert self.project.is_pushdown is False
-        assert self.project.project == 'foobar'
+        cluster = dsn_proxy('kylin://name@45中文:pwd12@%+@example.com:9000/foobar')
+        assert cluster.host == 'example.com'
+        assert cluster.port == 9000
+        assert cluster.username == 'name@45中文'
+        assert cluster.password == 'pwd12@%+'
+        assert cluster.is_ssl is None
+        assert cluster.prefix == '/kylin/api'
+        assert cluster.timeout == 30
+        assert cluster.unverified is True
+        assert cluster.version == 'v1'
+        assert cluster.is_pushdown is False
+        assert cluster.is_pushdown is False
+        assert cluster.is_debug is False
+        assert cluster.scheme == 'http'
+        assert cluster.project == 'foobar'
+
+    def test_service(self):
+        cluster = dsn_proxy('kylin://foo:bar@example.com:9000/foobar?prefix=/aaa/bbb')
+        assert isinstance(cluster.service, SERVICES['v1'])
+        assert cluster.service.client.request_headers.get('Accept') is None
+        assert cluster.service.client.request_headers.get('Authorization') == 'Basic Zm9vOmJhcg=='
+        assert cluster.service.project == 'foobar'
+        assert cluster.version == 'v1'
+        cluster.username = 'yongjie'
+        cluster.password = 'zhao'
+        cluster.host = 'eager_host.com'
+        cluster.port = 1234
+        cluster.scheme = 'https'
+        cluster.timeout = 1000
+        cluster.unverified = False
+        cluster.prefix = '/hello/world'
+        cluster.is_debug = True
+        eager_client = cluster.service.client
+        assert eager_client.host == 'https://eager_host.com:1234'
+        assert eager_client.prefix == '/hello/world'
+        assert eager_client.unverified is False
+        assert eager_client.timeout == 1000
+        assert eager_client.is_debug is True
+        assert cluster.service.client.request_headers.get('Authorization') == 'Basic eW9uZ2ppZTp6aGFv'
+
+        cluster2 = dsn_proxy('kylin://foo:bar@example.com:9000/?version=v2')
+        assert cluster2.version == 'v2'
+        assert cluster2.service.client.request_headers.get('Accept') == 'application/vnd.apache.kylin-v2+json'
+        assert isinstance(cluster2.service, SERVICES['v2'])
+
+        cluster4 = dsn_proxy('kylin://foo:bar@example.com:9000/?version=v4')
+        assert cluster4.version == 'v4'
+        assert cluster4.service.client.request_headers.get('Accept') == 'application/vnd.apache.kylin-v4+json'
+        assert isinstance(cluster4.service, SERVICES['v4'])
+
+    def test_get_client(self):
+        cluster = dsn_proxy('kylin://username:password@example')
+        assert isinstance(cluster._get_client(), Client)
+
+    def test_basic_auth_dump(self):
+        cluster = dsn_proxy('kylin://username:password@example')
+        assert cluster.basic_auth_dump('foo', 'bar') == {'Authorization': 'Basic Zm9vOmJhcg=='}
 
     def test_query(self, v1_api):
         rv = self.project.query('select count(*) from kylin_sales')

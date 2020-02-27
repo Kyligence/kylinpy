@@ -22,11 +22,11 @@ class TestKylinService(object):
         return dsn_proxy('kylin://ADMIN:KYLIN@example/learn_kylin')
 
     def test_projects(self, v1_api):
-        rv = self.cluster.projects
+        rv = self.project.service.projects(headers={})
         assert [e['name'] for e in rv] == ['learn_kylin']
 
     def test_tables_and_columns(self, v1_api):
-        rv = self.project.service.tables_and_columns
+        rv = self.project.service.tables_and_columns(headers={})
         assert sorted(list(rv.keys())) == [
             'DEFAULT.KYLIN_ACCOUNT',
             'DEFAULT.KYLIN_CAL_DT',
@@ -36,29 +36,29 @@ class TestKylinService(object):
         ]
 
     def test_cubes(self, v1_api):
-        rv = self.project.service.cubes
+        rv = self.project.service.cubes(headers={})
         assert [e['name'] for e in rv] == ['kylin_sales_cube', 'kylin_streaming_cube']
 
     def test_models(self, v1_api):
-        rv = self.project.service.models
+        rv = self.project.service.models(headers={})
         assert [e['name'] for e in rv] == ['kylin_sales_model', 'kylin_streaming_model']
 
     def test_cube_desc(self, v1_api):
-        rv = self.project.service.cube_desc('kylin_sales_cube')
+        rv = self.project.service.cube_desc('kylin_sales_cube', headers={})
         assert 'dimensions' in rv
         assert 'measures' in rv
         assert rv['model_name'] == 'kylin_sales_model'
         assert rv['name'] == 'kylin_sales_cube'
 
     def test_model_desc(self, v1_api):
-        rv = self.project.service.model_desc('kylin_sales_model')
+        rv = self.project.service.model_desc('kylin_sales_model', headers={})
         assert 'dimensions' in rv
         assert 'lookups' in rv
         assert 'metrics' in rv
         assert rv['name'] == 'kylin_sales_model'
 
     def test_query(self, v1_api):
-        rv = self.project.service.query(sql='select count(*) from kylin_sales')
+        rv = self.project.service.query(sql='select count(*) from kylin_sales', headers={})
         assert 'columnMetas' in rv
         assert 'results' in rv
 
@@ -75,6 +75,6 @@ class TestKylinService(object):
             self.project.service.query(sql='select count(*) from kylin_sales')
 
     def test_get_authentication(self, v1_api):
-        rv = self.project.service.get_authentication
+        rv = self.project.service.get_authentication(headers={})
         assert 'username' in rv
         assert 'authorities' in rv
