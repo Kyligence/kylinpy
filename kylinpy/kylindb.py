@@ -5,7 +5,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from kylinpy.client import HTTPError
-from kylinpy.kylinpy import Project
+from kylinpy.kylinpy import KylinCluster
 from kylinpy.utils.compat import as_unicode
 from kylinpy.utils.kylin_types import kylin_to_python
 
@@ -95,7 +95,7 @@ class Cursor(object):
         pass
 
 
-class KylinDB(Project):
+class KylinDB(KylinCluster):
     paramstyle = 'pyformat'
     threadsafety = 2
     apilevel = '2.0'

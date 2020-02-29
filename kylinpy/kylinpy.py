@@ -19,7 +19,7 @@ SERVICES = {
 }
 
 
-class Project(object):
+class KylinCluster(object):
     def __init__(self, host, username=None, password=None, port=7070, project=None, **connect_args):
         if host.startswith(('http://', 'https://')):
             _, self.host = host.split('://')
@@ -134,4 +134,4 @@ def dsn_proxy(dsn):
     project = url.path.lstrip('/')
     port = url.port or 7070
     query = dict(parse_qsl(url.query) or {})
-    return Project(url.hostname, url.username, url.password, port, project, **query)
+    return KylinCluster(url.hostname, url.username, url.password, port, project, **query)
