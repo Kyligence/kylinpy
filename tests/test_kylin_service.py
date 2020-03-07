@@ -35,6 +35,17 @@ class TestKylinService(object):
             'DEFAULT.KYLIN_SALES',
         ]
 
+    def test_tables_in_hive(self, v1_api):
+        rv = self.project.service.tables_in_hive()
+        assert sorted(list(rv.keys())) == [
+            'DEFAULT.KYLIN_ACCOUNT',
+            'DEFAULT.KYLIN_CAL_DT',
+            'DEFAULT.KYLIN_CATEGORY_GROUPINGS',
+            'DEFAULT.KYLIN_COUNTRY',
+            'DEFAULT.KYLIN_SALES',
+            'DEFAULT.KYLIN_STREAMING_TABLE',
+        ]
+
     def test_cubes(self, v1_api):
         rv = self.project.service.cubes(headers={})
         assert [e['name'] for e in rv] == ['kylin_sales_cube', 'kylin_streaming_cube']
