@@ -21,13 +21,13 @@ Installation
 
 The easiest way to install Apache Kylin Python Client Library is to use pip::
 
-    pip install --upgrade kylinpy
+    pip install kylinpy
 
-Alternatiely, you may install this library from local project path,
-You are welcomed to also commit to this library::
+alternative, install by offline tarball package::
 
-    git clone https://github.com/Kyligence/kylinpy.git
-    pip install -e kylinpy
+    # download from https://pypi.org/project/kylinpy/#files
+    pip install kylinpy-<version>.tar.gz
+
 
 Apache Kylin dialect for SQLAlchemy
 -----------------------------------
@@ -35,41 +35,47 @@ Any application that uses SQLAlchemy can now query Apache Kylin with this Apache
 
 You may use below template to build DSN to connect Apache Kylin::
 
-    kylin://<username>:<password>@<hostname>:<port>/<project>
-
-============================= ============================================
-DSN Field                         Default Value
-============================= ============================================
-username
------------------------------ --------------------------------------------
-password
------------------------------ --------------------------------------------
-hostname
------------------------------ --------------------------------------------
-port                               7070
------------------------------ --------------------------------------------
-project
-============================= ============================================
+    kylin://<username>:<password>@<hostname>:<port>/<project>?<param1>=<value1>&<param2>=<value2>
 
 
-SQLAlchemy **create_engine** takes an argument **connect_args** which is an additional dictionary that will be passed to connect().
+============================= ================= =======================
+DSN Fields                         Default           Allow omitted
+============================= ================= =======================
+username                           null                 false
+----------------------------- ----------------- -----------------------
+password                           null                 false
+----------------------------- ----------------- -----------------------
+hostname                           null                 false
+----------------------------- ----------------- -----------------------
+port                               7070                 true
+----------------------------- ----------------- -----------------------
+project                            null                 false
+============================= ================= =======================
 
 
-============================= ============================================
-key                              Default Value
-============================= ============================================
-is_ssl                           False
------------------------------ --------------------------------------------
-prefix                           kylin/api
------------------------------ --------------------------------------------
-timeout(unit: seconds)           30
------------------------------ --------------------------------------------
-unverified                       True
------------------------------ --------------------------------------------
-version                          v1
------------------------------ --------------------------------------------
-is_pushdown                      False
-============================= ============================================
+DSN query string config is as follows
+
+
+========== ================== ================= ==================
+   Fields     Default Value    Optional value       Description
+========== ================== ================= ==================
+is_ssl          0                 0|1             Is the Kylin cluster enabled for https
+---------- ------------------ ----------------- ------------------
+prefix        /kylin/api         string           Kylin cluster API prefix
+---------- ------------------ ----------------- ------------------
+timeout          30            integer > 0        HTTP timeout with Kylin cluster
+---------- ------------------ ----------------- ------------------
+version          v1             v1|v2|v4          v1 == using Apache Kylin API
+
+                                                  v2 == using Kyligence Enterprise 3 API
+
+                                                  v4 == using Kyligence Enterprise 4 API
+---------- ------------------ ----------------- ------------------
+is_pushdow      0                 0|1             If enabled, viewing a project table will use the hive source table
+---------- ------------------ ----------------- ------------------
+is_debug        0                 0|1             Whether to enable debug mode
+========== ================== ================= ==================
+
 
 
 From SQLAlchemy access Apache Kylin
@@ -78,7 +84,7 @@ From SQLAlchemy access Apache Kylin
 
     $ python
     >>> import sqlalchemy as sa
-    >>> kylin_engine = sa.create_engine('kylin://ADMIN:KYLIN@sandbox/learn_kylin', connect_args={'is_ssl': True, 'timeout': 60})
+    >>> kylin_engine = sa.create_engine('kylin://ADMIN:KYLIN@sandbox/learn_kylin?timeout=60&is_debug=1')
     >>> results = kylin_engine.execute('SELECT count(*) FROM KYLIN_SALES')
     >>> [e for e in results]
     [(4953,)]
@@ -97,7 +103,7 @@ From Pandas access Apache Kylin
    $ python
     >>> import sqlalchemy as sa
     >>> import pandas as pd
-    >>> kylin_engine = sa.create_engine('kylin://ADMIN:KYLIN@sandbox/learn_kylin', connect_args={'is_ssl': True, 'timeout': 60})
+    >>> kylin_engine = sa.create_engine('kylin://ADMIN:KYLIN@sandbox/learn_kylin?timeout=60&is_debug=1')
     >>> sql = 'select * from kylin_sales limit 10'
     >>> pd.read_sql(sql, kylin_engine)
 
