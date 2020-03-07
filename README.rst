@@ -31,7 +31,7 @@ alternative, install by offline tarball package::
 
 Apache Kylin dialect for SQLAlchemy
 -----------------------------------
-Any application that uses SQLAlchemy can now query Apache Kylin with this Apache Kylin dialect installed. It is part of the Apache Kylin Python Client Library, so if you already installed this library in the previous step, you are ready to use. 
+Any application that uses SQLAlchemy can now query Apache Kylin with this Apache Kylin dialect installed.
 
 You may use below template to build DSN to connect Apache Kylin::
 
