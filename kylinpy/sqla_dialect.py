@@ -58,6 +58,9 @@ class KylinSQLCompiler(compiler.SQLCompiler):
 
 
 class KylinDialect(default.DefaultDialect):
+    def get_primary_keys(self, connection, table_name, schema=None, **kw):
+        pass
+
     name = 'kylin'
     driver = 'kylin'
 

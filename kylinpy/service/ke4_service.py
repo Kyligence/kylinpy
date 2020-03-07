@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 
 from kylinpy.client import InternalServerError, UnauthorizedError
 from kylinpy.exceptions import KylinQueryError
+from ._service_interface import ServiceInterface
 
 
 class _Api(object):
@@ -36,7 +37,7 @@ class _Api(object):
         return rv
 
 
-class KE4Service(object):
+class KE4Service(ServiceInterface):
     api = _Api
 
     def __init__(self, client, project=None):
