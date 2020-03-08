@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 
 from .kylinpy import KylinCluster
 
-__version__ = '2.4.0'
+__version__ = '2.4.1'
 
 __all__ = [
     'KylinCluster',
