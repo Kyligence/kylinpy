@@ -41,10 +41,10 @@ class Cursor(object):
         resp = self.connection.query(query, **parameters)
 
         self._column_metas = resp.get('columnMetas')
-        self.results = [[
+        self.results = [tuple([
             kylin_to_python(self.description[col][1], cell)
             for (col, cell) in enumerate(row)
-        ] for row in resp['results']]
+        ]) for row in resp['results']]
         self.rowcount = len(self.results)
         self.fetched_rows = 0
 
