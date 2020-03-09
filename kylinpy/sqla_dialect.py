@@ -12,7 +12,7 @@ from sqlalchemy.engine import default
 from sqlalchemy.sql import compiler
 
 from kylinpy.exceptions import NoSuchTableError
-from kylinpy.kylindb import KylinDB
+from kylinpy.kylindb import Connection
 from kylinpy.utils.keywords import CALCITE_KEYWORDS
 from kylinpy.utils.sqla_types import kylin_to_sqla
 
@@ -84,7 +84,7 @@ class KylinDialect(default.DefaultDialect):
 
     @classmethod
     def dbapi(cls):
-        return KylinDB
+        return Connection
 
     def initialize(self, connection):
         self.server_version_info = None

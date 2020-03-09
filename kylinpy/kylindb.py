@@ -95,17 +95,17 @@ class Cursor(object):
         pass
 
 
-class KylinDB(KylinCluster):
+class Connection(KylinCluster):
     paramstyle = 'pyformat'
     threadsafety = 2
     apilevel = '2.0'
     Error = HTTPError
 
-    def __init__(self, *args, **kwargs):
-        super(KylinDB, self).__init__(*args, **kwargs)
+    def __init__(self, **kwargs):
+        super(Connection, self).__init__(**kwargs)
 
     @classmethod
-    def connect(cls, *args, **kwargs):
+    def connect(cls, **kwargs):
         return cls(**kwargs)
 
     def close(self):
