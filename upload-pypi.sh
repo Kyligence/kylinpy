@@ -4,4 +4,5 @@ set -e
 tox
 python setup.py sdist
 twine upload dist/*
-rm -rf build dist .egg kylinpy.egg-info
+python setup.py clean
+rm -rf dist

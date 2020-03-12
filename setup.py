@@ -38,6 +38,7 @@ setup(
     license='MIT License',
     description='Apache Kylin Python Client Library',
     long_description=open('README.rst').read(),
+    long_description_content_type='text/x-rst',
     install_requires=[],
     extras_require={
         'sqlalchemy': ['sqlalchemy>=1.1.0'],
