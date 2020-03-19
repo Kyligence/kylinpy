@@ -74,6 +74,7 @@ class Client(object):
             url = '{}/{}'.format(url, endpoint.strip('/'))
 
         if params:
+            params = {k: v for k, v in params.items() if v is not None}
             url_values = urlencode(sorted(params.items()), True)
             url = '{}?{}'.format(url, url_values)
 
