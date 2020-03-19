@@ -75,6 +75,9 @@ class KylinCluster(object):
     def projects(self):
         return self.service.projects()
 
+    def jobs(self):
+        return self.service.jobs()
+
     def query(self, sql, **parameters):
         return self.service.query(sql, **parameters)
 
