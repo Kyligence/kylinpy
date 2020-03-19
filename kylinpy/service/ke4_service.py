@@ -26,6 +26,10 @@ class _Api(object):
         return client.get(endpoint=endpoint, **kwargs).json().get('data')
 
     @staticmethod
+    def jobs(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
     def tables(client, endpoint, **kwargs):
         return client.get(endpoint=endpoint, **kwargs).json().get('data')
 
@@ -72,6 +76,19 @@ class KE4Service(ServiceInterface):
         kwargs.setdefault('params', params)
         _projects = self.api.projects(self.client, '/projects', **kwargs)
         return _projects.get('value')
+
+    def jobs(self,  project=None, page_offset=0, page_size=10,
+             sort_by='last_modified', reverse=True, key=None, **kwargs):
+        params = {
+            'project': project or self.project,
+            'page_offset': page_offset,
+            'page_size': page_size,
+            'sort_by': sort_by,
+            'reverse': reverse,
+            'key': key,
+        }
+        _jobs = self.api.jobs(self.client, '/jobs', params=params, **kwargs)
+        return _jobs.get('jobs')
 
     def tables_and_columns(self, **kwargs):
         params = {

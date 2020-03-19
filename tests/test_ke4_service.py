@@ -25,6 +25,10 @@ class TestKE4Service(object):
         rv = self.project.service.projects(headers={})
         assert [e['name'] for e in rv] == ['ssb']
 
+    def test_jobs(self, v4_api):
+        rv = self.project.service.projects(headers={})
+        assert [e['project'] for e in rv] == ['test']
+
     def test_tables_and_columns(self, v4_api):
         rv = self.project.service.tables_and_columns(headers={})
         assert sorted(list(rv.keys())) == [

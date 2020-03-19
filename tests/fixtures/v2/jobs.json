@@ -1,0 +1,685 @@
+{
+  "code": "000",
+  "data": {
+    "size": 1,
+    "jobs": [
+      {
+        "uuid": "8551888f-be38-4b40-be7c-512dae62baeb",
+        "last_modified": 1584673182171,
+        "version": "3.4.0.0",
+        "name": "BUILD CUBE - kylin_sales_cube - 20200225000000_20200320000000 - GMT+08:00 2020-03-20 10:55:59",
+        "type": "BUILD",
+        "duration": 208,
+        "related_cube": "kylin_sales_cube",
+        "display_cube_name": "kylin_sales_cube",
+        "project_name": "learn_kylin",
+        "related_segment": "15ff1044-2990-4930-bc38-5f9ec16bc0a5",
+        "exec_start_time": 1584672973126,
+        "exec_end_time": 1584673182002,
+        "exec_interrupt_time": 0,
+        "mr_waiting": 50,
+        "steps": [
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-00",
+            "name": "Create Intermediate Flat Hive Table",
+            "sequence_id": 0,
+            "exec_cmd": null,
+            "interrupt_cmd": null,
+            "exec_start_time": 1584672973228,
+            "exec_end_time": 1584673012432,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "yarn_application_tracking_url": "http://device1:8088/proxy/application_1584668901899_0001/",
+              "hdfs_bytes_written": "130",
+              "nodes": "device2:7070:all",
+              "startTime": "1584672973228",
+              "source_records_size": "835989",
+              "endTime": "1584673012432"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-01",
+            "name": "Redistribute Flat Hive Table",
+            "sequence_id": 1,
+            "exec_cmd": null,
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673012738,
+            "exec_end_time": 1584673020350,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673012738",
+              "endTime": "1584673020350"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-02",
+            "name": "Extract Fact Table Distinct Columns",
+            "sequence_id": 2,
+            "exec_cmd": " -conf kylin_job_conf.xml -cubename kylin_sales_cube -output /kylin_enterprise/device2/learn_kylin/kylin-8551888f-be38-4b40-be7c-512dae62baeb//kylin_sales_cube/fact_distinct_columns -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -statisticsoutput /kylin_enterprise/device2/learn_kylin/kylin-8551888f-be38-4b40-be7c-512dae62baeb//kylin_sales_cube/fact_distinct_columns/statistics -statisticssamplingpercent 100 -jobname Kylin_Fact_Distinct_Columns_kylin_sales_cube_Step -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673020689,
+            "exec_end_time": 1584673084531,
+            "exec_wait_time": 15,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "yarn_application_tracking_url": "http://device1:8088/proxy/application_1584668901899_0002/",
+              "hdfs_bytes_written": "7812",
+              "source_records_count": "0",
+              "source_records_size": "0",
+              "yarn_application_id": "application_1584668901899_0002",
+              "mr_job_id": "job_1584668901899_0002",
+              "nodes": "device2:7070:all",
+              "sourceSizeBytes": "0",
+              "mapReduceWaitTime": "15974",
+              "startTime": "1584673020689",
+              "endTime": "1584673084531",
+              "sourceRecordCount": "0"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-03",
+            "name": "Build Dimension Dictionary",
+            "sequence_id": 3,
+            "exec_cmd": " -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/kylin-8551888f-be38-4b40-be7c-512dae62baeb//kylin_sales_cube/fact_distinct_columns -dictPath /kylin_enterprise/device2/learn_kylin/kylin-8551888f-be38-4b40-be7c-512dae62baeb//kylin_sales_cube/dict -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673084861,
+            "exec_end_time": 1584673100064,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673084861",
+              "endTime": "1584673100064"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-04",
+            "name": "Save Cuboid Statistics",
+            "sequence_id": 4,
+            "exec_cmd": null,
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673100349,
+            "exec_end_time": 1584673100760,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673100349",
+              "endTime": "1584673100760"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-05",
+            "name": "Sizing Columnar Shards",
+            "sequence_id": 5,
+            "exec_cmd": null,
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673101045,
+            "exec_end_time": 1584673101366,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673101045",
+              "endTime": "1584673101366"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-06",
+            "name": "Build Base Cuboid",
+            "sequence_id": 6,
+            "exec_cmd": " -conf kylin_job_conf.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input FLAT_TABLE -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_base_cuboid -jobname Kylin_Base_Cuboid_Builder_kylin_sales_cube -level 0 -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673102433,
+            "exec_end_time": 1584673102718,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673102433",
+              "endTime": "1584673102718"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-07",
+            "name": "Build N-Dimension Cuboid : level 1",
+            "sequence_id": 7,
+            "exec_cmd": " -conf kylin_job_conf.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_base_cuboid -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_1_cuboid -jobname Kylin_ND-Cuboid_Builder_kylin_sales_cube_Step -level 1 -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673103064,
+            "exec_end_time": 1584673103212,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673103064",
+              "endTime": "1584673103212"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-08",
+            "name": "Build N-Dimension Cuboid : level 2",
+            "sequence_id": 8,
+            "exec_cmd": " -conf kylin_job_conf.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_1_cuboid -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_2_cuboid -jobname Kylin_ND-Cuboid_Builder_kylin_sales_cube_Step -level 2 -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673103564,
+            "exec_end_time": 1584673103695,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673103564",
+              "endTime": "1584673103695"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-09",
+            "name": "Build N-Dimension Cuboid : level 3",
+            "sequence_id": 9,
+            "exec_cmd": " -conf kylin_job_conf.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_2_cuboid -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_3_cuboid -jobname Kylin_ND-Cuboid_Builder_kylin_sales_cube_Step -level 3 -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673103975,
+            "exec_end_time": 1584673104128,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673103975",
+              "endTime": "1584673104128"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-10",
+            "name": "Build N-Dimension Cuboid : level 4",
+            "sequence_id": 10,
+            "exec_cmd": " -conf kylin_job_conf.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_3_cuboid -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_4_cuboid -jobname Kylin_ND-Cuboid_Builder_kylin_sales_cube_Step -level 4 -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673104502,
+            "exec_end_time": 1584673104618,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673104502",
+              "endTime": "1584673104618"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-11",
+            "name": "Build N-Dimension Cuboid : level 5",
+            "sequence_id": 11,
+            "exec_cmd": " -conf kylin_job_conf.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_4_cuboid -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_5_cuboid -jobname Kylin_ND-Cuboid_Builder_kylin_sales_cube_Step -level 5 -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673104968,
+            "exec_end_time": 1584673105070,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673104968",
+              "endTime": "1584673105070"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-12",
+            "name": "Build N-Dimension Cuboid : level 6",
+            "sequence_id": 12,
+            "exec_cmd": " -conf kylin_job_conf.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_5_cuboid -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_6_cuboid -jobname Kylin_ND-Cuboid_Builder_kylin_sales_cube_Step -level 6 -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673105437,
+            "exec_end_time": 1584673105735,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673105437",
+              "endTime": "1584673105735"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-13",
+            "name": "Build N-Dimension Cuboid : level 7",
+            "sequence_id": 13,
+            "exec_cmd": " -conf kylin_job_conf.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_6_cuboid -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_7_cuboid -jobname Kylin_ND-Cuboid_Builder_kylin_sales_cube_Step -level 7 -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673106100,
+            "exec_end_time": 1584673106241,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673106100",
+              "endTime": "1584673106241"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-14",
+            "name": "Build N-Dimension Cuboid : level 8",
+            "sequence_id": 14,
+            "exec_cmd": " -conf kylin_job_conf.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_7_cuboid -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_8_cuboid -jobname Kylin_ND-Cuboid_Builder_kylin_sales_cube_Step -level 8 -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673106560,
+            "exec_end_time": 1584673106701,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673106560",
+              "endTime": "1584673106701"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-15",
+            "name": "Build N-Dimension Cuboid : level 9",
+            "sequence_id": 15,
+            "exec_cmd": " -conf kylin_job_conf.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_8_cuboid -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_9_cuboid -jobname Kylin_ND-Cuboid_Builder_kylin_sales_cube_Step -level 9 -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673107097,
+            "exec_end_time": 1584673107239,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673107097",
+              "endTime": "1584673107239"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-16",
+            "name": "Build N-Dimension Cuboid : level 10",
+            "sequence_id": 16,
+            "exec_cmd": " -conf kylin_job_conf.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_9_cuboid -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/level_10_cuboid -jobname Kylin_ND-Cuboid_Builder_kylin_sales_cube_Step -level 10 -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673107573,
+            "exec_end_time": 1584673107711,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673107573",
+              "endTime": "1584673107711"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-17",
+            "name": "Build Cube In-Mem",
+            "sequence_id": 17,
+            "exec_cmd": " -conf kylin_job_conf_inmem.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp//inmem -jobname Kylin_Cube_Builder_kylin_sales_cube -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673108043,
+            "exec_end_time": 1584673136052,
+            "exec_wait_time": 17,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "yarn_application_id": "application_1584668901899_0003",
+              "byteSizeBytes": "0",
+              "mr_job_id": "job_1584668901899_0003",
+              "yarn_application_tracking_url": "http://device1:8088/proxy/application_1584668901899_0003/",
+              "hdfs_bytes_written": "0",
+              "nodes": "device2:7070:all",
+              "startTime": "1584673108043",
+              "mapReduceWaitTime": "17749",
+              "source_records_count": "0",
+              "source_records_size": "0",
+              "endTime": "1584673136052"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-18",
+            "name": "Build N-Dimension Cuboid : Repartition",
+            "sequence_id": 18,
+            "exec_cmd": " -conf kylin_job_conf.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -jobname Kylin_ND-Cuboid_Builder_Repartition_kylin_sales_cube_Step -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb -input /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/ -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/repartition",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673136400,
+            "exec_end_time": 1584673136530,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673136400",
+              "endTime": "1584673136530"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-19",
+            "name": "Build Columnar Page Index",
+            "sequence_id": 19,
+            "exec_cmd": " -conf kylin_job_conf_inmem.xml -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb -jobname Kylin_Build_Columnar_Page_Index_kylin_sales_cube_Step -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/ -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/cube_page_index",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673136921,
+            "exec_end_time": 1584673137195,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673136921",
+              "endTime": "1584673137195"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-20",
+            "name": "Tarball Columnar Files",
+            "sequence_id": 20,
+            "exec_cmd": " -conf kylin_job_conf.xml -jobname Kylin_Parquet_Tarball_kylin_sales_cube_Step -cubename kylin_sales_cube -input /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5_tmp/ -output /kylin_enterprise/device2/learn_kylin/parquet/2fbca32a-a33e-4b69-83dd-0bb8b1f8c53b/15ff1044-2990-4930-bc38-5f9ec16bc0a5/ -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673137690,
+            "exec_end_time": 1584673138401,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673137690",
+              "endTime": "1584673138401"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-21",
+            "name": "Collect Cube File Mapping",
+            "sequence_id": 21,
+            "exec_cmd": null,
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673138788,
+            "exec_end_time": 1584673138884,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673138788",
+              "endTime": "1584673138884"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-22",
+            "name": "Sizing Raw Shards",
+            "sequence_id": 22,
+            "exec_cmd": null,
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673139234,
+            "exec_end_time": 1584673139516,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673139234",
+              "endTime": "1584673139516"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-23",
+            "name": "Build Raw Table",
+            "sequence_id": 23,
+            "exec_cmd": " -conf kylin_job_conf_inmem.xml -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input FLAT_TABLE -output /kylin_enterprise/device2/learn_kylin/parquet/9efd4d20-464f-43bd-bb2d-d286cf8606fb/15ff1044-2990-4930-bc38-5f9ec16bc0a5/ -jobname Kylin_Raw_Table_Builder_kylin_sales_cube -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673139894,
+            "exec_end_time": 1584673166915,
+            "exec_wait_time": 16,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "yarn_application_id": "application_1584668901899_0004",
+              "mr_job_id": "job_1584668901899_0004",
+              "yarn_application_tracking_url": "http://device1:8088/proxy/application_1584668901899_0004/",
+              "hdfs_bytes_written": "0",
+              "nodes": "device2:7070:all",
+              "startTime": "1584673139894",
+              "mapReduceWaitTime": "16729",
+              "source_records_count": "0",
+              "source_records_size": "0",
+              "endTime": "1584673166915"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-24",
+            "name": "Build Raw Table Columnar Page Index",
+            "sequence_id": 24,
+            "exec_cmd": " -conf kylin_job_conf_inmem.xml -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb -jobname Kylin_Build_Raw_Table_Parquet_Page_Index_kylin_sales_cube_Step -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/parquet/9efd4d20-464f-43bd-bb2d-d286cf8606fb/15ff1044-2990-4930-bc38-5f9ec16bc0a5/ -output /kylin_enterprise/device2/learn_kylin/parquet/9efd4d20-464f-43bd-bb2d-d286cf8606fb/15ff1044-2990-4930-bc38-5f9ec16bc0a5/raw_page_index",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673167282,
+            "exec_end_time": 1584673167492,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673167282",
+              "endTime": "1584673167492"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-25",
+            "name": "Clean Rawtable Index Output",
+            "sequence_id": 25,
+            "exec_cmd": null,
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673167932,
+            "exec_end_time": 1584673168023,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673167932",
+              "endTime": "1584673168023"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-26",
+            "name": "Build Raw Table Columnar Fuzzy Index",
+            "sequence_id": 26,
+            "exec_cmd": " -conf kylin_job_conf_inmem.xml -cubingJobId 8551888f-be38-4b40-be7c-512dae62baeb -jobname Kylin_Build_Raw_Table_Parquet_Fuzzy_Index_kylin_sales_cube_Step -cubename kylin_sales_cube -segmentid 15ff1044-2990-4930-bc38-5f9ec16bc0a5 -input /kylin_enterprise/device2/learn_kylin/parquet/9efd4d20-464f-43bd-bb2d-d286cf8606fb/15ff1044-2990-4930-bc38-5f9ec16bc0a5/ -output /kylin_enterprise/device2/learn_kylin/parquet/9efd4d20-464f-43bd-bb2d-d286cf8606fb/15ff1044-2990-4930-bc38-5f9ec16bc0a5/raw_fuzzy_index",
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673168390,
+            "exec_end_time": 1584673168533,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673168390",
+              "endTime": "1584673168533"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-27",
+            "name": "Clean Rawtable Fuzzy Index Output",
+            "sequence_id": 27,
+            "exec_cmd": null,
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673169474,
+            "exec_end_time": 1584673169700,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673169474",
+              "endTime": "1584673169700"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-28",
+            "name": "Build Project Dictionary",
+            "sequence_id": 28,
+            "exec_cmd": null,
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673170018,
+            "exec_end_time": 1584673172569,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673170018",
+              "endTime": "1584673172569"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-29",
+            "name": "Hive Cleanup",
+            "sequence_id": 29,
+            "exec_cmd": null,
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673172902,
+            "exec_end_time": 1584673179902,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673172902",
+              "endTime": "1584673179902"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-30",
+            "name": "Garbage Collection",
+            "sequence_id": 30,
+            "exec_cmd": null,
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673180244,
+            "exec_end_time": 1584673180343,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673180244",
+              "endTime": "1584673180343"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-31",
+            "name": "Update RawTable Information",
+            "sequence_id": 31,
+            "exec_cmd": null,
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673180686,
+            "exec_end_time": 1584673180931,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673180686",
+              "endTime": "1584673180931"
+            },
+            "run_async": false
+          },
+          {
+            "interruptCmd": null,
+            "id": "8551888f-be38-4b40-be7c-512dae62baeb-32",
+            "name": "Update Cube Info",
+            "sequence_id": 32,
+            "exec_cmd": null,
+            "interrupt_cmd": null,
+            "exec_start_time": 1584673181282,
+            "exec_end_time": 1584673181873,
+            "exec_wait_time": 0,
+            "step_status": "FINISHED",
+            "cmd_type": "SHELL_CMD_HADOOP",
+            "info": {
+              "nodes": "device2:7070:all",
+              "startTime": "1584673181282",
+              "endTime": "1584673181873"
+            },
+            "run_async": false
+          }
+        ],
+        "submitter": "ADMIN",
+        "job_status": "FINISHED",
+        "is_broken": false,
+        "progress": 100.0
+      }
+    ]
+  },
+  "msg": ""
+}

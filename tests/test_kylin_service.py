@@ -25,6 +25,10 @@ class TestKylinService(object):
         rv = self.project.service.projects(headers={})
         assert [e['name'] for e in rv] == ['learn_kylin']
 
+    def test_jobs(self, v1_api):
+        rv = self.project.service.jobs('learn_kylin', 10, 0, 4)
+        assert [e['related_cube'] for e in rv] == ['Sample_Cube']
+
     def test_tables_and_columns(self, v1_api):
         rv = self.project.service.tables_and_columns(headers={})
         assert sorted(list(rv.keys())) == [
