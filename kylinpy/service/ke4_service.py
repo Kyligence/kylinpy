@@ -77,12 +77,17 @@ class KE4Service(ServiceInterface):
         _projects = self.api.projects(self.client, '/projects', **kwargs)
         return _projects.get('value')
 
-    def jobs(self, **kwargs):
+    def jobs(self,  project=None, page_offset=0, page_size=10,
+             sort_by='last_modified', reverse=True, key=None, **kwargs):
         params = {
-            'time_filter': 4,
+            'project': project or self.project,
+            'page_offset': page_offset,
+            'page_size': page_size,
+            'sort_by': sort_by,
+            'reverse': reverse,
+            'key': key,
         }
-        kwargs.setdefault('params', params)
-        _jobs = self.api.jobs(self.client, '/jobs', **kwargs)
+        _jobs = self.api.jobs(self.client, '/jobs', params=params, **kwargs)
         return _jobs.get('jobs')
 
     def tables_and_columns(self, **kwargs):

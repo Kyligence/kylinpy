@@ -26,8 +26,8 @@ class _Api(object):
         return client.get(endpoint=endpoint, **kwargs).json().get('data')
 
     @staticmethod
-    def jobs(client, endpoint, params, **kwargs):
-        return client.get(endpoint=endpoint, params=params, **kwargs).json().get('data')
+    def jobs(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
 
     @staticmethod
     def tables(client, endpoint, **kwargs):
