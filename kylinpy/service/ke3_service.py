@@ -26,8 +26,8 @@ class _Api(object):
         return client.get(endpoint=endpoint, **kwargs).json().get('data')
 
     @staticmethod
-    def jobs(client, endpoint, **kwargs):
-        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+    def jobs(client, endpoint, params, **kwargs):
+        return client.get(endpoint=endpoint, params=params, **kwargs).json().get('data')
 
     @staticmethod
     def tables(client, endpoint, **kwargs):
@@ -100,8 +100,7 @@ class KE3Service(ServiceInterface):
             'sortby': sortby,
             'reverse': reverse,
         }
-        kwargs.setdefault('params', params)
-        _jobs = self.api.jobs(self.client, '/jobs', **kwargs)
+        _jobs = self.api.jobs(self.client, '/jobs', params=params, **kwargs)
         return _jobs.get('jobs')
 
     def tables_and_columns(self, **kwargs):
