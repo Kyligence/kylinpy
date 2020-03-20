@@ -89,15 +89,17 @@ class KylinService(ServiceInterface):
         _projects = self.api.projects(self.client, '/projects', **kwargs)
         return _projects
 
-    def jobs(self, project_name, **kwargs):
+    def jobs(self, project_name, limit, offset, timeFilter, cubeName=None, status=None, **kwargs):
         params = {
             'projectName': project_name,
-            'offset': 0,
-            'limit': 20,
-            'timeFilter': 4,
+            'offset': offset,
+            'limit': limit,
+            'timeFilter': timeFilter,
+            'cubeName': cubeName,
+            'status': status,
         }
         kwargs.setdefault('params', params)
-        _jobs = self.api.projects(self.client, '/jobs', **kwargs)
+        _jobs = self.api.jobs(self.client, '/jobs', **kwargs)
         return _jobs
 
     def tables_and_columns(self, **kwargs):
