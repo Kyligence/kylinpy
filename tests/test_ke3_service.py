@@ -25,6 +25,10 @@ class TestKE3Service(object):
         rv = self.project.service.projects(headers={})
         assert [e['name'] for e in rv] == ['learn_kylin']
 
+    def test_jobs(self, v2_api):
+        rv = self.project.service.jobs(headers={})
+        assert [e['name'] for e in rv] == ['kylin_sales_cube']
+
     def test_tables_and_columns(self, v2_api):
         rv = self.project.service.tables_and_columns(headers={})
         assert sorted(list(rv.keys())) == [
@@ -88,7 +92,3 @@ class TestKE3Service(object):
         rv = self.project.service.get_authentication(headers={})
         assert 'username' in rv
         assert 'authorities' in rv
-
-    def test_jobs(self, v2_api):
-        rv = self.project.service.jobs(headers={})
-        assert [e['name'] for e in rv] == ['kylin_sales_cube']

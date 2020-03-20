@@ -26,6 +26,10 @@ class _Api(object):
         return client.get(endpoint=endpoint, **kwargs).json()
 
     @staticmethod
+    def jobs(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json()
+
+    @staticmethod
     def tables(client, endpoint, **kwargs):
         return client.get(endpoint=endpoint, **kwargs).json()
 
@@ -84,6 +88,17 @@ class KylinService(ServiceInterface):
         kwargs.setdefault('params', params)
         _projects = self.api.projects(self.client, '/projects', **kwargs)
         return _projects
+
+    def jobs(self, project_name, **kwargs):
+        params = {
+            'projectName': project_name,
+            'offset': 0,
+            'limit': 20,
+            'timeFilter': 4,
+        }
+        kwargs.setdefault('params', params)
+        _jobs = self.api.projects(self.client, '/jobs', **kwargs)
+        return _jobs
 
     def tables_and_columns(self, **kwargs):
         params = {
