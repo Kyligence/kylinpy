@@ -83,7 +83,7 @@ class KE4Service(ServiceInterface):
             'page_size': 20,
         }
         kwargs.setdefault('params', params)
-        _projects = self.api.projects(self.client, '/jobs', **kwargs)
+        _projects = self.api.jobs(self.client, '/jobs', **kwargs)
         return _projects.get('value')
 
     def tables_and_columns(self, **kwargs):
