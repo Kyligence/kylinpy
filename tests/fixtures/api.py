@@ -31,7 +31,7 @@ def v1_api(mocker):
     mocker.patch('kylinpy.service.KylinService.api.cubes', return_value=cubes)
     mocker.patch('kylinpy.service.KylinService.api.models', return_value=models)
     mocker.patch('kylinpy.service.KylinService.api.projects', return_value=projects)
-    mocker.patch('kylinpy.service.KE3Service.api.jobs', return_value=jobs)
+    mocker.patch('kylinpy.service.KylinService.api.jobs', return_value=jobs)
     mocker.patch('kylinpy.service.KylinService.api.query', return_value=query)
     mocker.patch('kylinpy.service.KylinService.api.tables', return_value=tables)
     mocker.patch('kylinpy.service.KylinService.api.tables_and_columns', return_value=tables_and_columns)
