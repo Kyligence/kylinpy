@@ -26,7 +26,7 @@ class TestKE4Service(object):
         assert [e['name'] for e in rv] == ['ssb']
 
     def test_jobs(self, v4_api):
-        rv = self.project.service.projects(headers={})
+        rv = self.project.service.jobs(headers={}, params={'time_filter': 4})
         assert [e['project'] for e in rv] == ['test']
 
     def test_tables_and_columns(self, v4_api):
