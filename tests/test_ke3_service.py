@@ -27,7 +27,7 @@ class TestKE3Service(object):
 
     def test_jobs(self, v2_api):
         rv = self.project.service.jobs(headers={}, params={'timeFilter': 4})
-        assert [e['name'] for e in rv] == ['kylin_sales_cube']
+        assert [e['project_name'] for e in rv] == ['learn_kylin']
 
     def test_tables_and_columns(self, v2_api):
         rv = self.project.service.tables_and_columns(headers={})
