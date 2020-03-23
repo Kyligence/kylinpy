@@ -89,17 +89,13 @@ class KE3Service(ServiceInterface):
         _projects = self.api.projects(self.client, '/projects', **kwargs)
         return _projects.get('projects')
 
-    def jobs(self, timeFilter=4, projectName=None, status=None, pageSize=20,
-             pageOffset=0, sortby='last_modified', reverse=True, **kwargs):
+    def jobs(self, **kwargs):
         params = {
-            'timeFilter': timeFilter,
-            'projectName': projectName or self.project,
-            'status': status,
-            'pageSize': pageSize,
-            'pageOffset': pageOffset,
-            'sortby': sortby,
-            'reverse': reverse,
+            'timeFilter': 4,
+            'pageSize': 20,
+            'pageOffset': 0,
         }
+        kwargs.setdefault('params', params)
         _jobs = self.api.jobs(self.client, '/jobs', params=params, **kwargs)
         return _jobs.get('jobs')
 
