@@ -96,7 +96,7 @@ class KE3Service(ServiceInterface):
             'pageOffset': 0,
         }
         kwargs.setdefault('params', params)
-        _jobs = self.api.jobs(self.client, '/jobs', params=params, **kwargs)
+        _jobs = self.api.jobs(self.client, '/jobs', **kwargs)
         return _jobs.get('jobs')
 
     def tables_and_columns(self, **kwargs):
