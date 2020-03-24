@@ -1,0 +1,34 @@
+{
+    "code":"000",
+    "data":{
+        "value":[
+            {
+                "id":"232bf69f-6cdf-4dcc-a3aa-b6ca7651e98c",
+                "last_modified":0,
+                "duration":91020,
+                "exec_start_time":1577764731199,
+                "steps":null,
+                "job_status":"FINISHED",
+                "job_name":"INDEX_BUILD",
+                "data_range_start":0,
+                "data_range_end":9223372036854775807,
+                "target_model":"5b54898a-dd75-4146-abbe-de77c0cf77fb",
+                "target_segments":[
+                    "3344c9bb-83fa-4128-803b-e18f27b0ccf8"
+                ],
+                "step_ratio":1,
+                "create_time":1577764730069,
+                "wait_time":1130,
+                "target_subject":"AUTO_MODEL_KYLIN_ACCOUNT_1",
+                "target_subject_error":false,
+                "project":"test",
+                "submitter":"ADMIN",
+                "exec_end_time":1577764822219
+            }
+        ],
+        "offset":0,
+        "limit":1,
+        "total_size":1364
+    },
+    "msg":""
+}
