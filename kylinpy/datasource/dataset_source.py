@@ -108,7 +108,7 @@ class DatasetSource(SourceInterface):
         _hierarchies = []
         _dim_map = {f'{dim.table.name}.{dim.column.name}': dim for dim in self.dimensions}
         for _table in self.dataset_desc.get('dimension_tables'):
-            _hic = _table.get('hierarchies')
+            _hic = _table.get('hierarchys')
             if _hic is None:
                 continue
             else:
@@ -117,7 +117,7 @@ class DatasetSource(SourceInterface):
                         'name': leaf.get('name'),
                         'desc': leaf.get('desc'),
                         'children': [_dim_map.get(f'{_table.get("name")}.{d}') for
-                                     d in leaf.get('dim_columns')],
+                                     d in leaf.get('dim_cols')],
                     }
                     _hierarchies.append(_item)
         return _hierarchies
