@@ -7,7 +7,7 @@ from __future__ import unicode_literals
 import pytest
 
 from kylinpy.client import HTTPError
-from kylinpy.kylinpy import dsn_proxy
+from kylinpy.kylinpy import create_kylin
 from kylinpy.exceptions import KylinQueryError
 from .test_client import MockException
 
@@ -15,11 +15,11 @@ from .test_client import MockException
 class TestKylinService(object):
     @property
     def cluster(self):
-        return dsn_proxy('kylin://ADMIN:KYLIN@example')
+        return create_kylin('kylin://ADMIN:KYLIN@example')
 
     @property
     def project(self):
-        return dsn_proxy('kylin://ADMIN:KYLIN@example/learn_kylin')
+        return create_kylin('kylin://ADMIN:KYLIN@example/learn_kylin')
 
     def test_projects(self, v1_api):
         rv = self.project.service.projects(headers={})

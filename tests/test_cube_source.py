@@ -4,13 +4,13 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from kylinpy.kylinpy import dsn_proxy
+from kylinpy import create_kylin
 
 
 class TestCubeSource:
     @property
     def project(self):
-        return dsn_proxy('kylin://username:password@example/foobar')
+        return create_kylin('kylin://username:password@example/foobar')
 
     def test_cube_source(self, v1_api):
         cube = self.project.get_cube_source('kylin_sales_cube')
