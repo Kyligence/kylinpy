@@ -1,0 +1,23 @@
+{
+    "code":"000",
+    "data":{
+        "uuid":"5b30c6b2-d950-4085-8e4e-cd8bc94e0d69",
+        "last_modified":1536737919796,
+        "version":"3.0.0.1",
+        "name":"BUILD CUBE - kylin_sales_cube - 20140101000000_20140101000000 - GMT+08:00 2018-09-07 11:45:07",
+        "type":"BUILD",
+        "duration":283211,
+        "related_cube":"kylin_sales_cube",
+        "display_cube_name":"kylin_sales_cube",
+        "related_segment":"12fdbe4d-00c8-484e-8bd5-363f3fce87ce",
+        "exec_start_time":1536748948697,
+        "exec_end_time":1536748972697,
+        "exec_interrupt_time":0,
+        "mr_waiting":455,
+        "steps":[],
+        "submitter":"ADMIN",
+        "job_status":"PENDING",
+        "progress":13.88888888888889
+    },
+    "msg":""
+}
