@@ -106,7 +106,7 @@ class KylinService(ServiceInterface):
             'jobId': job_id,
         }
         kwargs.setdefault('params', params)
-        res = self.api.resume_job(self.client, 'jobs/{0}/resume'.format(job_id), **kwargs)
+        res = self.api.resume_job(self.client, '/jobs/{0}/resume'.format(job_id), **kwargs)
         return res
 
     def tables_and_columns(self, **kwargs):
