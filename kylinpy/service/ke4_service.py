@@ -34,6 +34,14 @@ class _Api(object):
         return client.get(endpoint=endpoint, **kwargs).json().get('data')
 
     @staticmethod
+    def model_desc(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def models(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
     def authentication(client, endpoint, **kwargs):
         rv = client.get(endpoint=endpoint, **kwargs).json().get('data')
         if rv == {}:
@@ -70,8 +78,8 @@ class KE4Service(ServiceInterface):
 
     def projects(self, **kwargs):
         params = {
-            'pageOffset': 0,
-            'pageSize': 1000,
+            'page_offset': 0,
+            'page_size': 1000,
         }
         kwargs.setdefault('params', params)
         _projects = self.api.projects(self.client, '/projects', **kwargs)
@@ -114,6 +122,26 @@ class KE4Service(ServiceInterface):
             __tables_in_hive[fullname] = tbl
 
         return __tables_in_hive
+
+    def model_desc(self, name, **kwargs):
+        _url = {
+            'project': self.project,
+            'model_name': name,
+        }
+        _model_desc = self.api.model_desc(
+            self.client,
+            '/models/{project}/{model_name}/model_desc'.format(**_url), **kwargs)
+        return _model_desc
+
+    def models(self, **kwargs):
+        params = {
+            'project': self.project,
+            'page_offset': 0,
+            'page_size': 1000,
+        }
+        kwargs.setdefault('params', params)
+        _models = self.api.models(self.client, '/models', **kwargs)
+        return _models.get('value')
 
     def get_authentication(self, **kwargs):
         return self.api.authentication(self.client, '/user/authentication', **kwargs)
