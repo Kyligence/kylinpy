@@ -30,6 +30,10 @@ class _Api(object):
         return client.get(endpoint=endpoint, **kwargs).json()
 
     @staticmethod
+    def resume_job(client, endpoint, **kwargs):
+        return client.put(endpoint=endpoint, **kwargs).json()
+
+    @staticmethod
     def tables(client, endpoint, **kwargs):
         return client.get(endpoint=endpoint, **kwargs).json()
 
@@ -96,6 +100,14 @@ class KylinService(ServiceInterface):
         kwargs.setdefault('params', params)
         _jobs = self.api.jobs(self.client, '/jobs', **kwargs)
         return _jobs
+
+    def resume_job(self, job_id, **kwargs):
+        params = {
+            'jobId': job_id,
+        }
+        kwargs.setdefault('params', params)
+        res = self.api.resume_job(self.client, '/jobs/{0}/resume'.format(job_id), **kwargs)
+        return res
 
     def tables_and_columns(self, **kwargs):
         params = {
