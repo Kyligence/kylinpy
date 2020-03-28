@@ -1,0 +1,2655 @@
+{
+    "code": "000",
+    "data": {
+        "limit": 10,
+        "offset": 0,
+        "total_size": 1,
+        "value": [
+            {
+                "alias": "kylin_sales_model",
+                "all_measures": [
+                    {
+                        "function": {
+                            "expression": "COUNT",
+                            "parameters": [
+                                {
+                                    "type": "column",
+                                    "value": "KYLIN_SALES.TRANS_ID"
+                                }
+                            ],
+                            "returntype": "bigint"
+                        },
+                        "id": 100000,
+                        "name": "KYLIN_SALES_TRANS_ID_COUNT"
+                    },
+                    {
+                        "function": {
+                            "expression": "SUM",
+                            "parameters": [
+                                {
+                                    "type": "column",
+                                    "value": "KYLIN_SALES.PRICE"
+                                }
+                            ],
+                            "returntype": "decimal(19,4)"
+                        },
+                        "id": 100001,
+                        "name": "KYLIN_SALES_PRICE_SUM"
+                    },
+                    {
+                        "function": {
+                            "expression": "MAX",
+                            "parameters": [
+                                {
+                                    "type": "column",
+                                    "value": "KYLIN_SALES.PRICE"
+                                }
+                            ],
+                            "returntype": "decimal(19,4)"
+                        },
+                        "id": 100002,
+                        "name": "KYLIN_SALES_PRICE_MAX"
+                    },
+                    {
+                        "function": {
+                            "expression": "SUM",
+                            "parameters": [
+                                {
+                                    "type": "column",
+                                    "value": "KYLIN_SALES.ITEM_COUNT"
+                                }
+                            ],
+                            "returntype": "bigint"
+                        },
+                        "id": 100003,
+                        "name": "KYLIN_SALES_ITEM_COUNT_SUM"
+                    },
+                    {
+                        "function": {
+                            "expression": "COUNT_DISTINCT",
+                            "parameters": [
+                                {
+                                    "type": "column",
+                                    "value": "KYLIN_SALES.BUYER_ID"
+                                }
+                            ],
+                            "returntype": "hllc(10)"
+                        },
+                        "id": 100004,
+                        "name": "BUYER_ID_COUNT_DISTINCT"
+                    },
+                    {
+                        "function": {
+                            "expression": "COUNT",
+                            "parameters": [
+                                {
+                                    "type": "constant",
+                                    "value": "1"
+                                }
+                            ],
+                            "returntype": "bigint"
+                        },
+                        "id": 100005,
+                        "name": "COUNT_ALL"
+                    }
+                ],
+                "all_named_columns": [
+                    {
+                        "column": "KYLIN_SALES.ITEM_COUNT",
+                        "id": 0,
+                        "name": "ITEM_COUNT"
+                    },
+                    {
+                        "column": "KYLIN_SALES.PART_DT",
+                        "id": 1,
+                        "name": "KYLIN_SALES_PART_DT",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_SALES.BUYER_ID",
+                        "id": 2,
+                        "name": "BUYER_ID"
+                    },
+                    {
+                        "column": "KYLIN_SALES.LSTG_SITE_ID",
+                        "id": 3,
+                        "name": "LSTG_SITE_ID"
+                    },
+                    {
+                        "column": "KYLIN_SALES.OPS_USER_ID",
+                        "id": 4,
+                        "name": "OPS_USER_ID"
+                    },
+                    {
+                        "column": "KYLIN_SALES.SLR_SEGMENT_CD",
+                        "id": 5,
+                        "name": "SLR_SEGMENT_CD"
+                    },
+                    {
+                        "column": "KYLIN_SALES.SELLER_ID",
+                        "id": 6,
+                        "name": "SELLER_ID"
+                    },
+                    {
+                        "column": "KYLIN_SALES.PRICE",
+                        "id": 7,
+                        "name": "PRICE"
+                    },
+                    {
+                        "column": "KYLIN_SALES.TRANS_ID",
+                        "id": 8,
+                        "name": "TRANS_ID"
+                    },
+                    {
+                        "column": "KYLIN_SALES.LSTG_FORMAT_NAME",
+                        "id": 9,
+                        "name": "KYLIN_SALES_LSTG_FORMAT_NAME",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_SALES.LEAF_CATEG_ID",
+                        "id": 10,
+                        "name": "LEAF_CATEG_ID"
+                    },
+                    {
+                        "column": "KYLIN_SALES.OPS_REGION",
+                        "id": 11,
+                        "name": "KYLIN_SALES_OPS_REGION",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.RETAIL_WK_END_DATE",
+                        "id": 12,
+                        "name": "RETAIL_WK_END_DATE"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.DAY_IN_MONTH_COUNT",
+                        "id": 13,
+                        "name": "DAY_IN_MONTH_COUNT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.WEEK_END_DT",
+                        "id": 14,
+                        "name": "WEEK_END_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.RTL_WEEK_OF_RTL_YEAR_ID",
+                        "id": 15,
+                        "name": "RTL_WEEK_OF_RTL_YEAR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.DAY_IN_YEAR_COUNT",
+                        "id": 16,
+                        "name": "DAY_IN_YEAR_COUNT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.DAY_OF_CAL_ID",
+                        "id": 17,
+                        "name": "DAY_OF_CAL_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.MONTH_END_DT",
+                        "id": 18,
+                        "name": "MONTH_END_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.WEEK_IND",
+                        "id": 19,
+                        "name": "WEEK_IND"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.QTR_OF_CAL_ID",
+                        "id": 20,
+                        "name": "QTR_OF_CAL_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.WEEK_BEG_DT",
+                        "id": 21,
+                        "name": "WEEK_BEG_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.DAY_OF_QTR_ID",
+                        "id": 22,
+                        "name": "DAY_OF_QTR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.WEEK_OF_YEAR_ID",
+                        "id": 23,
+                        "name": "WEEK_OF_YEAR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.PRD_ID",
+                        "id": 24,
+                        "name": "PRD_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DT_MNS_1WEEK_DT",
+                        "id": 25,
+                        "name": "CAL_DT_MNS_1WEEK_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.MTD_YN_ID",
+                        "id": 26,
+                        "name": "MTD_YN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.PRD_IND",
+                        "id": 27,
+                        "name": "PRD_IND"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.MONTH_BEG_DT",
+                        "id": 28,
+                        "name": "KYLIN_CAL_DT_MONTH_BEG_DT",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DT_MNS_2YEAR_DT",
+                        "id": 29,
+                        "name": "CAL_DT_MNS_2YEAR_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.QTR_END_DT",
+                        "id": 30,
+                        "name": "QTR_END_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.RTL_MONTH_BEG_DT",
+                        "id": 31,
+                        "name": "RTL_MONTH_BEG_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.AGE_FOR_YEAR_ID",
+                        "id": 32,
+                        "name": "AGE_FOR_YEAR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.AGE_FOR_RTL_WEEK_ID",
+                        "id": 33,
+                        "name": "AGE_FOR_RTL_WEEK_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CURR_CAL_DT_MNS_1QTR_YN_ID",
+                        "id": 34,
+                        "name": "CURR_CAL_DT_MNS_1QTR_YN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.WTD_YN_ID",
+                        "id": 35,
+                        "name": "WTD_YN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.RTL_YEAR_BEG_DT",
+                        "id": 36,
+                        "name": "RTL_YEAR_BEG_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.YTQ_YN_ID",
+                        "id": 37,
+                        "name": "YTQ_YN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.RTL_MONTH_OF_RTL_YEAR_ID",
+                        "id": 38,
+                        "name": "RTL_MONTH_OF_RTL_YEAR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.DAY_IN_WEEK_COUNT",
+                        "id": 39,
+                        "name": "DAY_IN_WEEK_COUNT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.DAY_OF_MONTH_ID",
+                        "id": 40,
+                        "name": "DAY_OF_MONTH_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.PRD_FLAG",
+                        "id": 41,
+                        "name": "PRD_FLAG"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CURR_CAL_DT_MNS_1YEAR_YN_ID",
+                        "id": 42,
+                        "name": "CURR_CAL_DT_MNS_1YEAR_YN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.WEEK_ID",
+                        "id": 43,
+                        "name": "WEEK_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.KYLIN_CAL_DT_UPD_USER",
+                        "id": 44,
+                        "name": "KYLIN_CAL_DT_UPD_USER"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DT_MNS_2QTR_DT",
+                        "id": 45,
+                        "name": "CAL_DT_MNS_2QTR_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.PRD_DESC",
+                        "id": 46,
+                        "name": "PRD_DESC"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.WEEK_BEG_DATE",
+                        "id": 47,
+                        "name": "WEEK_BEG_DATE"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.RTL_QTR_BEG_DT",
+                        "id": 48,
+                        "name": "RTL_QTR_BEG_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.YEAR_ID",
+                        "id": 49,
+                        "name": "YEAR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.YTM_YN_ID",
+                        "id": 50,
+                        "name": "YTM_YN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.QTD_YN_ID",
+                        "id": 51,
+                        "name": "QTD_YN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DT_MNS_1QTR_DT",
+                        "id": 52,
+                        "name": "CAL_DT_MNS_1QTR_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DT",
+                        "id": 53,
+                        "name": "KYLIN_CAL_DT_CAL_DT",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.KYLIN_CAL_DT_CRE_DATE",
+                        "id": 54,
+                        "name": "KYLIN_CAL_DT_CRE_DATE"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.DAY_OF_WEEK",
+                        "id": 55,
+                        "name": "DAY_OF_WEEK"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.YTD_YN_ID",
+                        "id": 56,
+                        "name": "YTD_YN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.WEEK_END_DATE",
+                        "id": 57,
+                        "name": "WEEK_END_DATE"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.AGE_FOR_CS_WEEK_ID",
+                        "id": 58,
+                        "name": "AGE_FOR_CS_WEEK_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.RETAIL_START_DATE",
+                        "id": 59,
+                        "name": "RETAIL_START_DATE"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.WEEK_OF_CAL_ID",
+                        "id": 60,
+                        "name": "WEEK_OF_CAL_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.QTR_OF_YEAR_ID",
+                        "id": 61,
+                        "name": "QTR_OF_YEAR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.WEEK_IN_YEAR_ID",
+                        "id": 62,
+                        "name": "WEEK_IN_YEAR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.WEEK_BEG_END_DESC_MDY",
+                        "id": 63,
+                        "name": "WEEK_BEG_END_DESC_MDY"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.MONTH_OF_QTR_ID",
+                        "id": 64,
+                        "name": "MONTH_OF_QTR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.AGE_FOR_QTR_ID",
+                        "id": 65,
+                        "name": "AGE_FOR_QTR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.QTR_DESC",
+                        "id": 66,
+                        "name": "QTR_DESC"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.MONTH_OF_CAL_ID",
+                        "id": 67,
+                        "name": "MONTH_OF_CAL_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.YEAR_IND",
+                        "id": 68,
+                        "name": "YEAR_IND"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.AGE_FOR_RTL_QTR_ID",
+                        "id": 69,
+                        "name": "AGE_FOR_RTL_QTR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DT_MNS_1MONTH_DT",
+                        "id": 70,
+                        "name": "CAL_DT_MNS_1MONTH_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.RETAIL_WEEK",
+                        "id": 71,
+                        "name": "RETAIL_WEEK"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DT_SHORT_NAME",
+                        "id": 72,
+                        "name": "CAL_DT_SHORT_NAME"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.AGE_FOR_WEEK_ID",
+                        "id": 73,
+                        "name": "AGE_FOR_WEEK_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.QTR_IND",
+                        "id": 74,
+                        "name": "QTR_IND"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.SEASON_OF_YEAR_ID",
+                        "id": 75,
+                        "name": "SEASON_OF_YEAR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.AGE_FOR_RTL_YEAR_ID",
+                        "id": 76,
+                        "name": "AGE_FOR_RTL_YEAR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.RETAIL_YEAR",
+                        "id": 77,
+                        "name": "RETAIL_YEAR"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.AGE_FOR_MONTH_ID",
+                        "id": 78,
+                        "name": "AGE_FOR_MONTH_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CS_WEEK_BEG_DT",
+                        "id": 79,
+                        "name": "CS_WEEK_BEG_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.AGE_FOR_DT_ID",
+                        "id": 80,
+                        "name": "AGE_FOR_DT_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.MONTH_OF_YEAR_ID",
+                        "id": 81,
+                        "name": "MONTH_OF_YEAR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DT_MNS_2MONTH_DT",
+                        "id": 82,
+                        "name": "CAL_DT_MNS_2MONTH_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CURR_CAL_DT_MNS_2YEAR_YN_ID",
+                        "id": 83,
+                        "name": "CURR_CAL_DT_MNS_2YEAR_YN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.YEAR_BEG_DT",
+                        "id": 84,
+                        "name": "KYLIN_CAL_DT_YEAR_BEG_DT",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.DAY_OF_WEEK_ID",
+                        "id": 85,
+                        "name": "DAY_OF_WEEK_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CURR_CAL_DT_MNS_2WEEK_YN_IND",
+                        "id": 86,
+                        "name": "CURR_CAL_DT_MNS_2WEEK_YN_IND"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.DAY_OF_YEAR_ID",
+                        "id": 87,
+                        "name": "DAY_OF_YEAR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CURR_CAL_DT_MNS_1WEEK_YN_IND",
+                        "id": 88,
+                        "name": "CURR_CAL_DT_MNS_1WEEK_YN_IND"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.KYLIN_CAL_DT_UPD_DATE",
+                        "id": 89,
+                        "name": "KYLIN_CAL_DT_UPD_DATE"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.AGE_FOR_RTL_MONTH_ID",
+                        "id": 90,
+                        "name": "AGE_FOR_RTL_MONTH_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.KYLIN_CAL_DT_CRE_USER",
+                        "id": 91,
+                        "name": "KYLIN_CAL_DT_CRE_USER"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.DAY_IN_QTR_COUNT",
+                        "id": 92,
+                        "name": "DAY_IN_QTR_COUNT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DT_MNS_1YEAR_DT",
+                        "id": 93,
+                        "name": "CAL_DT_MNS_1YEAR_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.RTL_WEEK_BEG_DT",
+                        "id": 94,
+                        "name": "RTL_WEEK_BEG_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.YTW_YN_ID",
+                        "id": 95,
+                        "name": "YTW_YN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DATE",
+                        "id": 96,
+                        "name": "CAL_DATE"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DT_DESC",
+                        "id": 97,
+                        "name": "CAL_DT_DESC"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.RTL_QTR_OF_RTL_YEAR_ID",
+                        "id": 98,
+                        "name": "RTL_QTR_OF_RTL_YEAR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.SEASON_BEG_DT",
+                        "id": 99,
+                        "name": "SEASON_BEG_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CURR_CAL_DT_MNS_1MONTH_YN_ID",
+                        "id": 100,
+                        "name": "CURR_CAL_DT_MNS_1MONTH_YN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.YEAR_OF_CAL_ID",
+                        "id": 101,
+                        "name": "YEAR_OF_CAL_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.WEEK_NUM_DESC",
+                        "id": 102,
+                        "name": "WEEK_NUM_DESC"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CURR_CAL_DT_MNS_2MONTH_YN_ID",
+                        "id": 103,
+                        "name": "CURR_CAL_DT_MNS_2MONTH_YN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.QTR_ID",
+                        "id": 104,
+                        "name": "QTR_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.MONTH_ID",
+                        "id": 105,
+                        "name": "MONTH_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CURR_CAL_DT_MNS_2QTR_YN_ID",
+                        "id": 106,
+                        "name": "CURR_CAL_DT_MNS_2QTR_YN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DT_NAME",
+                        "id": 107,
+                        "name": "CAL_DT_NAME"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DT_MNS_2WEEK_DT",
+                        "id": 108,
+                        "name": "CAL_DT_MNS_2WEEK_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.YEAR_END_DT",
+                        "id": 109,
+                        "name": "YEAR_END_DT"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.QTR_BEG_DT",
+                        "id": 110,
+                        "name": "KYLIN_CAL_DT_QTR_BEG_DT",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.WEEK_BEG_END_DESC_MD",
+                        "id": 111,
+                        "name": "WEEK_BEG_END_DESC_MD"
+                    },
+                    {
+                        "column": "BUYER_ACCOUNT.ACCOUNT_ID",
+                        "id": 112,
+                        "name": "ACCOUNT_ID"
+                    },
+                    {
+                        "column": "BUYER_ACCOUNT.ACCOUNT_SELLER_LEVEL",
+                        "id": 113,
+                        "name": "ACCOUNT_SELLER_LEVEL"
+                    },
+                    {
+                        "column": "BUYER_ACCOUNT.ACCOUNT_COUNTRY",
+                        "id": 114,
+                        "name": "BUYER_ACCOUNT_ACCOUNT_COUNTRY",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "BUYER_ACCOUNT.ACCOUNT_CONTACT",
+                        "id": 115,
+                        "name": "ACCOUNT_CONTACT"
+                    },
+                    {
+                        "column": "BUYER_ACCOUNT.ACCOUNT_BUYER_LEVEL",
+                        "id": 116,
+                        "name": "BUYER_ACCOUNT_ACCOUNT_BUYER_LEVEL",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "BUYER_COUNTRY.NAME",
+                        "id": 117,
+                        "name": "BUYER_COUNTRY_NAME",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "BUYER_COUNTRY.COUNTRY",
+                        "id": 118,
+                        "name": "BUYER_COUNTRY_COUNTRY",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "BUYER_COUNTRY.LATITUDE",
+                        "id": 119,
+                        "name": "LATITUDE"
+                    },
+                    {
+                        "column": "BUYER_COUNTRY.LONGITUDE",
+                        "id": 120,
+                        "name": "LONGITUDE"
+                    },
+                    {
+                        "column": "SELLER_ACCOUNT.ACCOUNT_ID",
+                        "id": 121,
+                        "name": "ACCOUNT_ID"
+                    },
+                    {
+                        "column": "SELLER_ACCOUNT.ACCOUNT_SELLER_LEVEL",
+                        "id": 122,
+                        "name": "SELLER_ACCOUNT_ACCOUNT_SELLER_LEVEL",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "SELLER_ACCOUNT.ACCOUNT_COUNTRY",
+                        "id": 123,
+                        "name": "SELLER_ACCOUNT_ACCOUNT_COUNTRY",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "SELLER_ACCOUNT.ACCOUNT_CONTACT",
+                        "id": 124,
+                        "name": "ACCOUNT_CONTACT"
+                    },
+                    {
+                        "column": "SELLER_ACCOUNT.ACCOUNT_BUYER_LEVEL",
+                        "id": 125,
+                        "name": "ACCOUNT_BUYER_LEVEL"
+                    },
+                    {
+                        "column": "SELLER_COUNTRY.NAME",
+                        "id": 126,
+                        "name": "SELLER_COUNTRY_NAME",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "SELLER_COUNTRY.COUNTRY",
+                        "id": 127,
+                        "name": "SELLER_COUNTRY_COUNTRY",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "SELLER_COUNTRY.LATITUDE",
+                        "id": 128,
+                        "name": "LATITUDE"
+                    },
+                    {
+                        "column": "SELLER_COUNTRY.LONGITUDE",
+                        "id": 129,
+                        "name": "LONGITUDE"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.ADULT_CATEG_YN",
+                        "id": 130,
+                        "name": "ADULT_CATEG_YN"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.VCS_ID",
+                        "id": 131,
+                        "name": "VCS_ID"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL5_NAME",
+                        "id": 132,
+                        "name": "CATEG_LVL5_NAME"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL3_NAME",
+                        "id": 133,
+                        "name": "KYLIN_CATEGORY_GROUPINGS_CATEG_LVL3_NAME",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL7_ID",
+                        "id": 134,
+                        "name": "CATEG_LVL7_ID"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.SRC_ID",
+                        "id": 135,
+                        "name": "SRC_ID"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.KYLIN_GROUPINGS_UPD_DATE",
+                        "id": 136,
+                        "name": "KYLIN_GROUPINGS_UPD_DATE"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL3_ID",
+                        "id": 137,
+                        "name": "CATEG_LVL3_ID"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.USER_DEFINED_FIELD1",
+                        "id": 138,
+                        "name": "USER_DEFINED_FIELD1"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL7_NAME",
+                        "id": 139,
+                        "name": "CATEG_LVL7_NAME"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.SITE_ID",
+                        "id": 140,
+                        "name": "SITE_ID"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.BSNS_VRTCL_NAME",
+                        "id": 141,
+                        "name": "BSNS_VRTCL_NAME"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.REGN_CATEG",
+                        "id": 142,
+                        "name": "REGN_CATEG"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL2_ID",
+                        "id": 143,
+                        "name": "CATEG_LVL2_ID"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_BUSN_UNIT",
+                        "id": 144,
+                        "name": "CATEG_BUSN_UNIT"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.USER_DEFINED_FIELD3",
+                        "id": 145,
+                        "name": "USER_DEFINED_FIELD3"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL2_NAME",
+                        "id": 146,
+                        "name": "KYLIN_CATEGORY_GROUPINGS_CATEG_LVL2_NAME",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL6_ID",
+                        "id": 147,
+                        "name": "CATEG_LVL6_ID"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.USER_DEFINED_FIELD5",
+                        "id": 148,
+                        "name": "USER_DEFINED_FIELD5"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.LEAF_CATEG_NAME",
+                        "id": 149,
+                        "name": "KYLIN_CATEGORY_GROUPINGS_LEAF_CATEG_NAME",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_FLAGS",
+                        "id": 150,
+                        "name": "CATEG_FLAGS"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_BUSN_MGR",
+                        "id": 151,
+                        "name": "CATEG_BUSN_MGR"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.KYLIN_GROUPINGS_CRE_DATE",
+                        "id": 152,
+                        "name": "KYLIN_GROUPINGS_CRE_DATE"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.LEAF_CATEG_ID",
+                        "id": 153,
+                        "name": "LEAF_CATEG_ID"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.MOVE_TO",
+                        "id": 154,
+                        "name": "MOVE_TO"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.KYLIN_GROUPINGS_CRE_USER",
+                        "id": 155,
+                        "name": "KYLIN_GROUPINGS_CRE_USER"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.META_CATEG_ID",
+                        "id": 156,
+                        "name": "META_CATEG_ID"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL5_ID",
+                        "id": 157,
+                        "name": "CATEG_LVL5_ID"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL4_NAME",
+                        "id": 158,
+                        "name": "CATEG_LVL4_NAME"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL4_ID",
+                        "id": 159,
+                        "name": "CATEG_LVL4_ID"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.META_CATEG_NAME",
+                        "id": 160,
+                        "name": "KYLIN_CATEGORY_GROUPINGS_META_CATEG_NAME",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.KYLIN_GROUPINGS_UPD_USER",
+                        "id": 161,
+                        "name": "KYLIN_GROUPINGS_UPD_USER"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.DOMAIN_ID",
+                        "id": 162,
+                        "name": "DOMAIN_ID"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL6_NAME",
+                        "id": 163,
+                        "name": "CATEG_LVL6_NAME"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.GCS_ID",
+                        "id": 164,
+                        "name": "GCS_ID"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.SAP_CATEGORY_ID",
+                        "id": 165,
+                        "name": "SAP_CATEGORY_ID"
+                    }
+                ],
+                "available_indexes_count": 640,
+                "canvas": {
+                    "coordinate": {
+                        "BUYER_ACCOUNT": {
+                            "height": 180.0,
+                            "width": 220.0,
+                            "x": 216.0,
+                            "y": 119.0
+                        },
+                        "BUYER_COUNTRY": {
+                            "height": 180.0,
+                            "width": 220.0,
+                            "x": 216.0,
+                            "y": 349.0
+                        },
+                        "KYLIN_CAL_DT": {
+                            "height": 180.0,
+                            "width": 220.0,
+                            "x": -54.0,
+                            "y": 119.0
+                        },
+                        "KYLIN_CATEGORY_GROUPINGS": {
+                            "height": 180.0,
+                            "width": 220.0,
+                            "x": 756.0,
+                            "y": 119.0
+                        },
+                        "KYLIN_SALES": {
+                            "height": 180.0,
+                            "width": 220.0,
+                            "x": 351.0,
+                            "y": -111.0
+                        },
+                        "SELLER_ACCOUNT": {
+                            "height": 180.0,
+                            "width": 220.0,
+                            "x": 486.0,
+                            "y": 119.0
+                        },
+                        "SELLER_COUNTRY": {
+                            "height": 180.0,
+                            "width": 220.0,
+                            "x": 486.0,
+                            "y": 349.0
+                        }
+                    },
+                    "zoom": 9.0
+                },
+                "capacity": "MEDIUM",
+                "column_correlations": [],
+                "computed_columns": [],
+                "config_last_modified": 0,
+                "config_last_modifier": null,
+                "create_time": 1585280563568,
+                "data_check_desc": null,
+                "description": "",
+                "expansion_rate": "3319.82",
+                "fact_table": "DEFAULT.KYLIN_SALES",
+                "fact_table_alias": null,
+                "filter_condition": "",
+                "input_records_count": 0,
+                "input_records_size": 0,
+                "is_streaming": false,
+                "join_tables": [
+                    {
+                        "alias": "KYLIN_CAL_DT",
+                        "join": {
+                            "foreign_key": [
+                                "KYLIN_SALES.PART_DT"
+                            ],
+                            "foreign_table": null,
+                            "non_equi_join_condition": null,
+                            "primary_key": [
+                                "KYLIN_CAL_DT.CAL_DT"
+                            ],
+                            "primary_table": null,
+                            "type": "INNER"
+                        },
+                        "kind": "LOOKUP",
+                        "table": "DEFAULT.KYLIN_CAL_DT"
+                    },
+                    {
+                        "alias": "BUYER_ACCOUNT",
+                        "join": {
+                            "foreign_key": [
+                                "KYLIN_SALES.SELLER_ID"
+                            ],
+                            "foreign_table": null,
+                            "non_equi_join_condition": null,
+                            "primary_key": [
+                                "BUYER_ACCOUNT.ACCOUNT_ID"
+                            ],
+                            "primary_table": null,
+                            "type": "INNER"
+                        },
+                        "kind": "LOOKUP",
+                        "table": "DEFAULT.KYLIN_ACCOUNT"
+                    },
+                    {
+                        "alias": "SELLER_ACCOUNT",
+                        "join": {
+                            "foreign_key": [
+                                "KYLIN_SALES.SELLER_ID"
+                            ],
+                            "foreign_table": null,
+                            "non_equi_join_condition": null,
+                            "primary_key": [
+                                "SELLER_ACCOUNT.ACCOUNT_ID"
+                            ],
+                            "primary_table": null,
+                            "type": "INNER"
+                        },
+                        "kind": "LOOKUP",
+                        "table": "DEFAULT.KYLIN_ACCOUNT"
+                    },
+                    {
+                        "alias": "KYLIN_CATEGORY_GROUPINGS",
+                        "join": {
+                            "foreign_key": [
+                                "KYLIN_SALES.LEAF_CATEG_ID",
+                                "KYLIN_SALES.LSTG_SITE_ID"
+                            ],
+                            "foreign_table": null,
+                            "non_equi_join_condition": null,
+                            "primary_key": [
+                                "KYLIN_CATEGORY_GROUPINGS.LEAF_CATEG_ID",
+                                "KYLIN_CATEGORY_GROUPINGS.SITE_ID"
+                            ],
+                            "primary_table": null,
+                            "type": "INNER"
+                        },
+                        "kind": "LOOKUP",
+                        "table": "DEFAULT.KYLIN_CATEGORY_GROUPINGS"
+                    },
+                    {
+                        "alias": "BUYER_COUNTRY",
+                        "join": {
+                            "foreign_key": [
+                                "BUYER_ACCOUNT.ACCOUNT_COUNTRY"
+                            ],
+                            "foreign_table": null,
+                            "non_equi_join_condition": null,
+                            "primary_key": [
+                                "BUYER_COUNTRY.COUNTRY"
+                            ],
+                            "primary_table": null,
+                            "type": "INNER"
+                        },
+                        "kind": "LOOKUP",
+                        "table": "DEFAULT.KYLIN_COUNTRY"
+                    },
+                    {
+                        "alias": "SELLER_COUNTRY",
+                        "join": {
+                            "foreign_key": [
+                                "SELLER_ACCOUNT.ACCOUNT_COUNTRY"
+                            ],
+                            "foreign_table": null,
+                            "non_equi_join_condition": null,
+                            "primary_key": [
+                                "SELLER_COUNTRY.COUNTRY"
+                            ],
+                            "primary_table": null,
+                            "type": "INNER"
+                        },
+                        "kind": "LOOKUP",
+                        "table": "DEFAULT.KYLIN_COUNTRY"
+                    }
+                ],
+                "last_build_end": "1388534400000",
+                "last_modified": 1581343542414,
+                "lookups": [
+                    {
+                        "alias": "KYLIN_CAL_DT",
+                        "join": {
+                            "foreign_key": [
+                                "KYLIN_SALES.PART_DT"
+                            ],
+                            "foreign_table": null,
+                            "non_equi_join_condition": null,
+                            "primary_key": [
+                                "KYLIN_CAL_DT.CAL_DT"
+                            ],
+                            "primary_table": null,
+                            "type": "INNER"
+                        },
+                        "kind": "LOOKUP",
+                        "table": "DEFAULT.KYLIN_CAL_DT"
+                    },
+                    {
+                        "alias": "BUYER_ACCOUNT",
+                        "join": {
+                            "foreign_key": [
+                                "KYLIN_SALES.SELLER_ID"
+                            ],
+                            "foreign_table": null,
+                            "non_equi_join_condition": null,
+                            "primary_key": [
+                                "BUYER_ACCOUNT.ACCOUNT_ID"
+                            ],
+                            "primary_table": null,
+                            "type": "INNER"
+                        },
+                        "kind": "LOOKUP",
+                        "table": "DEFAULT.KYLIN_ACCOUNT"
+                    },
+                    {
+                        "alias": "SELLER_ACCOUNT",
+                        "join": {
+                            "foreign_key": [
+                                "KYLIN_SALES.SELLER_ID"
+                            ],
+                            "foreign_table": null,
+                            "non_equi_join_condition": null,
+                            "primary_key": [
+                                "SELLER_ACCOUNT.ACCOUNT_ID"
+                            ],
+                            "primary_table": null,
+                            "type": "INNER"
+                        },
+                        "kind": "LOOKUP",
+                        "table": "DEFAULT.KYLIN_ACCOUNT"
+                    },
+                    {
+                        "alias": "KYLIN_CATEGORY_GROUPINGS",
+                        "join": {
+                            "foreign_key": [
+                                "KYLIN_SALES.LEAF_CATEG_ID",
+                                "KYLIN_SALES.LSTG_SITE_ID"
+                            ],
+                            "foreign_table": null,
+                            "non_equi_join_condition": null,
+                            "primary_key": [
+                                "KYLIN_CATEGORY_GROUPINGS.LEAF_CATEG_ID",
+                                "KYLIN_CATEGORY_GROUPINGS.SITE_ID"
+                            ],
+                            "primary_table": null,
+                            "type": "INNER"
+                        },
+                        "kind": "LOOKUP",
+                        "table": "DEFAULT.KYLIN_CATEGORY_GROUPINGS"
+                    },
+                    {
+                        "alias": "BUYER_COUNTRY",
+                        "join": {
+                            "foreign_key": [
+                                "BUYER_ACCOUNT.ACCOUNT_COUNTRY"
+                            ],
+                            "foreign_table": null,
+                            "non_equi_join_condition": null,
+                            "primary_key": [
+                                "BUYER_COUNTRY.COUNTRY"
+                            ],
+                            "primary_table": null,
+                            "type": "INNER"
+                        },
+                        "kind": "LOOKUP",
+                        "table": "DEFAULT.KYLIN_COUNTRY"
+                    },
+                    {
+                        "alias": "SELLER_COUNTRY",
+                        "join": {
+                            "foreign_key": [
+                                "SELLER_ACCOUNT.ACCOUNT_COUNTRY"
+                            ],
+                            "foreign_table": null,
+                            "non_equi_join_condition": null,
+                            "primary_key": [
+                                "SELLER_COUNTRY.COUNTRY"
+                            ],
+                            "primary_table": null,
+                            "type": "INNER"
+                        },
+                        "kind": "LOOKUP",
+                        "table": "DEFAULT.KYLIN_COUNTRY"
+                    }
+                ],
+                "management_type": "MODEL_BASED",
+                "model_broken": false,
+                "multilevel_partition_cols": [],
+                "mvcc": 0,
+                "name": "kylin_sales_model",
+                "owner": "ADMIN",
+                "partition_desc": {
+                    "partition_condition_builder": "org.apache.kylin.metadata.model.PartitionDesc$DefaultPartitionConditionBuilder",
+                    "partition_date_column": "KYLIN_SALES.PART_DT",
+                    "partition_date_format": "yyyy-MM-dd",
+                    "partition_date_start": 0,
+                    "partition_type": "APPEND"
+                },
+                "project": null,
+                "recommendations_count": 15,
+                "root_fact_table_deleted": false,
+                "segment_config": {
+                    "auto_merge_enabled": null,
+                    "auto_merge_time_ranges": null,
+                    "retention_range": null,
+                    "volatile_range": null
+                },
+                "segments": null,
+                "semantic_version": 0,
+                "simplified_dimensions": [
+                    {
+                        "column": "KYLIN_SALES.PART_DT",
+                        "id": 1,
+                        "name": "KYLIN_SALES_PART_DT",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_SALES.LSTG_FORMAT_NAME",
+                        "id": 9,
+                        "name": "KYLIN_SALES_LSTG_FORMAT_NAME",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_SALES.OPS_REGION",
+                        "id": 11,
+                        "name": "KYLIN_SALES_OPS_REGION",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.MONTH_BEG_DT",
+                        "id": 28,
+                        "name": "KYLIN_CAL_DT_MONTH_BEG_DT",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.CAL_DT",
+                        "id": 53,
+                        "name": "KYLIN_CAL_DT_CAL_DT",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.YEAR_BEG_DT",
+                        "id": 84,
+                        "name": "KYLIN_CAL_DT_YEAR_BEG_DT",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CAL_DT.QTR_BEG_DT",
+                        "id": 110,
+                        "name": "KYLIN_CAL_DT_QTR_BEG_DT",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "BUYER_ACCOUNT.ACCOUNT_COUNTRY",
+                        "id": 114,
+                        "name": "BUYER_ACCOUNT_ACCOUNT_COUNTRY",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "BUYER_ACCOUNT.ACCOUNT_BUYER_LEVEL",
+                        "id": 116,
+                        "name": "BUYER_ACCOUNT_ACCOUNT_BUYER_LEVEL",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "BUYER_COUNTRY.NAME",
+                        "id": 117,
+                        "name": "BUYER_COUNTRY_NAME",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "BUYER_COUNTRY.COUNTRY",
+                        "id": 118,
+                        "name": "BUYER_COUNTRY_COUNTRY",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "SELLER_ACCOUNT.ACCOUNT_SELLER_LEVEL",
+                        "id": 122,
+                        "name": "SELLER_ACCOUNT_ACCOUNT_SELLER_LEVEL",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "SELLER_ACCOUNT.ACCOUNT_COUNTRY",
+                        "id": 123,
+                        "name": "SELLER_ACCOUNT_ACCOUNT_COUNTRY",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "SELLER_COUNTRY.NAME",
+                        "id": 126,
+                        "name": "SELLER_COUNTRY_NAME",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "SELLER_COUNTRY.COUNTRY",
+                        "id": 127,
+                        "name": "SELLER_COUNTRY_COUNTRY",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL3_NAME",
+                        "id": 133,
+                        "name": "KYLIN_CATEGORY_GROUPINGS_CATEG_LVL3_NAME",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.CATEG_LVL2_NAME",
+                        "id": 146,
+                        "name": "KYLIN_CATEGORY_GROUPINGS_CATEG_LVL2_NAME",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.LEAF_CATEG_NAME",
+                        "id": 149,
+                        "name": "KYLIN_CATEGORY_GROUPINGS_LEAF_CATEG_NAME",
+                        "status": "DIMENSION"
+                    },
+                    {
+                        "column": "KYLIN_CATEGORY_GROUPINGS.META_CATEG_NAME",
+                        "id": 160,
+                        "name": "KYLIN_CATEGORY_GROUPINGS_META_CATEG_NAME",
+                        "status": "DIMENSION"
+                    }
+                ],
+                "simplified_measures": [
+                    {
+                        "converted_columns": [],
+                        "expression": "COUNT",
+                        "id": 100000,
+                        "name": "KYLIN_SALES_TRANS_ID_COUNT",
+                        "parameter_value": [
+                            {
+                                "type": "column",
+                                "value": "KYLIN_SALES.TRANS_ID"
+                            }
+                        ],
+                        "return_type": "bigint"
+                    },
+                    {
+                        "converted_columns": [],
+                        "expression": "SUM",
+                        "id": 100001,
+                        "name": "KYLIN_SALES_PRICE_SUM",
+                        "parameter_value": [
+                            {
+                                "type": "column",
+                                "value": "KYLIN_SALES.PRICE"
+                            }
+                        ],
+                        "return_type": "decimal(19,4)"
+                    },
+                    {
+                        "converted_columns": [],
+                        "expression": "MAX",
+                        "id": 100002,
+                        "name": "KYLIN_SALES_PRICE_MAX",
+                        "parameter_value": [
+                            {
+                                "type": "column",
+                                "value": "KYLIN_SALES.PRICE"
+                            }
+                        ],
+                        "return_type": "decimal(19,4)"
+                    },
+                    {
+                        "converted_columns": [],
+                        "expression": "SUM",
+                        "id": 100003,
+                        "name": "KYLIN_SALES_ITEM_COUNT_SUM",
+                        "parameter_value": [
+                            {
+                                "type": "column",
+                                "value": "KYLIN_SALES.ITEM_COUNT"
+                            }
+                        ],
+                        "return_type": "bigint"
+                    },
+                    {
+                        "converted_columns": [],
+                        "expression": "COUNT_DISTINCT",
+                        "id": 100004,
+                        "name": "BUYER_ID_COUNT_DISTINCT",
+                        "parameter_value": [
+                            {
+                                "type": "column",
+                                "value": "KYLIN_SALES.BUYER_ID"
+                            }
+                        ],
+                        "return_type": "hllc(10)"
+                    },
+                    {
+                        "converted_columns": [],
+                        "expression": "COUNT",
+                        "id": 100005,
+                        "name": "COUNT_ALL",
+                        "parameter_value": [
+                            {
+                                "type": "constant",
+                                "value": "1"
+                            }
+                        ],
+                        "return_type": "bigint"
+                    }
+                ],
+                "simplified_tables": [
+                    {
+                        "columns": [
+                            {
+                                "cardinality": 9571,
+                                "comment": null,
+                                "datatype": "bigint",
+                                "is_computed_column": false,
+                                "name": "TRANS_ID"
+                            },
+                            {
+                                "cardinality": 722,
+                                "comment": "Order Date",
+                                "datatype": "date",
+                                "is_computed_column": false,
+                                "name": "PART_DT"
+                            },
+                            {
+                                "cardinality": 5,
+                                "comment": "Order Transaction Type",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "LSTG_FORMAT_NAME"
+                            },
+                            {
+                                "cardinality": 133,
+                                "comment": "Category ID",
+                                "datatype": "bigint",
+                                "is_computed_column": false,
+                                "name": "LEAF_CATEG_ID"
+                            },
+                            {
+                                "cardinality": 7,
+                                "comment": "Site ID",
+                                "datatype": "integer",
+                                "is_computed_column": false,
+                                "name": "LSTG_SITE_ID"
+                            },
+                            {
+                                "cardinality": 8,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "SLR_SEGMENT_CD"
+                            },
+                            {
+                                "cardinality": 10346,
+                                "comment": "Order Price",
+                                "datatype": "decimal(19,4)",
+                                "is_computed_column": false,
+                                "name": "PRICE"
+                            },
+                            {
+                                "cardinality": 20,
+                                "comment": "Number of Purchased Goods",
+                                "datatype": "bigint",
+                                "is_computed_column": false,
+                                "name": "ITEM_COUNT"
+                            },
+                            {
+                                "cardinality": 957,
+                                "comment": "Seller ID",
+                                "datatype": "bigint",
+                                "is_computed_column": false,
+                                "name": "SELLER_ID"
+                            },
+                            {
+                                "cardinality": 6348,
+                                "comment": "Buyer ID",
+                                "datatype": "bigint",
+                                "is_computed_column": false,
+                                "name": "BUYER_ID"
+                            },
+                            {
+                                "cardinality": 3,
+                                "comment": "System User ID",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "OPS_USER_ID"
+                            },
+                            {
+                                "cardinality": 3,
+                                "comment": "System User Region",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "OPS_REGION"
+                            }
+                        ],
+                        "table": "DEFAULT.KYLIN_SALES"
+                    },
+                    {
+                        "columns": [
+                            {
+                                "cardinality": 722,
+                                "comment": "Date, PK",
+                                "datatype": "date",
+                                "is_computed_column": false,
+                                "name": "CAL_DT"
+                            },
+                            {
+                                "cardinality": 3,
+                                "comment": "YEAR Begin Date",
+                                "datatype": "date",
+                                "is_computed_column": false,
+                                "name": "YEAR_BEG_DT"
+                            },
+                            {
+                                "cardinality": 9,
+                                "comment": "Quarter Begin Date",
+                                "datatype": "date",
+                                "is_computed_column": false,
+                                "name": "QTR_BEG_DT"
+                            },
+                            {
+                                "cardinality": 26,
+                                "comment": "Month Begin Date",
+                                "datatype": "date",
+                                "is_computed_column": false,
+                                "name": "MONTH_BEG_DT"
+                            },
+                            {
+                                "cardinality": 105,
+                                "comment": "Week Begin Date",
+                                "datatype": "date",
+                                "is_computed_column": false,
+                                "name": "WEEK_BEG_DT"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "AGE_FOR_YEAR_ID"
+                            },
+                            {
+                                "cardinality": 5,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "AGE_FOR_QTR_ID"
+                            },
+                            {
+                                "cardinality": 13,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "AGE_FOR_MONTH_ID"
+                            },
+                            {
+                                "cardinality": 55,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "AGE_FOR_WEEK_ID"
+                            },
+                            {
+                                "cardinality": 369,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "AGE_FOR_DT_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "AGE_FOR_RTL_YEAR_ID"
+                            },
+                            {
+                                "cardinality": 5,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "AGE_FOR_RTL_QTR_ID"
+                            },
+                            {
+                                "cardinality": 13,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "AGE_FOR_RTL_MONTH_ID"
+                            },
+                            {
+                                "cardinality": 54,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "AGE_FOR_RTL_WEEK_ID"
+                            },
+                            {
+                                "cardinality": 54,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "AGE_FOR_CS_WEEK_ID"
+                            },
+                            {
+                                "cardinality": 359,
+                                "comment": null,
+                                "datatype": "integer",
+                                "is_computed_column": false,
+                                "name": "DAY_OF_CAL_ID"
+                            },
+                            {
+                                "cardinality": 359,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "DAY_OF_YEAR_ID"
+                            },
+                            {
+                                "cardinality": 91,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "DAY_OF_QTR_ID"
+                            },
+                            {
+                                "cardinality": 32,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "DAY_OF_MONTH_ID"
+                            },
+                            {
+                                "cardinality": 7,
+                                "comment": null,
+                                "datatype": "integer",
+                                "is_computed_column": false,
+                                "name": "DAY_OF_WEEK_ID"
+                            },
+                            {
+                                "cardinality": 53,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "WEEK_OF_YEAR_ID"
+                            },
+                            {
+                                "cardinality": 53,
+                                "comment": null,
+                                "datatype": "integer",
+                                "is_computed_column": false,
+                                "name": "WEEK_OF_CAL_ID"
+                            },
+                            {
+                                "cardinality": 3,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "MONTH_OF_QTR_ID"
+                            },
+                            {
+                                "cardinality": 12,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "MONTH_OF_YEAR_ID"
+                            },
+                            {
+                                "cardinality": 13,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "MONTH_OF_CAL_ID"
+                            },
+                            {
+                                "cardinality": 4,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "QTR_OF_YEAR_ID"
+                            },
+                            {
+                                "cardinality": 5,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "QTR_OF_CAL_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "YEAR_OF_CAL_ID"
+                            },
+                            {
+                                "cardinality": 3,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "YEAR_END_DT"
+                            },
+                            {
+                                "cardinality": 9,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "QTR_END_DT"
+                            },
+                            {
+                                "cardinality": 24,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "MONTH_END_DT"
+                            },
+                            {
+                                "cardinality": 111,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "WEEK_END_DT"
+                            },
+                            {
+                                "cardinality": 686,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CAL_DT_NAME"
+                            },
+                            {
+                                "cardinality": 743,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CAL_DT_DESC"
+                            },
+                            {
+                                "cardinality": 361,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CAL_DT_SHORT_NAME"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "YTD_YN_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "QTD_YN_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "MTD_YN_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "WTD_YN_ID"
+                            },
+                            {
+                                "cardinality": 8,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "SEASON_BEG_DT"
+                            },
+                            {
+                                "cardinality": 1,
+                                "comment": null,
+                                "datatype": "smallint",
+                                "is_computed_column": false,
+                                "name": "DAY_IN_YEAR_COUNT"
+                            },
+                            {
+                                "cardinality": 3,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "DAY_IN_QTR_COUNT"
+                            },
+                            {
+                                "cardinality": 3,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "DAY_IN_MONTH_COUNT"
+                            },
+                            {
+                                "cardinality": 4,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "DAY_IN_WEEK_COUNT"
+                            },
+                            {
+                                "cardinality": 3,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "RTL_YEAR_BEG_DT"
+                            },
+                            {
+                                "cardinality": 9,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "RTL_QTR_BEG_DT"
+                            },
+                            {
+                                "cardinality": 25,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "RTL_MONTH_BEG_DT"
+                            },
+                            {
+                                "cardinality": 103,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "RTL_WEEK_BEG_DT"
+                            },
+                            {
+                                "cardinality": 100,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CS_WEEK_BEG_DT"
+                            },
+                            {
+                                "cardinality": 683,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CAL_DATE"
+                            },
+                            {
+                                "cardinality": 7,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "DAY_OF_WEEK"
+                            },
+                            {
+                                "cardinality": 26,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "MONTH_ID"
+                            },
+                            {
+                                "cardinality": 26,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "PRD_DESC"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "PRD_FLAG"
+                            },
+                            {
+                                "cardinality": 26,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "PRD_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "PRD_IND"
+                            },
+                            {
+                                "cardinality": 9,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "QTR_DESC"
+                            },
+                            {
+                                "cardinality": 9,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "QTR_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "QTR_IND"
+                            },
+                            {
+                                "cardinality": 52,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "RETAIL_WEEK"
+                            },
+                            {
+                                "cardinality": 3,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "RETAIL_YEAR"
+                            },
+                            {
+                                "cardinality": 103,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "RETAIL_START_DATE"
+                            },
+                            {
+                                "cardinality": 110,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "RETAIL_WK_END_DATE"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "WEEK_IND"
+                            },
+                            {
+                                "cardinality": 50,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "WEEK_NUM_DESC"
+                            },
+                            {
+                                "cardinality": 103,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "WEEK_BEG_DATE"
+                            },
+                            {
+                                "cardinality": 108,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "WEEK_END_DATE"
+                            },
+                            {
+                                "cardinality": 108,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "WEEK_IN_YEAR_ID"
+                            },
+                            {
+                                "cardinality": 108,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "WEEK_ID"
+                            },
+                            {
+                                "cardinality": 54,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "WEEK_BEG_END_DESC_MDY"
+                            },
+                            {
+                                "cardinality": 53,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "WEEK_BEG_END_DESC_MD"
+                            },
+                            {
+                                "cardinality": 3,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "YEAR_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "YEAR_IND"
+                            },
+                            {
+                                "cardinality": 361,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CAL_DT_MNS_1YEAR_DT"
+                            },
+                            {
+                                "cardinality": 361,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CAL_DT_MNS_2YEAR_DT"
+                            },
+                            {
+                                "cardinality": 608,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CAL_DT_MNS_1QTR_DT"
+                            },
+                            {
+                                "cardinality": 532,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CAL_DT_MNS_2QTR_DT"
+                            },
+                            {
+                                "cardinality": 657,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CAL_DT_MNS_1MONTH_DT"
+                            },
+                            {
+                                "cardinality": 646,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CAL_DT_MNS_2MONTH_DT"
+                            },
+                            {
+                                "cardinality": 683,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CAL_DT_MNS_1WEEK_DT"
+                            },
+                            {
+                                "cardinality": 675,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CAL_DT_MNS_2WEEK_DT"
+                            },
+                            {
+                                "cardinality": 1,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "CURR_CAL_DT_MNS_1YEAR_YN_ID"
+                            },
+                            {
+                                "cardinality": 1,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "CURR_CAL_DT_MNS_2YEAR_YN_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "CURR_CAL_DT_MNS_1QTR_YN_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "CURR_CAL_DT_MNS_2QTR_YN_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "CURR_CAL_DT_MNS_1MONTH_YN_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "CURR_CAL_DT_MNS_2MONTH_YN_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "CURR_CAL_DT_MNS_1WEEK_YN_IND"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "CURR_CAL_DT_MNS_2WEEK_YN_IND"
+                            },
+                            {
+                                "cardinality": 12,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "RTL_MONTH_OF_RTL_YEAR_ID"
+                            },
+                            {
+                                "cardinality": 4,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "RTL_QTR_OF_RTL_YEAR_ID"
+                            },
+                            {
+                                "cardinality": 52,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "RTL_WEEK_OF_RTL_YEAR_ID"
+                            },
+                            {
+                                "cardinality": 4,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "SEASON_OF_YEAR_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "YTM_YN_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "YTQ_YN_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "YTW_YN_ID"
+                            },
+                            {
+                                "cardinality": 1,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "KYLIN_CAL_DT_CRE_DATE"
+                            },
+                            {
+                                "cardinality": 1,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "KYLIN_CAL_DT_CRE_USER"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "KYLIN_CAL_DT_UPD_DATE"
+                            },
+                            {
+                                "cardinality": 1,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "KYLIN_CAL_DT_UPD_USER"
+                            }
+                        ],
+                        "table": "DEFAULT.KYLIN_CAL_DT"
+                    },
+                    {
+                        "columns": [
+                            {
+                                "cardinality": 9883,
+                                "comment": null,
+                                "datatype": "bigint",
+                                "is_computed_column": false,
+                                "name": "ACCOUNT_ID"
+                            },
+                            {
+                                "cardinality": 6,
+                                "comment": "Account Buyer Level",
+                                "datatype": "integer",
+                                "is_computed_column": false,
+                                "name": "ACCOUNT_BUYER_LEVEL"
+                            },
+                            {
+                                "cardinality": 6,
+                                "comment": "Account Seller Level",
+                                "datatype": "integer",
+                                "is_computed_column": false,
+                                "name": "ACCOUNT_SELLER_LEVEL"
+                            },
+                            {
+                                "cardinality": 6,
+                                "comment": "Account Country",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "ACCOUNT_COUNTRY"
+                            },
+                            {
+                                "cardinality": 1,
+                                "comment": "Account Contact Info",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "ACCOUNT_CONTACT"
+                            }
+                        ],
+                        "table": "DEFAULT.KYLIN_ACCOUNT"
+                    },
+                    {
+                        "columns": [
+                            {
+                                "cardinality": 9883,
+                                "comment": null,
+                                "datatype": "bigint",
+                                "is_computed_column": false,
+                                "name": "ACCOUNT_ID"
+                            },
+                            {
+                                "cardinality": 6,
+                                "comment": "Account Buyer Level",
+                                "datatype": "integer",
+                                "is_computed_column": false,
+                                "name": "ACCOUNT_BUYER_LEVEL"
+                            },
+                            {
+                                "cardinality": 6,
+                                "comment": "Account Seller Level",
+                                "datatype": "integer",
+                                "is_computed_column": false,
+                                "name": "ACCOUNT_SELLER_LEVEL"
+                            },
+                            {
+                                "cardinality": 6,
+                                "comment": "Account Country",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "ACCOUNT_COUNTRY"
+                            },
+                            {
+                                "cardinality": 1,
+                                "comment": "Account Contact Info",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "ACCOUNT_CONTACT"
+                            }
+                        ],
+                        "table": "DEFAULT.KYLIN_ACCOUNT"
+                    },
+                    {
+                        "columns": [
+                            {
+                                "cardinality": 134,
+                                "comment": "Category ID, PK",
+                                "datatype": "bigint",
+                                "is_computed_column": false,
+                                "name": "LEAF_CATEG_ID"
+                            },
+                            {
+                                "cardinality": 146,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "LEAF_CATEG_NAME"
+                            },
+                            {
+                                "cardinality": 8,
+                                "comment": "Site ID, PK",
+                                "datatype": "integer",
+                                "is_computed_column": false,
+                                "name": "SITE_ID"
+                            },
+                            {
+                                "cardinality": 1,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CATEG_BUSN_MGR"
+                            },
+                            {
+                                "cardinality": 17,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CATEG_BUSN_UNIT"
+                            },
+                            {
+                                "cardinality": 4,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "REGN_CATEG"
+                            },
+                            {
+                                "cardinality": 30,
+                                "comment": "User Defined Field1",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "USER_DEFINED_FIELD1"
+                            },
+                            {
+                                "cardinality": 46,
+                                "comment": "User Defined Field3",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "USER_DEFINED_FIELD3"
+                            },
+                            {
+                                "cardinality": 10,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "KYLIN_GROUPINGS_CRE_DATE"
+                            },
+                            {
+                                "cardinality": 24,
+                                "comment": "Last Updated Date",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "KYLIN_GROUPINGS_UPD_DATE"
+                            },
+                            {
+                                "cardinality": 1,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "KYLIN_GROUPINGS_CRE_USER"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": "Last Updated User",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "KYLIN_GROUPINGS_UPD_USER"
+                            },
+                            {
+                                "cardinality": 29,
+                                "comment": null,
+                                "datatype": "decimal(10,0)",
+                                "is_computed_column": false,
+                                "name": "META_CATEG_ID"
+                            },
+                            {
+                                "cardinality": 46,
+                                "comment": "Level1 Category",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "META_CATEG_NAME"
+                            },
+                            {
+                                "cardinality": 94,
+                                "comment": null,
+                                "datatype": "decimal(10,0)",
+                                "is_computed_column": false,
+                                "name": "CATEG_LVL2_ID"
+                            },
+                            {
+                                "cardinality": 124,
+                                "comment": null,
+                                "datatype": "decimal(10,0)",
+                                "is_computed_column": false,
+                                "name": "CATEG_LVL3_ID"
+                            },
+                            {
+                                "cardinality": 128,
+                                "comment": null,
+                                "datatype": "decimal(10,0)",
+                                "is_computed_column": false,
+                                "name": "CATEG_LVL4_ID"
+                            },
+                            {
+                                "cardinality": 129,
+                                "comment": null,
+                                "datatype": "decimal(10,0)",
+                                "is_computed_column": false,
+                                "name": "CATEG_LVL5_ID"
+                            },
+                            {
+                                "cardinality": 130,
+                                "comment": null,
+                                "datatype": "decimal(10,0)",
+                                "is_computed_column": false,
+                                "name": "CATEG_LVL6_ID"
+                            },
+                            {
+                                "cardinality": 130,
+                                "comment": null,
+                                "datatype": "decimal(10,0)",
+                                "is_computed_column": false,
+                                "name": "CATEG_LVL7_ID"
+                            },
+                            {
+                                "cardinality": 98,
+                                "comment": "Level2 Category",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CATEG_LVL2_NAME"
+                            },
+                            {
+                                "cardinality": 132,
+                                "comment": "Level3 Category",
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CATEG_LVL3_NAME"
+                            },
+                            {
+                                "cardinality": 128,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CATEG_LVL4_NAME"
+                            },
+                            {
+                                "cardinality": 125,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CATEG_LVL5_NAME"
+                            },
+                            {
+                                "cardinality": 124,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CATEG_LVL6_NAME"
+                            },
+                            {
+                                "cardinality": 124,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "CATEG_LVL7_NAME"
+                            },
+                            {
+                                "cardinality": 3,
+                                "comment": null,
+                                "datatype": "decimal(10,0)",
+                                "is_computed_column": false,
+                                "name": "CATEG_FLAGS"
+                            },
+                            {
+                                "cardinality": 1,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "ADULT_CATEG_YN"
+                            },
+                            {
+                                "cardinality": 3,
+                                "comment": null,
+                                "datatype": "decimal(10,0)",
+                                "is_computed_column": false,
+                                "name": "DOMAIN_ID"
+                            },
+                            {
+                                "cardinality": 31,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "USER_DEFINED_FIELD5"
+                            },
+                            {
+                                "cardinality": 53,
+                                "comment": null,
+                                "datatype": "decimal(10,0)",
+                                "is_computed_column": false,
+                                "name": "VCS_ID"
+                            },
+                            {
+                                "cardinality": 46,
+                                "comment": null,
+                                "datatype": "decimal(10,0)",
+                                "is_computed_column": false,
+                                "name": "GCS_ID"
+                            },
+                            {
+                                "cardinality": 125,
+                                "comment": null,
+                                "datatype": "decimal(10,0)",
+                                "is_computed_column": false,
+                                "name": "MOVE_TO"
+                            },
+                            {
+                                "cardinality": 31,
+                                "comment": null,
+                                "datatype": "decimal(10,0)",
+                                "is_computed_column": false,
+                                "name": "SAP_CATEGORY_ID"
+                            },
+                            {
+                                "cardinality": 2,
+                                "comment": null,
+                                "datatype": "tinyint",
+                                "is_computed_column": false,
+                                "name": "SRC_ID"
+                            },
+                            {
+                                "cardinality": 10,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "BSNS_VRTCL_NAME"
+                            }
+                        ],
+                        "table": "DEFAULT.KYLIN_CATEGORY_GROUPINGS"
+                    },
+                    {
+                        "columns": [
+                            {
+                                "cardinality": 236,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "COUNTRY"
+                            },
+                            {
+                                "cardinality": 247,
+                                "comment": null,
+                                "datatype": "double",
+                                "is_computed_column": false,
+                                "name": "LATITUDE"
+                            },
+                            {
+                                "cardinality": 245,
+                                "comment": null,
+                                "datatype": "double",
+                                "is_computed_column": false,
+                                "name": "LONGITUDE"
+                            },
+                            {
+                                "cardinality": 244,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "NAME"
+                            }
+                        ],
+                        "table": "DEFAULT.KYLIN_COUNTRY"
+                    },
+                    {
+                        "columns": [
+                            {
+                                "cardinality": 236,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "COUNTRY"
+                            },
+                            {
+                                "cardinality": 247,
+                                "comment": null,
+                                "datatype": "double",
+                                "is_computed_column": false,
+                                "name": "LATITUDE"
+                            },
+                            {
+                                "cardinality": 245,
+                                "comment": null,
+                                "datatype": "double",
+                                "is_computed_column": false,
+                                "name": "LONGITUDE"
+                            },
+                            {
+                                "cardinality": 244,
+                                "comment": null,
+                                "datatype": "varchar(4096)",
+                                "is_computed_column": false,
+                                "name": "NAME"
+                            }
+                        ],
+                        "table": "DEFAULT.KYLIN_COUNTRY"
+                    }
+                ],
+                "size_kb": 0,
+                "source": 3555428,
+                "status": "ONLINE",
+                "storage": 118033863,
+                "storage_type": 0,
+                "usage": 318,
+                "uuid": "0e788bb6-d56c-44fd-8fe0-26bb77aa40c5",
+                "version": "4.0.0.0"
+            }
+        ]
+    },
+    "msg": ""
+}

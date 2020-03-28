@@ -9,7 +9,7 @@ import logging
 
 from kylinpy.client import Client as HTTPClient
 from kylinpy.service import KylinService, KE3Service, KE4Service
-from kylinpy.datasource import TableSource, CubeSource
+from kylinpy.datasource import TableSource, CubeSource, KE4ModelSource
 from kylinpy.utils.compat import as_unicode, urlparse, parse_qsl
 
 SERVICES = {
@@ -109,7 +109,6 @@ class Kylin(object):
 
     def get_cube_source(self, name):
         if self.version == 'v4':
-            cube_desc = self.service.model_desc(name)
             _params = {
                 'project': self.project,
                 'page_offset': 0,
@@ -117,11 +116,10 @@ class Kylin(object):
                 'model_name': name,
                 'exact': True,
             }
-            model_desc = self.service.models(params=_params)[0]
-
-            return CubeSource(
-                cube_desc=cube_desc,
-                model_desc=model_desc,
+            model_relation_desc = self.service.models(params=_params)[0]
+            return KE4ModelSource(
+                model_desc=self.service.model_desc(name),
+                model_relation_desc=model_relation_desc,
                 tables_and_columns=self.service.tables_and_columns(),
             )
 
