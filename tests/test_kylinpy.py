@@ -64,7 +64,7 @@ class TestProject(object):
 
         cluster4 = create_kylin('kylin://foo:bar@example.com:9000/?version=v4')
         assert cluster4.version == 'v4'
-        assert cluster4.service.client.request_headers.get('Accept') == 'application/vnd.apache.kylin-v4+json'
+        assert cluster4.service.client.request_headers.get('Accept') == 'application/vnd.apache.kylin-v4-public+json'
         assert isinstance(cluster4.service, SERVICES['v4'])
 
     def test_get_client(self):

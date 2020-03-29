@@ -9,7 +9,7 @@ import logging
 
 from kylinpy.client import Client as HTTPClient
 from kylinpy.service import KylinService, KE3Service, KE4Service
-from kylinpy.datasource import TableSource, CubeSource
+from kylinpy.datasource import TableSource, CubeSource, KE4ModelSource
 from kylinpy.utils.compat import as_unicode, urlparse, parse_qsl
 
 SERVICES = {
@@ -53,7 +53,7 @@ class Kylin(object):
             headers.update({'Accept': 'application/vnd.apache.kylin-v2+json'})
 
         if self.version == 'v4':
-            headers.update({'Accept': 'application/vnd.apache.kylin-v4+json'})
+            headers.update({'Accept': 'application/vnd.apache.kylin-v4-public+json'})
 
         if self.username and self.password:
             headers.update(self.basic_auth_dump(self.username, self.password))
@@ -108,6 +108,21 @@ class Kylin(object):
             return TableSource(name, schema, self.service.tables_and_columns().get(fullname))
 
     def get_cube_source(self, name):
+        if self.version == 'v4':
+            _params = {
+                'project': self.project,
+                'page_offset': 0,
+                'page_size': 1000,
+                'model_name': name,
+                'exact': True,
+            }
+            model_relation_desc = self.service.models(params=_params)[0]
+            return KE4ModelSource(
+                model_desc=self.service.model_desc(name),
+                model_relation_desc=model_relation_desc,
+                tables_and_columns=self.service.tables_and_columns(),
+            )
+
         cube_desc = self.service.cube_desc(name)
         model_name = cube_desc.get('model_name')
         return CubeSource(

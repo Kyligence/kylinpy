@@ -36,12 +36,11 @@ class TestKE4Service(object):
     def test_tables_and_columns(self, v4_api):
         rv = self.project.service.tables_and_columns(headers={})
         assert sorted(list(rv.keys())) == [
-            'SSB.CUSTOMER',
-            'SSB.DATES',
-            'SSB.LINEORDER',
-            'SSB.PART',
-            'SSB.P_LINEORDER',
-            'SSB.SUPPLIER',
+            'DEFAULT.KYLIN_ACCOUNT',
+            'DEFAULT.KYLIN_CAL_DT',
+            'DEFAULT.KYLIN_CATEGORY_GROUPINGS',
+            'DEFAULT.KYLIN_COUNTRY',
+            'DEFAULT.KYLIN_SALES',
         ]
 
     def test_tables_in_hive(self, v4_api):
@@ -76,3 +75,17 @@ class TestKE4Service(object):
         rv = self.project.service.get_authentication(headers={})
         assert 'username' in rv
         assert 'authorities' in rv
+
+    def test_models(self, v4_api):
+        rv = self.project.service.models()
+        assert 'kylin_sales_model' == rv[0]['alias']
+        assert 'kylin_sales_model' == rv[0]['name']
+        assert 'lookups' in rv[0]
+        assert 'join_tables' in rv[0]
+
+    def test_model_desc(self, v4_api):
+        rv = self.project.service.model_desc('kylin_sales_model')
+        assert rv['name'] == 'kylin_sales_model'
+        assert 'measures' in rv
+        assert 'dimensions' in rv
+        assert 'aggregation_groups' in rv

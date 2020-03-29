@@ -76,6 +76,8 @@ def v4_api(mocker):
     tables = read('v4', 'tables.json').get('data')
     tables_and_columns = read('v4', 'tables_and_columns.json').get('data')
     authentication = read('v4', 'authentication.json').get('data')
+    models = read('v4', 'models.json').get('data')
+    model_desc = read('v4', 'model_desc.json').get('data')
 
     mocker.patch('kylinpy.service.KE4Service.api.projects', return_value=projects)
     mocker.patch('kylinpy.service.KE4Service.api.jobs', return_value=jobs)
@@ -84,4 +86,6 @@ def v4_api(mocker):
     mocker.patch('kylinpy.service.KE4Service.api.tables', return_value=tables)
     mocker.patch('kylinpy.service.KE4Service.api.tables_and_columns', return_value=tables_and_columns)
     mocker.patch('kylinpy.service.KE4Service.api.authentication', return_value=authentication)
+    mocker.patch('kylinpy.service.KE4Service.api.models', return_value=models)
+    mocker.patch('kylinpy.service.KE4Service.api.model_desc', return_value=model_desc)
     yield mocker
