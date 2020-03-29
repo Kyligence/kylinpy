@@ -82,8 +82,8 @@ class KE4ModelSource(SourceInterface):
             table = table.get('table') if table else self.fact_table.fullname
             table_clz = _Table(table, table_alias)
 
-            column = dim['column']
-            column_alias = dim['column'].split('.')[1]
+            column = dim['column'].split('.')[1]
+            column_alias = dim['name']
             tbl_map = self.tables_and_columns
             description = dict(tbl_map[table_clz.fullname].get('columns')).get(column)
             column_clz = _Column(column, column_alias, description)

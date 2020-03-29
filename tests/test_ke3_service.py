@@ -31,7 +31,7 @@ class TestKE3Service(object):
 
     def test_resume_job(self, v2_api):
         res = self.project.service.resume_job('5b30c6b2-d950-4085-8e4e-cd8bc94e0d69')
-        assert res['job_status'] == "PENDING"
+        assert res['job_status'] == 'PENDING'
 
     def test_tables_and_columns(self, v2_api):
         rv = self.project.service.tables_and_columns(headers={})
