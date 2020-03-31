@@ -35,7 +35,7 @@ List all projects:
 
     from kylinpy import Kylin
     kylin = Kylin(host='localhost', username='admin', password='password', version='v1')
-    print(kylin.projects())
+    print(kylin.service.projects())
 
 
 Resume the failed jobs:
