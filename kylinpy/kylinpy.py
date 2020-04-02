@@ -116,10 +116,9 @@ class Kylin(object):
                 'model_name': name,
                 'exact': True,
             }
-            model_relation_desc = self.service.models(params=_params)[0]
+            model_desc = self.service.models(params=_params)[0]
             return KE4ModelSource(
-                model_desc=self.service.model_desc(name),
-                model_relation_desc=model_relation_desc,
+                model_desc=model_desc,
                 tables_and_columns=self.service.tables_and_columns(),
             )
 

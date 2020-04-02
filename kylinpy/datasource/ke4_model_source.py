@@ -18,9 +18,8 @@ except ImportError:
 class KE4ModelSource(SourceInterface):
     source_type = 'model'
 
-    def __init__(self, model_desc, model_relation_desc, tables_and_columns):
+    def __init__(self, model_desc, tables_and_columns):
         self.model_desc = model_desc
-        self.model_relation_desc = model_relation_desc
         self.tables_and_columns = tables_and_columns
 
     @property
@@ -33,14 +32,14 @@ class KE4ModelSource(SourceInterface):
 
     @property
     def fact_table(self):
-        fullname = self.model_relation_desc.get('fact_table')
+        fullname = self.model_desc.get('fact_table')
         alias = fullname.split('.')[1]
         return _Table(fullname, alias)
 
     @property
     def _model_lookups(self):
         # lookup tables in model
-        return tuple((_.get('alias'), _) for _ in self.model_relation_desc.get('lookups'))
+        return tuple((_.get('alias'), _) for _ in self.model_desc.get('lookups'))
 
     @property
     def lookups(self):
@@ -76,7 +75,7 @@ class KE4ModelSource(SourceInterface):
     @property
     def dimensions(self):
         _dimensions = []
-        for dim in self.model_desc.get('dimensions'):
+        for dim in self.model_desc.get('simplified_dimensions'):
             table_alias = dim.get('column').split('.')[0]
             table = dict(self._model_lookups).get(table_alias)
             table = table.get('table') if table else self.fact_table.fullname
@@ -94,7 +93,7 @@ class KE4ModelSource(SourceInterface):
     @property
     def measures(self):
         _measures = []
-        for measure in self.model_desc.get('measures'):
+        for measure in self.model_desc.get('simplified_measures'):
             _measures.append(_CubeMeasure(measure))
         return _measures
 
@@ -179,7 +178,8 @@ class _CubeDimension(DimensionInterface):
 class _CubeMeasure(MeasureInterface):
     def __init__(self, description):
         self._description = description
-        self._function = description.get('function')
+        # unused property in KE4
+        self._function = description
         self._paramter_stack = []
 
     @property
@@ -192,16 +192,16 @@ class _CubeMeasure(MeasureInterface):
 
     @property
     def measure_type(self):
-        return self._function.get('expression')
+        return self._description.get('expression')
 
     @property
     def expression(self):
-        _params = self._get_parameter_values(self._function.get('parameters'))
+        _params = self._get_parameter_values(self._description.get('parameter_value'))
         return self._get_aggregations_exp(self.measure_type, _params)
 
     @property
     def value_tables(self):
-        _values_columns = self._get_parameter_values(self._function.get('parameters'), 'column')
+        _values_columns = self._get_parameter_values(self._description.get('parameter_value'), 'column')
         if _values_columns:
             _columns = _values_columns.split(', ')
             return set(c.split('.')[0] for c in _columns)
