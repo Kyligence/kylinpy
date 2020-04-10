@@ -157,3 +157,23 @@ class KE4Service(ServiceInterface):
 
     def get_authentication(self, **kwargs):
         return self.api.authentication(self.client, '/user/authentication', **kwargs)
+
+    def license(self):
+        import re
+        import requests
+        from flask_babel import get_locale
+        from superset.config import LANGUAGES
+
+        license_detail = requests.get('{host}/kylin/api/system/license'.format(host=self.client.host),
+                                      headers={'Accept-Language': LANGUAGES[str(get_locale() or 'en')]['flag']}).json()
+        obj = {
+            'statement': license_detail['data']['ke.license.statement'],
+            'dates': license_detail['data']['ke.dates'],
+            'info': license_detail['data']['ke.license.info'],
+            'ki_type': license_detail['data']['ke.license.level'],
+            'users': ''.join(re.findall('(\\d+) users', license_detail['data']['ke.license.statement']) or ['0']),
+            'is_valid_license': True,
+            'is_insight': False,
+            'msg': None,
+        }
+        return license_detail, obj
