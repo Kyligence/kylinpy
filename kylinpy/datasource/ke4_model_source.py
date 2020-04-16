@@ -4,6 +4,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from kylinpy.logger import logger
 from ._source_interface import (
     DimensionInterface, MeasureInterface, SourceInterface,
 )
@@ -18,9 +19,8 @@ except ImportError:
 class KE4ModelSource(SourceInterface):
     source_type = 'model'
 
-    def __init__(self, model_desc, tables_and_columns):
+    def __init__(self, model_desc):
         self.model_desc = model_desc
-        self.tables_and_columns = tables_and_columns
 
     @property
     def name(self):
@@ -75,6 +75,7 @@ class KE4ModelSource(SourceInterface):
     @property
     def dimensions(self):
         _dimensions = []
+        tables_and_columns = {t['table']: t['columns'] for t in self.model_desc['simplified_tables']}
         for dim in self.model_desc.get('simplified_dimensions'):
             table_alias = dim.get('column').split('.')[0]
             table = dict(self._model_lookups).get(table_alias)
@@ -83,8 +84,12 @@ class KE4ModelSource(SourceInterface):
 
             column = dim['column'].split('.')[1]
             column_alias = dim['name']
-            tbl_map = self.tables_and_columns
-            description = dict(tbl_map[table_clz.fullname].get('columns')).get(column)
+            description = [c for c in tables_and_columns[table_clz.fullname] if c['name'] == column]
+            if not description:
+                logger.error('"simplified_tables"'
+                             ' field can not find "{}" column in "{}" model'.format(column, self.model_name))
+                continue
+            description = description[0]
             column_clz = _Column(column, column_alias, description)
 
             _dimensions.append(_CubeDimension(table_clz, column_clz))
@@ -258,7 +263,7 @@ class _Column(object):
 
     @property
     def datatype(self):
-        return str(kylin_to_sqla(self.description.get('type_NAME')))
+        return str(kylin_to_sqla(self.description.get('datatype')))
 
     def __repr__(self):
         return ('<Column '
