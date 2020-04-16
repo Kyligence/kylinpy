@@ -19,6 +19,9 @@ def test_kylin_types():
     assert kylin_to_python('varchar', 'abc') == 'abc'
     assert kylin_to_python('varchar(256)', 'abc') == 'abc'
     assert kylin_to_python('DECIMAL(20, 6)', '3.1415926') == 3.1415926
+    assert kylin_to_python('BIGINT not null', '123456') == 123456
+    assert kylin_to_python('INTEGER null', '123456') == 123456
+    assert kylin_to_python('DECIMAL(20, 6) NOT null', '123456.123') == 123456.123
 
     assert kylin_to_python('CHAR', 'abc') == 'abc'
     assert kylin_to_python('VARCHAR', 'abc') == 'abc'

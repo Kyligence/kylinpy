@@ -36,7 +36,10 @@ KylinType = dict(
 
 
 def _convert_type(_type):
+    # remove parenthesis, such as 'DECIMAL(2, 5)'
     _type = re.sub(r'\(.*\)', '', _type)
+    # remove some decorator in type string, such as 'BIGINT NOT NULL'
+    _type = re.sub(r'\s.*', '', _type)
     return str(_type).upper()
 
 
