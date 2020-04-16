@@ -117,10 +117,7 @@ class Kylin(object):
                 'exact': True,
             }
             model_desc = self.service.models(params=_params)[0]
-            return KE4ModelSource(
-                model_desc=model_desc,
-                tables_and_columns=self.service.tables_and_columns(),
-            )
+            return KE4ModelSource(model_desc=model_desc)
 
         cube_desc = self.service.cube_desc(name)
         model_name = cube_desc.get('model_name')
