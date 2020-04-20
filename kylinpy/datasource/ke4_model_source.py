@@ -85,9 +85,9 @@ class KE4ModelSource(SourceInterface):
             column_alias = dim['name']
             tbl_map = self.tables_and_columns
             description = dict(tbl_map[table_clz.fullname].get('columns')).get(column)
-            column_clz = _Column(column, column_alias, description)
-
-            _dimensions.append(_CubeDimension(table_clz, column_clz))
+            if description:
+                column_clz = _Column(column, column_alias, description)
+                _dimensions.append(_CubeDimension(table_clz, column_clz))
         return _dimensions
 
     @property
