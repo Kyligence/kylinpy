@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 
 import sys
 import time
+from datetime import datetime
 
 try:
     # Python 3
@@ -55,3 +56,8 @@ else:
 def to_seconds(date):
     """ return timestamp for date object compatible py2 """
     return time.mktime(date.timetuple())
+
+
+def to_millisecond_timestamp(dt):
+    epoch = datetime(1970, 1, 1)
+    return int((dt - epoch).total_seconds() * 1000)

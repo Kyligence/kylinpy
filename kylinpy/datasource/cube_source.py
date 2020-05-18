@@ -7,7 +7,8 @@ from __future__ import unicode_literals
 from ._source_interface import (
     DimensionInterface, MeasureInterface, SourceInterface,
 )
-from ..utils.sqla_types import kylin_to_sqla
+from kylinpy.utils.sqla_types import kylin_to_sqla
+from kylinpy.utils.compat import to_millisecond_timestamp
 
 try:
     from sqlalchemy import sql
@@ -18,10 +19,11 @@ except ImportError:
 class CubeSource(SourceInterface):
     source_type = 'cube'
 
-    def __init__(self, cube_desc, model_desc, tables_and_columns):
+    def __init__(self, cube_desc, model_desc, tables_and_columns, service):
         self.cube_desc = cube_desc
         self.model_desc = model_desc
         self.tables_and_columns = tables_and_columns
+        self.service = service
 
     @property
     def name(self):
@@ -153,6 +155,59 @@ class CubeSource(SourceInterface):
                 isouter=_is_left_join,
             )
         return _from_clause
+
+    def fullbuild(self):
+        return self.service.fullbuild(self.cube_name)
+
+    def build_segment(self, start, end):
+        _start = to_millisecond_timestamp(start)
+        _end = to_millisecond_timestamp(end)
+        return self.service.build(self.cube_name, 'BUILD', _start, _end)
+
+    def list_segment(self):
+        _cubes = self.service.cubes(name=self.cube_name)
+        if len(_cubes) > 0:
+            return _cubes[0].get('segments')
+        else:
+            return []
+
+    def merge_segment(self, start, end):
+        _start = to_millisecond_timestamp(start)
+        _end = to_millisecond_timestamp(end)
+        return self.service.build(self.cube_name, 'MERGE', _start, _end)
+
+    def refresh_segment(self, start, end):
+        _start = to_millisecond_timestamp(start)
+        _end = to_millisecond_timestamp(end)
+        return self.service.build(self.cube_name, 'REFRESH', _start, _end)
+
+    def delete_segment(self, name):
+        return self.service.delete_segment(self.cube_name, name)
+
+    def is_ready_segment(self, name):
+        segments = [segment for segment in self.list_segment() if segment.get('name') == name]
+        if segments:
+            return segments[0].get('status') == 'READY'
+        else:
+            return False
+
+    def refresh_lookup(self):
+        pass
+
+    def disable(self):
+        return self.service.maintain_cube(self.cube_name, 'disable')
+
+    def enable(self):
+        return self.service.maintain_cube(self.cube_name, 'enable')
+
+    def purge(self):
+        return self.service.maintain_cube(self.cube_name, 'purge')
+
+    def clone(self):
+        return self.service.maintain_cube(self.cube_name, 'clone')
+
+    def drop(self):
+        return self.service.drop_cube(self.cube_name)
 
     def __repr__(self):
         return ('<Cube Instance by '

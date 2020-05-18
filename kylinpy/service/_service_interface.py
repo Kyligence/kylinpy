@@ -33,7 +33,7 @@ class ServiceInterface(object):
     def models(self, **kwargs):
         raise NotImplementedError()
 
-    def cubes(self, **kwargs):
+    def cubes(self, name=None, **kwargs):
         raise NotImplementedError()
 
     def get_authentication(self, **kwargs):

@@ -5,7 +5,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from kylinpy.client import InternalServerError, UnauthorizedError
-from kylinpy.exceptions import KylinQueryError
+from kylinpy.exceptions import KylinQueryError, KylinCubeError
 from ._service_interface import ServiceInterface
 
 
@@ -55,6 +55,22 @@ class _Api(object):
         if rv == {}:
             raise UnauthorizedError
         return rv
+
+    @staticmethod
+    def build(client, endpoint, **kwargs):
+        return client.put(endpoint=endpoint, **kwargs).json()
+
+    @staticmethod
+    def delete_segment(client, endpoint, **kwargs):
+        return client.delete(endpoint=endpoint, **kwargs).json()
+
+    @staticmethod
+    def maintain_cube(client, endpoint, **kwargs):
+        return client.put(endpoint=endpoint, **kwargs).json()
+
+    @staticmethod
+    def drop_cube(client, endpoint, **kwargs):
+        return client.delete(endpoint=endpoint, **kwargs).json()
 
 
 class KylinService(ServiceInterface):
@@ -152,7 +168,7 @@ class KylinService(ServiceInterface):
         kwargs.setdefault('params', params)
         return self.api.models(self.client, '/models', **kwargs)
 
-    def cubes(self, **kwargs):
+    def cubes(self, name=None, **kwargs):
         params = {
             'pageOffset': 0,
             'offset': 0,
@@ -160,9 +176,65 @@ class KylinService(ServiceInterface):
             'pageSize': 1000,
             'projectName': self.project,
         }
+        if name:
+            params.update({'cubeName': name})
         kwargs.setdefault('params', params)
         return self.api.cubes(self.client, '/cubes', **kwargs)
 
     def get_authentication(self, **kwargs):
         rv = self.api.authentication(self.client, '/user/authentication', **kwargs)
         return rv.get('userDetails')
+
+    def fullbuild(self, cube_name):
+        json = {
+            'startTime': 0,
+            'endTime': 0,
+            'buildType': 'BUILD',
+        }
+        endpoint = '/cubes/{}/rebuild'.format(cube_name)
+        return self.api.build(self.client, endpoint, json=json)
+
+    def build(self, cube_name, build_type, start, end):
+        if build_type not in ('BUILD', 'MERGE', 'REFRESH'):
+            raise KylinCubeError(
+                "Unsupported build type: {}, The build type must be 'BUILD', 'MERGE', 'REFRESH'".format(build_type))
+
+        json = {
+            'startTime': start,
+            'endTime': end,
+            'buildType': build_type,
+        }
+        endpoint = '/cubes/{}/rebuild'.format(cube_name)
+        return self.api.build(self.client, endpoint, json=json)
+
+    def delete_segment(self, cube_name, segment_name):
+        endpoint = '/cubes/{}/segs/{}'.format(cube_name, segment_name)
+        return self.api.delete_segment(self.client, endpoint)
+
+    def refresh_lookup(self):
+        pass
+
+    def maintain_cube(self, cube_name, maintain_type):
+        if maintain_type not in ('disable', 'enable', 'purge', 'clone'):
+            raise KylinCubeError(
+                "Unsupported maintain type: {}, "
+                "The maintain type must be 'BUILD', 'MERGE', 'REFRESH'".format(maintain_type))
+
+        endpoint = '/cubes/{}/{}'.format(cube_name, maintain_type)
+        json = {}
+        if maintain_type == 'clone':
+            json = {
+                'cubeName': '{}_clone'.format(cube_name),
+                'project': self.project
+            }
+        try:
+            return self.api.maintain_cube(self.client, endpoint, json=json)
+        except InternalServerError as e:
+            raise KylinCubeError(e)
+
+    def drop_cube(self, cube_name):
+        endpoint = '/cubes/{}'.format(cube_name)
+        try:
+            return self.api.drop_cube(self.client, endpoint)
+        except InternalServerError as e:
+            raise KylinCubeError(e)

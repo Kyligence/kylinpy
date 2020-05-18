@@ -156,7 +156,7 @@ class KE3Service(ServiceInterface):
         _models = self.api.models(self.client, '/models', **kwargs)
         return _models.get('models')
 
-    def cubes(self, **kwargs):
+    def cubes(self, name=None, **kwargs):
         params = {
             'pageOffset': 0,
             'offset': 0,
