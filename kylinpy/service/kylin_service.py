@@ -232,9 +232,6 @@ class KylinService(ServiceInterface):
         endpoint = '/cubes/{}/segs/{}'.format(cube_name, segment_name)
         return self.api.delete_segment(self.client, endpoint)
 
-    def refresh_lookup(self):
-        pass
-
     def maintain_cube(self, cube_name, maintain_type):
         if maintain_type not in ('disable', 'enable', 'purge', 'clone'):
             raise KylinCubeError(
