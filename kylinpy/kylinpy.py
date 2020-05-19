@@ -131,7 +131,7 @@ class Kylin(object):
             cube_desc=cube_desc,
             model_desc=self.service.model_desc(model_name),
             tables_and_columns=self.service.tables_and_columns(),
-            service=self.service
+            service=self.service,
         )
 
     def get_job(self, job_id):

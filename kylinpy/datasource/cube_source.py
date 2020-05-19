@@ -4,11 +4,11 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from kylinpy.utils.sqla_types import kylin_to_sqla
+from kylinpy.utils.compat import to_millisecond_timestamp
 from ._source_interface import (
     DimensionInterface, MeasureInterface, SourceInterface,
 )
-from kylinpy.utils.sqla_types import kylin_to_sqla
-from kylinpy.utils.compat import to_millisecond_timestamp
 
 try:
     from sqlalchemy import sql

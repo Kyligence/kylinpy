@@ -246,7 +246,7 @@ class KylinService(ServiceInterface):
         if maintain_type == 'clone':
             json = {
                 'cubeName': '{}_clone'.format(cube_name),
-                'project': self.project
+                'project': self.project,
             }
         try:
             return self.api.maintain_cube(self.client, endpoint, json=json)
