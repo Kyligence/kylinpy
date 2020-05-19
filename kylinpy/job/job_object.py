@@ -26,3 +26,6 @@ class KylinJob(JobInterface):
 
     def drop(self):
         return self.service.drop_job(self.job_id)
+
+    def __repr__(self):
+        return '<KylinJob instance: {}>'.format(self.job_id)
