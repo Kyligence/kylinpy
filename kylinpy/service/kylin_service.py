@@ -144,7 +144,10 @@ class KylinService(ServiceInterface):
             raise KylinJobError(e)
 
     def job_desc(self, job_id):
-        return self.api.job_desc(self.client, '/jobs/{}'.format(job_id))
+        try:
+            return self.api.job_desc(self.client, '/jobs/{}'.format(job_id))
+        except InternalServerError as e:
+            raise KylinJobError(e)
 
     def tables_and_columns(self, **kwargs):
         params = {

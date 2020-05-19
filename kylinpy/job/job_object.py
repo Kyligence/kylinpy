@@ -27,5 +27,12 @@ class KylinJob(JobInterface):
     def drop(self):
         return self.service.drop_job(self.job_id)
 
+    @property
+    def status(self):
+        desc = self.get_desc()
+        if desc:
+            return desc.get('job_status')
+        return None
+
     def __repr__(self):
         return '<KylinJob instance: {}>'.format(self.job_id)
