@@ -28,25 +28,6 @@ alternative, install by offline tarball package::
     # download from https://pypi.org/project/kylinpy/#files
     pip install kylinpy-<version>.tar.gz
 
-API Usage Example
------------------
-List all projects:
-::
-
-    from kylinpy import Kylin
-    kylin = Kylin(host='localhost', username='admin', password='password', version='v1')
-    print(kylin.service.projects())
-
-
-Resume the failed jobs:
-::
-
-    jobs = kylin.jobs()
-    failed_jobs = [job for job in jobs if job['job_status'] == 'FAILED']
-    for job in failed_jobs:
-        job_id = job['uuid']
-        kylin.service.resume_job(job_id)
-
 
 Apache Kylin dialect for SQLAlchemy
 -----------------------------------

@@ -5,7 +5,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from kylinpy.client import InternalServerError, UnauthorizedError
-from kylinpy.exceptions import KylinQueryError, KylinCubeError
+from kylinpy.exceptions import KylinQueryError, KylinCubeError, KylinJobError
 from ._service_interface import ServiceInterface
 
 
@@ -30,8 +30,16 @@ class _Api(object):
         return client.get(endpoint=endpoint, **kwargs).json()
 
     @staticmethod
-    def resume_job(client, endpoint, **kwargs):
+    def maintain_job(client, endpoint, **kwargs):
         return client.put(endpoint=endpoint, **kwargs).json()
+
+    @staticmethod
+    def drop_job(client, endpoint, **kwargs):
+        return client.delete(endpoint=endpoint, **kwargs).json()
+
+    @staticmethod
+    def job_desc(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json()
 
     @staticmethod
     def tables(client, endpoint, **kwargs):
@@ -111,19 +119,33 @@ class KylinService(ServiceInterface):
 
     def jobs(self, **kwargs):
         params = {
+            'projectName': self.project,
+            'limit': 15,
             'offset': 0,
         }
-        kwargs.setdefault('params', params)
-        _jobs = self.api.jobs(self.client, '/jobs', **kwargs)
-        return _jobs
+        params.update(kwargs.get('params', {}))
+        kwargs['params'] = params
+        return self.api.jobs(self.client, '/jobs', **kwargs)
 
-    def resume_job(self, job_id, **kwargs):
-        params = {
-            'jobId': job_id,
-        }
-        kwargs.setdefault('params', params)
-        res = self.api.resume_job(self.client, '/jobs/{0}/resume'.format(job_id), **kwargs)
-        return res
+    def maintain_job(self, job_id, maintain_type):
+        if maintain_type not in ('resume', 'cancel', 'pause'):
+            raise KylinJobError(
+                "Unsupported maintain type: {}, "
+                "The maintain type must be 'resume', 'cancel',  'pause'".format(maintain_type))
+
+        try:
+            return self.api.maintain_job(self.client, '/jobs/{}/{}'.format(job_id, maintain_type))
+        except InternalServerError as e:
+            raise KylinJobError(e)
+
+    def drop_job(self, job_id):
+        try:
+            return self.api.drop_job(self.client, '/jobs/{}/drop'.format(job_id))
+        except InternalServerError as e:
+            raise KylinJobError(e)
+
+    def job_desc(self, job_id):
+        return self.api.job_desc(self.client, '/jobs/{}'.format(job_id))
 
     def tables_and_columns(self, **kwargs):
         params = {

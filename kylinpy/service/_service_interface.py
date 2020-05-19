@@ -15,7 +15,7 @@ class ServiceInterface(object):
     def jobs(self, **kwargs):
         raise NotImplementedError()
 
-    def resume_job(self, **kwargs):
+    def maintain_job(self, **kwargs):
         raise NotImplementedError()
 
     def tables_and_columns(self, **kwargs):

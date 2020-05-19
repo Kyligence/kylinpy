@@ -31,3 +31,7 @@ class KylinUnsupportedType(KylinError):
 
 class KylinCubeError(KylinError):
     """ Raise when cube relative operation error """
+
+
+class KylinJobError(KylinError):
+    """ Raise when job relative error """
