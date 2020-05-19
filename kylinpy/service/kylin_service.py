@@ -123,8 +123,7 @@ class KylinService(ServiceInterface):
             'limit': 15,
             'offset': 0,
         }
-        params.update(kwargs.get('params', {}))
-        kwargs['params'] = params
+        kwargs['params'] = params.update(kwargs.get('params', {}))
         return self.api.jobs(self.client, '/jobs', **kwargs)
 
     def maintain_job(self, job_id, maintain_type):
