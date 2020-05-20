@@ -9,6 +9,7 @@ import logging
 import warnings
 
 from kylinpy.client import Client as HTTPClient
+from kylinpy.exceptions import KylinCubeError
 from kylinpy.service import KylinService, KE3Service, KE4Service
 from kylinpy.datasource import TableSource, CubeSource, KE4ModelSource
 from kylinpy.job import KylinJob
@@ -126,6 +127,8 @@ class Kylin(object):
             )
 
         cube_desc = self.service.cube_desc(name)
+        if cube_desc is None:
+            raise KylinCubeError('No Cube found: {}'.format(name))
         model_name = cube_desc.get('model_name')
         return CubeSource(
             cube_desc=cube_desc,

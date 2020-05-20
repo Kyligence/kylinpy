@@ -4,6 +4,8 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import inspect
+
 from kylinpy.utils.sqla_types import kylin_to_sqla
 from kylinpy.utils.compat import to_millisecond_timestamp
 from ._source_interface import (
@@ -208,6 +210,13 @@ class CubeSource(SourceInterface):
 
     def drop(self):
         return self.service.drop_cube(self.cube_name)
+
+    def __call__(self, command, **kwargs):
+        # todo: raise exception when invalid command
+        fn = getattr(self, command)
+        eager_args = [arg for arg in inspect.getargspec(fn).args if arg != 'self']
+        args = {key: kwargs[key] for key in kwargs.keys() if key in eager_args}
+        return fn(**args)
 
     def __repr__(self):
         return ('<Cube Instance by '
