@@ -29,10 +29,6 @@ class TestKylinService(object):
         rv = self.project.service.jobs(headers={}, params={'offset': 0, 'limit': 10, 'timeFilter': 4})
         assert [e['related_cube'] for e in rv] == ['Sample_Cube']
 
-    def test_resume_job(self, v1_api):
-        res = self.project.service.resume_job('c143e0e4-ac5f-434d-acf3-46b0d15e3dc6')
-        assert res['job_status'] == 'PENDING'
-
     def test_tables_and_columns(self, v1_api):
         rv = self.project.service.tables_and_columns(headers={})
         assert sorted(list(rv.keys())) == [
