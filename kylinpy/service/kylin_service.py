@@ -69,6 +69,10 @@ class _Api(object):
         return client.put(endpoint=endpoint, **kwargs).json()
 
     @staticmethod
+    def build_streaming(client, endpoint, **kwargs):
+        return client.put(endpoint=endpoint, **kwargs).json()
+
+    @staticmethod
     def delete_segment(client, endpoint, **kwargs):
         return client.delete(endpoint=endpoint, **kwargs).json()
 
@@ -215,7 +219,7 @@ class KylinService(ServiceInterface):
             'endTime': 0,
             'buildType': 'BUILD',
         }
-        endpoint = '/cubes/{}/rebuild'.format(cube_name)
+        endpoint = '/cubes/{}/build'.format(cube_name)
         return self.api.build(self.client, endpoint, json=json)
 
     def build(self, cube_name, build_type, start, end):
@@ -228,8 +232,21 @@ class KylinService(ServiceInterface):
             'endTime': end,
             'buildType': build_type,
         }
-        endpoint = '/cubes/{}/rebuild'.format(cube_name)
+        endpoint = '/cubes/{}/build'.format(cube_name)
         return self.api.build(self.client, endpoint, json=json)
+
+    def build_streaming(self, cube_name, build_type, offset_start, offset_end):
+        if build_type not in ('BUILD', 'MERGE', 'REFRESH'):
+            raise KylinCubeError(
+                "Unsupported build type: {}, The build type must be 'BUILD', 'MERGE', 'REFRESH'".format(build_type))
+
+        json = {
+            'sourceOffsetStart': offset_start,
+            'sourceOffsetEnd': offset_end,
+            'buildType': build_type,
+        }
+        endpoint = '/cubes/{}/build2'.format(cube_name)
+        return self.api.build_streaming(self.client, endpoint, json=json)
 
     def delete_segment(self, cube_name, segment_name):
         endpoint = '/cubes/{}/segs/{}'.format(cube_name, segment_name)

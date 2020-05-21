@@ -142,7 +142,7 @@ class Kylin(object):
 
     def list_job(self, **query_params):
         jobs = self.service.jobs(params=query_params)
-        return [KylinJob(job_id=job['uuid'], service=self.service) for job in jobs]
+        return [self.get_job(job_id=job['uuid']) for job in jobs]
 
     def __str__(self):
         if self.project:

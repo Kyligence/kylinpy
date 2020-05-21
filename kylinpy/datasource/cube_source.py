@@ -11,6 +11,7 @@ from kylinpy.utils.compat import to_millisecond_timestamp
 from ._source_interface import (
     DimensionInterface, MeasureInterface, SourceInterface,
 )
+from ..exceptions import KylinCubeError
 
 try:
     from sqlalchemy import sql
@@ -20,6 +21,11 @@ except ImportError:
 
 class CubeSource(SourceInterface):
     source_type = 'cube'
+    support_invoke_command = {
+        'fullbuild', 'build', 'merge_segment', 'refresh_segment',
+        'delete_segment', 'build_streaming', 'merge_streaming', 'refresh_streaming',
+        'disable', 'enable', 'purge', 'clone', 'drop',
+    }
 
     def __init__(self, cube_desc, model_desc, tables_and_columns, service):
         self.cube_desc = cube_desc
@@ -186,15 +192,14 @@ class CubeSource(SourceInterface):
     def delete_segment(self, name):
         return self.service.delete_segment(self.cube_name, name)
 
-    def is_ready_segment(self, name):
-        segments = [segment for segment in self.list_segment() if segment.get('name') == name]
-        if segments:
-            return segments[0].get('status') == 'READY'
-        else:
-            return False
+    def build_streaming(self, offset_start, offset_end):
+        return self.service.build_streaming(self.cube_name, 'BUILD', offset_start, offset_end)
 
-    def refresh_lookup(self):
-        pass
+    def merge_streaming(self, offset_start, offset_end):
+        return self.service.build_streaming(self.cube_name, 'MERGE', offset_start, offset_end)
+
+    def refresh_streaming(self, offset_start, offset_end):
+        return self.service.build_streaming(self.cube_name, 'REFRESH', offset_start, offset_end)
 
     def disable(self):
         return self.service.maintain_cube(self.cube_name, 'disable')
@@ -211,9 +216,13 @@ class CubeSource(SourceInterface):
     def drop(self):
         return self.service.drop_cube(self.cube_name)
 
-    def __call__(self, command, **kwargs):
-        # todo: raise exception when invalid command
-        fn = getattr(self, command)
+    def invoke_command(self, command, **kwargs):
+        fn = getattr(self, str(command), None)
+        if (fn is None
+                or not inspect.ismethod(fn)
+                or fn.__name__ not in self.support_invoke_command):
+            raise KylinCubeError('Unsupported invoke command for datasource: {}'.format(command))
+
         eager_args = [arg for arg in inspect.getargspec(fn).args if arg != 'self']
         args = {key: kwargs[key] for key in kwargs.keys() if key in eager_args}
         return fn(**args)
