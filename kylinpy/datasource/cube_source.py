@@ -22,8 +22,8 @@ except ImportError:
 class CubeSource(SourceInterface):
     source_type = 'cube'
     support_invoke_command = {
-        'fullbuild', 'build', 'merge_segment', 'refresh_segment',
-        'delete_segment', 'build_streaming', 'merge_streaming', 'refresh_streaming',
+        'fullbuild', 'build', 'merge', 'refresh',
+        'delete', 'build_streaming', 'merge_streaming', 'refresh_streaming',
         'disable', 'enable', 'purge', 'clone', 'drop',
     }
 
@@ -167,7 +167,7 @@ class CubeSource(SourceInterface):
     def fullbuild(self):
         return self.service.fullbuild(self.cube_name)
 
-    def build_segment(self, start, end):
+    def build(self, start, end):
         _start = to_millisecond_timestamp(start)
         _end = to_millisecond_timestamp(end)
         return self.service.build(self.cube_name, 'BUILD', _start, _end)
@@ -179,17 +179,17 @@ class CubeSource(SourceInterface):
         else:
             return []
 
-    def merge_segment(self, start, end):
+    def merge(self, start, end):
         _start = to_millisecond_timestamp(start)
         _end = to_millisecond_timestamp(end)
         return self.service.build(self.cube_name, 'MERGE', _start, _end)
 
-    def refresh_segment(self, start, end):
+    def refresh(self, start, end):
         _start = to_millisecond_timestamp(start)
         _end = to_millisecond_timestamp(end)
         return self.service.build(self.cube_name, 'REFRESH', _start, _end)
 
-    def delete_segment(self, name):
+    def delete(self, name):
         return self.service.delete_segment(self.cube_name, name)
 
     def build_streaming(self, offset_start, offset_end):
@@ -218,9 +218,11 @@ class CubeSource(SourceInterface):
 
     def invoke_command(self, command, **kwargs):
         fn = getattr(self, str(command), None)
-        if (fn is None
-                or not inspect.ismethod(fn)
-                or fn.__name__ not in self.support_invoke_command):
+        if (
+            fn is None
+            or not inspect.ismethod(fn)
+            or fn.__name__ not in self.support_invoke_command
+        ):
             raise KylinCubeError('Unsupported invoke command for datasource: {}'.format(command))
 
         eager_args = [arg for arg in inspect.getargspec(fn).args if arg != 'self']
