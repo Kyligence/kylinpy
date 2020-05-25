@@ -6,10 +6,13 @@ from __future__ import unicode_literals
 
 import base64
 import logging
+import warnings
 
 from kylinpy.client import Client as HTTPClient
+from kylinpy.exceptions import KylinCubeError
 from kylinpy.service import KylinService, KE3Service, KE4Service
 from kylinpy.datasource import TableSource, CubeSource, KE4ModelSource
+from kylinpy.job import KylinJob
 from kylinpy.utils.compat import as_unicode, urlparse, parse_qsl
 
 SERVICES = {
@@ -75,9 +78,6 @@ class Kylin(object):
     def projects(self):
         return self.service.projects()
 
-    def jobs(self, **kwargs):
-        return self.service.jobs(**kwargs)
-
     def query(self, sql, **parameters):
         return self.service.query(sql, **parameters)
 
@@ -108,6 +108,10 @@ class Kylin(object):
             return TableSource(name, schema, self.service.tables_and_columns().get(fullname))
 
     def get_cube_source(self, name):
+        warnings.warn('This method is deprecated. Please use `get_datsource()`.')
+        return self.get_datasource(name)
+
+    def get_datasource(self, name):
         if self.version == 'v4':
             _params = {
                 'project': self.project,
@@ -123,12 +127,22 @@ class Kylin(object):
             )
 
         cube_desc = self.service.cube_desc(name)
+        if cube_desc is None:
+            raise KylinCubeError('No Cube found: {}'.format(name))
         model_name = cube_desc.get('model_name')
         return CubeSource(
             cube_desc=cube_desc,
             model_desc=self.service.model_desc(model_name),
             tables_and_columns=self.service.tables_and_columns(),
+            service=self.service,
         )
+
+    def get_job(self, job_id):
+        return KylinJob(job_id=job_id, service=self.service)
+
+    def list_job(self, **query_params):
+        jobs = self.service.jobs(params=query_params)
+        return [self.get_job(job_id=job['uuid']) for job in jobs]
 
     def __str__(self):
         if self.project:

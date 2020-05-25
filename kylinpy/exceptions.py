@@ -6,24 +6,32 @@ from __future__ import unicode_literals
 
 
 class KylinError(Exception):
-    pass
+    """ Base Exception for Kylin Error """
 
 
 class KylinUnauthorizedError(KylinError):
-    pass
+    """ Raise when unauthorized error"""
 
 
 class KylinUserDisabled(KylinError):
-    pass
+    """ Raise when user is disabled """
 
 
 class NoSuchTableError(KylinError):
-    pass
+    """ Raise when no such table """
 
 
 class KylinQueryError(KylinError):
-    pass
+    """ Raise when Kylin query error """
 
 
 class KylinUnsupportedType(KylinError):
-    pass
+    """ Raise when unsupport type in Kylin """
+
+
+class KylinCubeError(KylinError):
+    """ Raise when cube relative operation error """
+
+
+class KylinJobError(KylinError):
+    """ Raise when job relative error """
