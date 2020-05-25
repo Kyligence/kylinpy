@@ -36,6 +36,14 @@ def v1_api(mocker):
     mocker.patch('kylinpy.service.KylinService.api.tables', return_value=tables)
     mocker.patch('kylinpy.service.KylinService.api.tables_and_columns', return_value=tables_and_columns)
     mocker.patch('kylinpy.service.KylinService.api.authentication', return_value=authentication)
+    mocker.patch('kylinpy.service.KylinService.api.build', return_value={'build': 'success'})
+    mocker.patch('kylinpy.service.KylinService.api.build_streaming', return_value={'success': 'success'})
+    mocker.patch('kylinpy.service.KylinService.api.delete_segment', return_value={'success': 'success'})
+    mocker.patch('kylinpy.service.KylinService.api.maintain_cube', return_value={'success': 'success'})
+    mocker.patch('kylinpy.service.KylinService.api.drop_cube', return_value={'success': 'success'})
+    mocker.patch('kylinpy.service.KylinService.api.maintain_job', return_value={'success': 'success'})
+    mocker.patch('kylinpy.service.KylinService.api.drop_job', return_value={'success': 'success'})
+    mocker.patch('kylinpy.service.KylinService.api.job_desc', return_value={})
     yield mocker
 
 

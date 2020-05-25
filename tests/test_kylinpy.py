@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 
 import pytest
 
+from kylinpy.job import KylinJob
 from kylinpy.kylinpy import create_kylin, SERVICES
 from kylinpy.client import Client
 from kylinpy.exceptions import NoSuchTableError
@@ -121,3 +122,12 @@ class TestProject(object):
         cube = self.project.get_cube_source('kylin_sales_cube')
         assert cube.name == 'kylin_sales_cube'
         assert cube.model_name == 'kylin_sales_model'
+
+    def test_get_datasource(self, v1_api):
+        cube = self.project.get_cube_source('kylin_sales_cube')
+        assert cube.name == 'kylin_sales_cube'
+        assert cube.model_name == 'kylin_sales_model'
+
+    def test_list_job(self, v1_api):
+        job_list = self.project.list_job()
+        assert isinstance(job_list[0], KylinJob)

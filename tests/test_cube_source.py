@@ -4,13 +4,19 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from datetime import datetime
+
+import pytest
+
 from kylinpy import create_kylin
+from kylinpy.exceptions import KylinCubeError
 
 
 class TestCubeSource:
     def test_kylin_cube_source(self, v1_api):
         project = create_kylin('kylin://username:password@example/kylin_sales')
-        cube = project.get_cube_source('kylin_sales_cube')
+        assert hasattr(project, 'get_cube_source')
+        cube = project.get_datasource('kylin_sales_cube')
         assert cube.name == 'kylin_sales_cube'
         assert cube.model_name == 'kylin_sales_model'
         assert cube.cube_name == 'kylin_sales_cube'
@@ -65,6 +71,32 @@ class TestCubeSource:
             'JOIN "DEFAULT"."KYLIN_COUNTRY" AS "BUYER_COUNTRY" ON "BUYER_ACCOUNT"."ACCOUNT_COUNTRY" = "BUYER_COUNTRY"."COUNTRY" '  # noqa
             'JOIN "DEFAULT"."KYLIN_COUNTRY" AS "SELLER_COUNTRY" ON "SELLER_ACCOUNT"."ACCOUNT_COUNTRY" = "SELLER_COUNTRY"."COUNTRY"'  # noqa
         )
+        assert cube.support_invoke_command == {
+            'fullbuild', 'build', 'merge', 'refresh',
+            'delete', 'build_streaming', 'merge_streaming', 'refresh_streaming',
+            'disable', 'enable', 'purge', 'clone', 'drop',
+        }
+        assert cube.fullbuild() == {'build': 'success'}
+        assert cube.build(datetime(2000, 1, 1), datetime(2000, 1, 2)) == {'build': 'success'}
+        assert cube.list_segment()[0].get('uuid') == 'b5999bec-2381-77c7-cafb-c59407a7a032'
+        assert cube.merge(datetime(2000, 1, 1), datetime(2000, 1, 2)) == {'build': 'success'}
+        assert cube.refresh(datetime(2000, 1, 1), datetime(2000, 1, 2)) == {'build': 'success'}
+        assert cube.delete('segment_name') == {'success': 'success'}
+        assert cube.build_streaming(123, 456) == {'success': 'success'}
+        assert cube.merge_streaming(123, 456) == {'success': 'success'}
+        assert cube.refresh_streaming(123, 456) == {'success': 'success'}
+        assert cube.disable() == {'success': 'success'}
+        assert cube.enable() == {'success': 'success'}
+        assert cube.purge() == {'success': 'success'}
+        assert cube.clone() == {'success': 'success'}
+        assert cube.drop() == {'success': 'success'}
+        with pytest.raises(KylinCubeError):
+            cube.invoke_command('invalid command')
+        build_cmd = cube.invoke_command('build', foo='unused', bar='unused',
+                                        start=datetime(2000, 1, 1), end=datetime(2000, 1, 1))
+        drop_cmd = cube.invoke_command('drop')
+        assert build_cmd == {'build': 'success'}
+        assert drop_cmd == {'success': 'success'}
 
     def test_v2_cube_source(self, v2_api):
         project = create_kylin('kylin://username:password@example/kylin_sales?version=v2')
