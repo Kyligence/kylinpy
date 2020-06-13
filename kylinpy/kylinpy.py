@@ -10,6 +10,8 @@ import warnings
 
 from kylinpy.client import Client as HTTPClient
 from kylinpy.exceptions import KylinCubeError
+from kylinpy.job.ke3_job_object import Ke3Job
+from kylinpy.job.ke4_job_object import Ke4Job
 from kylinpy.service import KylinService, KE3Service, KE4Service
 from kylinpy.datasource import TableSource, CubeSource, KE4ModelSource
 from kylinpy.job import KylinJob
@@ -124,6 +126,7 @@ class Kylin(object):
             return KE4ModelSource(
                 model_desc=model_desc,
                 tables_and_columns=self.service.tables_and_columns(),
+                service=self.service,
             )
 
         cube_desc = self.service.cube_desc(name)
@@ -138,11 +141,19 @@ class Kylin(object):
         )
 
     def get_job(self, job_id):
-        return KylinJob(job_id=job_id, service=self.service)
+        if self.version == 'v1':
+            return KylinJob(job_id=job_id, service=self.service)
+        elif self.version == 'v2':
+            return Ke3Job(job_id=job_id, service=self.service)
+        elif self.version == 'v4':
+            return Ke4Job(job_id=job_id, service=self.service)
 
     def list_job(self, **query_params):
         jobs = self.service.jobs(params=query_params)
-        return [self.get_job(job_id=job['uuid']) for job in jobs]
+        if self.version == 'v4':
+            return [self.get_job(job_id=job['id']) for job in jobs]
+        else:
+            return [self.get_job(job_id=job['uuid']) for job in jobs]
 
     def __str__(self):
         if self.project:

@@ -35,3 +35,11 @@ class KylinCubeError(KylinError):
 
 class KylinJobError(KylinError):
     """ Raise when job relative error """
+
+
+class KylinModelError(KylinError):
+    """ Raise when model relative operation error """
+
+
+class UnsupportApiError(KylinError):
+    """ Raise when use an un-support function"""

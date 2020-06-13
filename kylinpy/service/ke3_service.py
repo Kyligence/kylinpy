@@ -93,14 +93,14 @@ class KE3Service(ServiceInterface):
         _projects = self.api.projects(self.client, '/projects', **kwargs)
         return _projects.get('projects')
 
-    def jobs(self, **kwargs):
-        params = {
+    def jobs(self, **params):
+        _params = {
             'timeFilter': 4,
             'pageSize': 20,
             'pageOffset': 0,
         }
-        kwargs.setdefault('params', params)
-        _jobs = self.api.jobs(self.client, '/jobs', **kwargs)
+        _params.update(params)
+        _jobs = self.api.jobs(self.client, '/jobs', params=_params)
         return _jobs.get('jobs')
 
     def resume_job(self, job_id, **kwargs):
