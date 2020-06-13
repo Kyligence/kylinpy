@@ -5,7 +5,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from kylinpy.client import InternalServerError, UnauthorizedError
-from kylinpy.exceptions import KylinQueryError
+from kylinpy.exceptions import KylinQueryError, KylinJobError, KylinCubeError
 from ._service_interface import ServiceInterface
 
 
@@ -51,6 +51,22 @@ class _Api(object):
         if rv == {}:
             raise UnauthorizedError
         return rv
+
+    @staticmethod
+    def build(client, endpoint, **kwargs):
+        return client.post(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def build_indexes(client, endpoint, **kwargs):
+        return client.post(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def refresh_segment(client, endpoint, **kwargs):
+        return client.put(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def delete_segment(client, endpoint, **kwargs):
+        return client.delete(endpoint=endpoint, **kwargs).json()
 
 
 class KE4Service(ServiceInterface):
@@ -106,6 +122,15 @@ class KE4Service(ServiceInterface):
         res = self.api.resume_job(self.client, '/jobs/{0}/resume'.format(job_id), **kwargs)
         return res
 
+    def job_desc(self, job_id):
+        try:
+            kwargs = {
+                'key': str(job_id)
+            }
+            return self.api.jobs(self.client, '/jobs', **kwargs)["value"][0]
+        except InternalServerError as e:
+            raise KylinJobError(e)
+
     def tables_and_columns(self, **kwargs):
         params = {
             'project': self.project,
@@ -157,3 +182,55 @@ class KE4Service(ServiceInterface):
 
     def get_authentication(self, **kwargs):
         return self.api.authentication(self.client, '/user/authentication', **kwargs)
+
+    def fullbuild(self, model_name):
+        json = {
+            'project': self.project
+        }
+        endpoint = '/models/{}/segments'.format(model_name)
+        return self.api.build(self.client, endpoint, json=json)
+
+    def build(self, model_name, build_type, start=None, end=None, ids=None):
+        if build_type not in ('BUILD', 'MERGE', 'REFRESH'):
+            raise KylinCubeError(
+                "Unsupported build type: {}, The build type must be 'BUILD', 'MERGE', 'REFRESH'".format(build_type))
+        if build_type == 'BUILD':
+            json = {
+                'project': self.project,
+                'start': str(start) if start else '1',
+                'end': str(end) if end else '9223372036854775806',
+            }
+            endpoint = '/models/{}/segments'.format(model_name)
+            return self.api.build(self.client, endpoint, json=json)
+        else:
+            return self.refresh_segment(model_name, build_type, ids)
+
+    def build_indexes(self, model_name):
+        json = {
+            'project': self.project
+        }
+        endpoint = '/models/{}/segments'.format(model_name)
+        return self.api.build(self.client, endpoint, json=json)
+
+    def refresh_segment(self, model_name, build_type, ids):
+        if build_type not in ('MERGE', 'REFRESH'):
+            raise KylinCubeError(
+                "Unsupported build type: {}, The build type must be 'BUILD', 'MERGE', 'REFRESH'".format(build_type))
+        json = {
+            'project': self.project,
+            'type': build_type,
+            'ids': ids,
+        }
+        res = self.api.refresh_segment(self.client, '/models/{}/segments'.format(model_name), json=json)
+        return res
+
+    def delete_segment(self, model_name, ids, **kwargs):
+        params = {
+            'project': self.project,
+            'purge': "false",
+            'ids': ids,
+            'force': "false"
+        }
+        params.update(kwargs)
+        endpoint = '/models/{}/segments'.format(model_name)
+        return self.api.delete_segment(self.client, endpoint, params=params)
