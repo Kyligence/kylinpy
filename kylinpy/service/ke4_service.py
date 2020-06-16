@@ -136,15 +136,6 @@ class KE4Service(ServiceInterface):
         except InternalServerError as e:
             raise KylinJobError(e)
 
-    def job_desc(self, job_id):
-        try:
-            kwargs = {
-                'key': str(job_id)
-            }
-            return self.api.jobs(self.client, '/jobs', **kwargs)["value"][0]
-        except InternalServerError as e:
-            raise KylinJobError(e)
-
     def tables_and_columns(self, **kwargs):
         params = {'project': self.project}
         kwargs.setdefault('params', params)
