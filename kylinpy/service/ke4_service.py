@@ -5,7 +5,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from kylinpy.client import InternalServerError, UnauthorizedError
-from kylinpy.exceptions import KylinQueryError
+from kylinpy.exceptions import KylinQueryError, KylinJobError
 from ._service_interface import ServiceInterface
 
 
@@ -26,8 +26,8 @@ class _Api(object):
         return client.get(endpoint=endpoint, **kwargs).json().get('data')
 
     @staticmethod
-    def jobs(client, endpoint, **kwargs):
-        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+    def jobs(client, endpoint, params=None, **kwargs):
+        return client.get(endpoint=endpoint, params=params, **kwargs).json().get('data')
 
     @staticmethod
     def resume_job(client, endpoint, **kwargs):
@@ -51,6 +51,30 @@ class _Api(object):
         if rv == {}:
             raise UnauthorizedError
         return rv
+
+    @staticmethod
+    def build(client, endpoint, **kwargs):
+        return client.post(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def build_indexes(client, endpoint, **kwargs):
+        return client.post(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def refresh(client, endpoint, **kwargs):
+        return client.put(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def merge(client, endpoint, **kwargs):
+        return client.put(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def list_segment(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def delete_segment(client, endpoint, **kwargs):
+        return client.delete(endpoint=endpoint, **kwargs).json()
 
 
 class KE4Service(ServiceInterface):
@@ -89,27 +113,31 @@ class KE4Service(ServiceInterface):
         _projects = self.api.projects(self.client, '/projects', **kwargs)
         return _projects.get('value')
 
-    def jobs(self, **kwargs):
-        params = {
-            'page_offset': 0,
-            'page_size': 20,
+    def jobs(self, **params):
+        _params = {
+            'time_filter': 0,
         }
-        kwargs.setdefault('params', params)
-        _jobs = self.api.jobs(self.client, '/jobs', **kwargs)
+        _params.update(params)
+        _jobs = self.api.jobs(self.client, '/jobs', params=_params)
         return _jobs.get('value')
 
-    def resume_job(self, job_id, **kwargs):
-        params = {
-            'jobId': job_id,
-        }
-        kwargs.setdefault('params', params)
-        res = self.api.resume_job(self.client, '/jobs/{0}/resume'.format(job_id), **kwargs)
-        return res
+    def job_desc(self, job_id):
+        try:
+            params = {
+                'time_filter': 0,
+                'key': str(job_id),
+                'project': self.project,
+            }
+            rv = self.api.jobs(self.client, '/jobs', params=params).get('value')
+            if len(rv) > 0:
+                return rv[0]
+            else:
+                raise KylinJobError("Not Find this job {}".format(job_id))
+        except InternalServerError as e:
+            raise KylinJobError(e)
 
     def tables_and_columns(self, **kwargs):
-        params = {
-            'project': self.project,
-        }
+        params = {'project': self.project}
         kwargs.setdefault('params', params)
         resp = self.api.tables_and_columns(self.client, '/query/tables_and_columns', **kwargs)
         tbl_pair = tuple(('{}.{}'.format(tbl.get('table_SCHEM'), tbl.get('table_NAME')), tbl) for tbl in resp)
@@ -157,3 +185,64 @@ class KE4Service(ServiceInterface):
 
     def get_authentication(self, **kwargs):
         return self.api.authentication(self.client, '/user/authentication', **kwargs)
+
+    def fullbuild(self, model_name):
+        json = {
+            'project': self.project,
+            'start': '1',
+            'end': '9223372036854775806',
+        }
+        endpoint = '/models/{}/segments'.format(model_name)
+        return self.api.build(self.client, endpoint, json=json)
+
+    def build(self, model_name, start, end):
+        json = {
+            'project': self.project,
+            'start': str(start),
+            'end': str(end),
+        }
+        endpoint = '/models/{}/segments'.format(model_name)
+        return self.api.build(self.client, endpoint, json=json)
+
+    def build_indexes(self, model_name):
+        json = {
+            'project': self.project,
+        }
+        endpoint = '/models/{}/segments'.format(model_name)
+        return self.api.build(self.client, endpoint, json=json)
+
+    def refresh(self, model_name, ids):
+        json = {
+            'project': self.project,
+            'type': 'REFRESH',
+            'ids': ids,
+        }
+        res = self.api.refresh(self.client, '/models/{}/segments'.format(model_name), json=json)
+        return res
+
+    def merge(self, model_name, ids):
+        json = {
+            'project': self.project,
+            'type': 'MERGE',
+            'ids': ids,
+        }
+        res = self.api.merge(self.client, '/models/{}/segments'.format(model_name), json=json)
+        return res
+
+    def list_segment(self, model_name):
+        params = {
+            'project': self.project,
+            'model_name': model_name,
+            'page_size': 2147483646,
+        }
+        endpoint = '/models/{}/segments'.format(model_name)
+        return self.api.list_segment(self.client, endpoint, params=params)
+
+    def delete_segment(self, model_name, ids, **kwargs):
+        params = {
+            'project': self.project,
+            'ids': ids,
+        }
+        params.update(kwargs)
+        endpoint = '/models/{}/segments'.format(model_name)
+        return self.api.delete_segment(self.client, endpoint, params=params)

@@ -81,6 +81,7 @@ def v4_api(mocker):
     authentication = read('v4', 'authentication.json').get('data')
     models = read('v4', 'models.json').get('data')
     model_desc = read('v4', 'model_desc.json').get('data')
+    segments = read('v4', 'segments.json').get('data')
 
     mocker.patch('kylinpy.service.KE4Service.api.projects', return_value=projects)
     mocker.patch('kylinpy.service.KE4Service.api.jobs', return_value=jobs)
@@ -90,4 +91,10 @@ def v4_api(mocker):
     mocker.patch('kylinpy.service.KE4Service.api.authentication', return_value=authentication)
     mocker.patch('kylinpy.service.KE4Service.api.models', return_value=models)
     mocker.patch('kylinpy.service.KE4Service.api.model_desc', return_value=model_desc)
+    mocker.patch('kylinpy.service.KE4Service.api.build', return_value={'build': 'success'})
+    mocker.patch('kylinpy.service.KE4Service.api.refresh', return_value={'build': 'success'})
+    mocker.patch('kylinpy.service.KE4Service.api.merge', return_value={'build': 'success'})
+    mocker.patch('kylinpy.service.KE4Service.api.list_segment', return_value=segments)
+    mocker.patch('kylinpy.service.KE4Service.api.delete_segment', return_value={'success': 'success'})
+
     yield mocker

@@ -4,6 +4,10 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import inspect
+
+from kylinpy.exceptions import KylinModelError
+from kylinpy.utils.compat import to_millisecond_timestamp
 from ._source_interface import (
     DimensionInterface, MeasureInterface, SourceInterface,
 )
@@ -18,9 +22,14 @@ except ImportError:
 class KE4ModelSource(SourceInterface):
     source_type = 'model'
 
-    def __init__(self, model_desc, tables_and_columns):
+    support_invoke_command = {
+        'fullbuild', 'build', 'merge', 'refresh', 'delete', 'list_segment',
+    }
+
+    def __init__(self, model_desc, tables_and_columns, service):
         self.model_desc = model_desc
         self.tables_and_columns = tables_and_columns
+        self.service = service
 
     @property
     def name(self):
@@ -148,6 +157,43 @@ class KE4ModelSource(SourceInterface):
                 isouter=_is_left_join,
             )
         return _from_clause
+
+    def fullbuild(self):
+        return self.service.fullbuild(self.model_name)
+
+    def build(self, start, end):
+        _start = to_millisecond_timestamp(start)
+        _end = to_millisecond_timestamp(end)
+        return self.service.build(self.model_name, str(_start), str(_end))
+
+    def list_segment(self):
+        _segments = self.service.list_segment(model_name=self.model_name).get("value")
+        if len(_segments) > 0:
+            return _segments
+        else:
+            return []
+
+    def merge(self, ids):
+        return self.service.merge(self.model_name, ids)
+
+    def refresh(self, ids):
+        return self.service.refresh(self.model_name, ids)
+
+    def delete(self, ids, **kwargs):
+        return self.service.delete_segment(self.model_name, ids, **kwargs)
+
+    def invoke_command(self, command, **kwargs):
+        fn = getattr(self, str(command), None)
+        if (
+            fn is None
+            or not inspect.ismethod(fn)
+            or fn.__name__ not in self.support_invoke_command
+        ):
+            raise KylinModelError('Unsupported invoke command for datasource: {}'.format(command))
+
+        eager_args = [arg for arg in inspect.getargspec(fn).args if arg != 'self']
+        args = {key: kwargs[key] for key in kwargs.keys() if key in eager_args}
+        return fn(**args)
 
     def __repr__(self):
         return ('<Model Instance by '

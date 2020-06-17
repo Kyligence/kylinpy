@@ -121,14 +121,14 @@ class KylinService(ServiceInterface):
         _projects = self.api.projects(self.client, '/projects', **kwargs)
         return _projects
 
-    def jobs(self, **kwargs):
-        params = {
+    def jobs(self, **params):
+        _params = {
             'projectName': self.project,
             'limit': 15,
             'offset': 0,
         }
-        kwargs['params'] = params.update(kwargs.get('params', {}))
-        return self.api.jobs(self.client, '/jobs', **kwargs)
+        _params.update(params)
+        return self.api.jobs(self.client, '/jobs', params=_params)
 
     def maintain_job(self, job_id, maintain_type):
         if maintain_type not in ('resume', 'cancel', 'pause'):
