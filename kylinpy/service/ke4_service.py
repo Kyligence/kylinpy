@@ -241,9 +241,7 @@ class KE4Service(ServiceInterface):
     def delete_segment(self, model_name, ids, **kwargs):
         params = {
             'project': self.project,
-            'purge': "false",
-            'ids': ids,
-            'force': "false",
+            'ids': ids
         }
         params.update(kwargs)
         endpoint = '/models/{}/segments'.format(model_name)
