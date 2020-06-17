@@ -10,11 +10,9 @@ import warnings
 
 from kylinpy.client import Client as HTTPClient
 from kylinpy.exceptions import KylinCubeError
-from kylinpy.job.ke3_job_object import Ke3Job
-from kylinpy.job.ke4_job_object import Ke4Job
 from kylinpy.service import KylinService, KE3Service, KE4Service
 from kylinpy.datasource import TableSource, CubeSource, KE4ModelSource
-from kylinpy.job import KylinJob
+from kylinpy.job import KylinJob, Ke3Job, Ke4Job
 from kylinpy.utils.compat import as_unicode, urlparse, parse_qsl
 
 SERVICES = {
