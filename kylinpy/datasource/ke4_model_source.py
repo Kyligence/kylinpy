@@ -23,7 +23,7 @@ class KE4ModelSource(SourceInterface):
     source_type = 'model'
 
     support_invoke_command = {
-        'fullbuild', 'build', 'merge', 'refresh', 'delete',
+        'fullbuild', 'build', 'merge', 'refresh', 'delete', 'list_segment',
     }
 
     def __init__(self, model_desc, tables_and_columns, service):
@@ -166,8 +166,8 @@ class KE4ModelSource(SourceInterface):
         _end = to_millisecond_timestamp(end)
         return self.service.build(self.model_name, str(_start), str(_end))
 
-    def list_segment(self, **kwargs):
-        _segments = self.service.list_segment(model_name=self.model_name, **kwargs).get("value")
+    def list_segment(self):
+        _segments = self.service.list_segment(model_name=self.model_name).get("value")
         if len(_segments) > 0:
             return _segments
         else:

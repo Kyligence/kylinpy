@@ -229,12 +229,12 @@ class KE4Service(ServiceInterface):
         res = self.api.merge(self.client, '/models/{}/segments'.format(model_name), json=json)
         return res
 
-    def list_segment(self, model_name, **kwargs):
+    def list_segment(self, model_name):
         params = {
             'project': self.project,
             'model_name': model_name,
+            'page_size': 2147483646,
         }
-        params.update(kwargs)
         endpoint = '/models/{}/segments'.format(model_name)
         return self.api.list_segment(self.client, endpoint, params=params)
 
