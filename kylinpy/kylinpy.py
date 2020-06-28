@@ -21,6 +21,12 @@ SERVICES = {
     'v4': KE4Service,
 }
 
+Job = {
+    'v1': KylinJob,
+    'v2': Ke3Job,
+    'v4': Ke4Job,
+}
+
 
 class Kylin(object):
     def __init__(self, host, username=None, password=None, port=7070, project=None, **connect_args):
@@ -138,13 +144,13 @@ class Kylin(object):
             service=self.service,
         )
 
+    def list_datasources(self):
+        if self.version == 'v4':
+            return [models.get('name') for models in self.service.models()]
+        return [cube.get('name') for cube in self.service.cubes()]
+
     def get_job(self, job_id):
-        if self.version == 'v1':
-            return KylinJob(job_id=job_id, service=self.service)
-        elif self.version == 'v2':
-            return Ke3Job(job_id=job_id, service=self.service)
-        elif self.version == 'v4':
-            return Ke4Job(job_id=job_id, service=self.service)
+        return Job[self.version](job_id=job_id, service=self.service)
 
     def list_job(self, **query_params):
         jobs = self.service.jobs(params=query_params)
