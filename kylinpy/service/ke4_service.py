@@ -246,6 +246,8 @@ class KE4Service(ServiceInterface):
         params = {
             'project': self.project,
             'model': model_uuid,
+            'page_offset': 0,
+            'page_size': 10000,
         }
         rv = self.api.list_indexes(self.client, '/index_plans/index', params=params)
         return rv.get('value', [])
