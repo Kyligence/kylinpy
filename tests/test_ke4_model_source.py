@@ -131,6 +131,50 @@ class TestKe4ModelSource:
             'VARCHAR(4096)',
         ]
 
+        assert [d.id for d in model.dimensions] == [
+            1,
+            9,
+            11,
+            28,
+            53,
+            84,
+            110,
+            114,
+            116,
+            117,
+            118,
+            122,
+            123,
+            126,
+            127,
+            133,
+            146,
+            149,
+            160,
+        ]
+
+        assert [d.status for d in model.dimensions] == [
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+        ]
+
         assert [m.name for m in model.measures] == [
             'KYLIN_SALES_TRANS_ID_COUNT',
             'KYLIN_SALES_PRICE_SUM',

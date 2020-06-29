@@ -95,8 +95,10 @@ class KE4ModelSource(SourceInterface):
             tbl_map = self.tables_and_columns
             description = dict(tbl_map[table_clz.fullname].get('columns')).get(column)
             if description:
+                ke4_dim_id = dim.get('id')
+                ke4_dim_status = dim.get('status')
                 column_clz = _Column(column, column_alias, description)
-                _dimensions.append(_CubeDimension(table_clz, column_clz))
+                _dimensions.append(_CubeDimension(table_clz, column_clz, ke4_dim_id, ke4_dim_status))
         return _dimensions
 
     @property
@@ -120,6 +122,10 @@ class KE4ModelSource(SourceInterface):
 
     @property
     def identity(self):
+        return self.model_desc.get('uuid')
+
+    @property
+    def uuid(self):
         return self.model_desc.get('uuid')
 
     def _get_table_clause(self, tbl_clz):
@@ -195,15 +201,52 @@ class KE4ModelSource(SourceInterface):
         args = {key: kwargs[key] for key in kwargs.keys() if key in eager_args}
         return fn(**args)
 
+    def list_indexes(self):
+        return self.service.get_indexes_by_model_uuid(self.uuid)
+
+    def delete_index(self, index_id):
+        return self.service.delete_index(self.uuid, index_id)
+
+    def list_index_rules(self):
+        return self.service.get_index_rules_by_model_uuid(self.uuid)
+
+    def add_index_rule(self, load_data=False, include=None, mandatory=None, hierarchy=None, joint=None, measure=None):
+        # todo: to implement hierarchy/joint/measure
+        include = include if include else []
+        mandatory = mandatory if mandatory else []
+        hierarchy = hierarchy if hierarchy else []
+        joint = joint if joint else []
+        measure = measure if measure else []
+        rules = self.list_index_rules()
+        agg_list = rules.get('aggregation_groups', [])
+        current_agg = {
+            'includes': [m.id for m in self.dimensions if m.name in include],
+            'measures': [],
+            'select_rule': {
+                'hierarchy_dims': [],
+                'mandatory_dims': [m.id for m in self.dimensions if m.name in mandatory],
+                'joint_dims': [],
+            },
+        }
+        agg_list.append(current_agg)
+        return self.service.put_index_rules_by_model_uuid(self.uuid, load_data=load_data, aggregation_groups=agg_list)
+
+    def clear_up_index_rules(self):
+        return self.service.put_index_rules_by_model_uuid(self.uuid)
+
     def __repr__(self):
         return ('<Model Instance by '
                 'model_name: {self.model_name}>').format(**locals())
 
 
 class _CubeDimension(DimensionInterface):
-    def __init__(self, table_clz, column_clz):
+    def __init__(self, table_clz, column_clz, id, status):
         self.table = table_clz
         self.column = column_clz
+        # only in ke4 api
+        self.id = id
+        # only in ke4 api
+        self.status = status
 
     @property
     def datatype(self):
