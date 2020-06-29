@@ -221,13 +221,6 @@ class KE4Service(ServiceInterface):
         endpoint = '/models/{}/segments'.format(model_name)
         return self.api.build(self.client, endpoint, json=json)
 
-    def build_indexes(self, model_name):
-        json = {
-            'project': self.project,
-        }
-        endpoint = '/models/{}/segments'.format(model_name)
-        return self.api.build(self.client, endpoint, json=json)
-
     @private_v4_api_warnings
     def get_index_rules_by_model_uuid(self, model_uuid):
         params = {
@@ -257,13 +250,18 @@ class KE4Service(ServiceInterface):
         rv = self.api.list_indexes(self.client, '/index_plans/index', params=params)
         return rv.get('value', [])
 
+    def build_indexes(self, model_name):
+        json = {
+            'project': self.project,
+        }
+        endpoint = '/models/{}/indexes'.format(model_name)
+        return self.api.build(self.client, endpoint, json=json)
+
     @private_v4_api_warnings
     def delete_index(self, model_uuid, index_id):
         params = {
             'project': self.project,
             'model': model_uuid,
-            'page_offset': 0,
-            'page_size': 10000,
         }
         return self.api.delete_index(self.client, '/index_plans/index/{}'.format(index_id), params=params)
 

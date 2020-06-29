@@ -204,6 +204,9 @@ class KE4ModelSource(SourceInterface):
     def list_indexes(self):
         return self.service.get_indexes_by_model_uuid(self.uuid)
 
+    def build_indexes(self):
+        return self.service.build_indexes(self.model_name)
+
     def delete_index(self, index_id):
         return self.service.delete_index(self.uuid, index_id)
 
