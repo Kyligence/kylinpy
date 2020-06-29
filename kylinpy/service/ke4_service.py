@@ -255,7 +255,7 @@ class KE4Service(ServiceInterface):
             'project': self.project,
         }
         endpoint = '/models/{}/indexes'.format(model_name)
-        return self.api.build(self.client, endpoint, json=json)
+        return self.api.build_indexes(self.client, endpoint, json=json)
 
     @private_v4_api_warnings
     def delete_index(self, model_uuid, index_id):
