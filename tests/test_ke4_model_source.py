@@ -10,7 +10,7 @@ from kylinpy import create_kylin
 
 
 class TestKe4ModelSource:
-    def test_v4_cube_source(self, v4_api):
+    def test_v4_model_source(self, v4_api):
         project = create_kylin('kylin://username:password@example/kylin_sales?version=v4')
         model = project.get_datasource('kylin_sales_model')
         assert model.name == 'kylin_sales_model'
@@ -23,7 +23,11 @@ class TestKe4ModelSource:
         assert model.fact_table.name == 'KYLIN_SALES'
 
         assert model.identity == '0e788bb6-d56c-44fd-8fe0-26bb77aa40c5'
+        assert model.uuid == '0e788bb6-d56c-44fd-8fe0-26bb77aa40c5'
         assert model.last_modified == 1581343542414
+        assert model.support_invoke_command == {
+            'fullbuild', 'build', 'merge', 'refresh', 'delete', 'list_segment',
+        }
 
         assert [d.name for d in model.dimensions] == [
             'KYLIN_SALES.PART_DT',
@@ -131,6 +135,50 @@ class TestKe4ModelSource:
             'VARCHAR(4096)',
         ]
 
+        assert [d.id for d in model.dimensions] == [
+            1,
+            9,
+            11,
+            28,
+            53,
+            84,
+            110,
+            114,
+            116,
+            117,
+            118,
+            122,
+            123,
+            126,
+            127,
+            133,
+            146,
+            149,
+            160,
+        ]
+
+        assert [d.status for d in model.dimensions] == [
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+            'DIMENSION',
+        ]
+
         assert [m.name for m in model.measures] == [
             'KYLIN_SALES_TRANS_ID_COUNT',
             'KYLIN_SALES_PRICE_SUM',
@@ -179,3 +227,28 @@ class TestKe4ModelSource:
         assert model.build(datetime(2000, 1, 1), datetime(2000, 1, 2)) == {'build': 'success'}
         assert model.merge(['123', '234']) == {'build': 'success'}
         assert model.refresh(['123', '234']) == {'build': 'success'}
+
+    def test_list_indexes(self, v4_api):
+        project = create_kylin('kylin://username:password@example/kylin_sales?version=v4')
+        model = project.get_datasource('kylin_sales_model')
+        assert model.list_indexes() == [1, 2, 3, 4]
+
+    def test_build_indexes(self, v4_api):
+        project = create_kylin('kylin://username:password@example/kylin_sales?version=v4')
+        model = project.get_datasource('kylin_sales_model')
+        assert model.build_indexes() == {'build_indexes': 'success'}
+
+    def test_delete_index(self, v4_api):
+        project = create_kylin('kylin://username:password@example/kylin_sales?version=v4')
+        model = project.get_datasource('kylin_sales_model')
+        assert model.delete_index(1) == {'delete_index': 'success'}
+
+    def test_list_index_rules(self, v4_api):
+        project = create_kylin('kylin://username:password@example/kylin_sales?version=v4')
+        model = project.get_datasource('kylin_sales_model')
+        assert model.list_index_rules() == [1, 2, 3, 4]
+
+    def test_clear_up_index_rules(self, v4_api):
+        project = create_kylin('kylin://username:password@example/kylin_sales?version=v4')
+        model = project.get_datasource('kylin_sales_model')
+        assert model.clear_up_index_rules() == {'put_index_rules': 'success'}

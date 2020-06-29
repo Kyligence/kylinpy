@@ -96,5 +96,9 @@ def v4_api(mocker):
     mocker.patch('kylinpy.service.KE4Service.api.merge', return_value={'build': 'success'})
     mocker.patch('kylinpy.service.KE4Service.api.list_segment', return_value=segments)
     mocker.patch('kylinpy.service.KE4Service.api.delete_segment', return_value={'success': 'success'})
-
+    mocker.patch('kylinpy.service.KE4Service.api.list_indexes', return_value={'value': [1, 2, 3, 4]})
+    mocker.patch('kylinpy.service.KE4Service.api.build_indexes', return_value={'build_indexes': 'success'})
+    mocker.patch('kylinpy.service.KE4Service.api.delete_index', return_value={'delete_index': 'success'})
+    mocker.patch('kylinpy.service.KE4Service.api.list_index_rules', return_value=[1, 2, 3, 4])
+    mocker.patch('kylinpy.service.KE4Service.api.put_index_rules', return_value={'put_index_rules': 'success'})
     yield mocker

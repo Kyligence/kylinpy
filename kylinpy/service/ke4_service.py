@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 
 from kylinpy.client import InternalServerError, UnauthorizedError
 from kylinpy.exceptions import KylinQueryError, KylinJobError
+from kylinpy.utils.helper import private_v4_api_warnings
 from ._service_interface import ServiceInterface
 
 
@@ -59,6 +60,22 @@ class _Api(object):
     @staticmethod
     def build_indexes(client, endpoint, **kwargs):
         return client.post(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def list_index_rules(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def put_index_rules(client, endpoint, **kwargs):
+        return client.put(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def list_indexes(client, endpoint, **kwargs):
+        return client.get(endpoint=endpoint, **kwargs).json().get('data')
+
+    @staticmethod
+    def delete_index(client, endpoint, **kwargs):
+        return client.delete(endpoint=endpoint, **kwargs).json()
 
     @staticmethod
     def refresh(client, endpoint, **kwargs):
@@ -204,12 +221,49 @@ class KE4Service(ServiceInterface):
         endpoint = '/models/{}/segments'.format(model_name)
         return self.api.build(self.client, endpoint, json=json)
 
+    @private_v4_api_warnings
+    def get_index_rules_by_model_uuid(self, model_uuid):
+        params = {
+            'project': self.project,
+            'model': model_uuid,
+            'page_offset': 0,
+            'page_size': 10000,
+        }
+        return self.api.list_index_rules(self.client, '/index_plans/rule', params=params)
+
+    @private_v4_api_warnings
+    def put_index_rules_by_model_uuid(self, model_uuid, load_data=False, aggregation_groups=None):
+        _json = {
+            'aggregation_groups': aggregation_groups if aggregation_groups else [],
+            'load_data': load_data,
+            'model_id': model_uuid,
+            'project': self.project,
+        }
+        return self.api.put_index_rules(self.client, '/index_plans/rule', json=_json)
+
+    @private_v4_api_warnings
+    def get_indexes_by_model_uuid(self, model_uuid):
+        params = {
+            'project': self.project,
+            'model': model_uuid,
+        }
+        rv = self.api.list_indexes(self.client, '/index_plans/index', params=params)
+        return rv.get('value', [])
+
     def build_indexes(self, model_name):
         json = {
             'project': self.project,
         }
-        endpoint = '/models/{}/segments'.format(model_name)
-        return self.api.build(self.client, endpoint, json=json)
+        endpoint = '/models/{}/indexes'.format(model_name)
+        return self.api.build_indexes(self.client, endpoint, json=json)
+
+    @private_v4_api_warnings
+    def delete_index(self, model_uuid, index_id):
+        params = {
+            'project': self.project,
+            'model': model_uuid,
+        }
+        return self.api.delete_index(self.client, '/index_plans/index/{}'.format(index_id), params=params)
 
     def refresh(self, model_name, ids):
         json = {
