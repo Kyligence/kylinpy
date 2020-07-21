@@ -93,6 +93,10 @@ class _Api(object):
     def delete_segment(client, endpoint, **kwargs):
         return client.delete(endpoint=endpoint, **kwargs).json()
 
+    @staticmethod
+    def refresh_catalog_cache(client, endpoint, **kwargs):
+        return client.put(endpoint=endpoint, **kwargs).json()
+
 
 class KE4Service(ServiceInterface):
     api = _Api
@@ -302,3 +306,11 @@ class KE4Service(ServiceInterface):
         params.update(kwargs)
         endpoint = '/models/{}/segments'.format(model_name)
         return self.api.delete_segment(self.client, endpoint, params=params)
+
+    @private_v4_api_warnings
+    def refresh_catalog_cache(self, tables):
+        params = {
+            'tables': tables,
+        }
+        endpoint = '/tables/catalog_cache'
+        return self.api.refresh_catalog_cache(self.client, endpoint, params=params)
