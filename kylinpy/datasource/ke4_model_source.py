@@ -23,7 +23,7 @@ class KE4ModelSource(SourceInterface):
     source_type = 'model'
 
     support_invoke_command = {
-        'fullbuild', 'build', 'merge', 'refresh', 'delete', 'list_segment',
+        'fullbuild', 'build', 'merge', 'refresh', 'delete', 'list_segment', 'refresh_catalog_cache',
     }
 
     def __init__(self, model_desc, tables_and_columns, service):
@@ -236,6 +236,9 @@ class KE4ModelSource(SourceInterface):
 
     def clear_up_index_rules(self):
         return self.service.put_index_rules_by_model_uuid(self.uuid)
+
+    def refresh_catalog_cache(self, tables):
+        return self.service.refresh_catalog_cache(tables)
 
     def __repr__(self):
         return ('<Model Instance by '
