@@ -37,9 +37,9 @@ class Kylin(object):
         self.port = port
         self.username = username
         self.password = password
-        self.is_ssl = connect_args.get('is_ssl', None)
+        self.is_ssl = connect_args.get('is_ssl', False)
         self.prefix = connect_args.get('prefix', '/kylin/api')
-        self.timeout = connect_args.get('timeout', 30)
+        self.timeout = int(connect_args.get('timeout', 30))
         self.unverified = bool(connect_args.get('unverified', True))
         self.version = connect_args.get('version', 'v1')
         self.is_pushdown = bool(connect_args.get('is_pushdown', False))

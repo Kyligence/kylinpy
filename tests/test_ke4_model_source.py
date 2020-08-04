@@ -26,7 +26,7 @@ class TestKe4ModelSource:
         assert model.uuid == '0e788bb6-d56c-44fd-8fe0-26bb77aa40c5'
         assert model.last_modified == 1581343542414
         assert model.support_invoke_command == {
-            'fullbuild', 'build', 'merge', 'refresh', 'delete', 'list_segment',
+            'fullbuild', 'build', 'merge', 'refresh', 'delete', 'list_segment', 'refresh_catalog_cache',
         }
 
         assert [d.name for d in model.dimensions] == [
