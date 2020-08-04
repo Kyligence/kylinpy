@@ -101,6 +101,11 @@ class KylinDialect(default.DefaultDialect):
             'project': url.database or 'default',
         }
         kwargs.update(url.query)
+        if 'is_ssl' in kwargs:
+            if kwargs['is_ssl'] in ['1', 'true', 'True', True]:
+                kwargs.update({'is_ssl': True})
+            else:
+                kwargs.update({'is_ssl': False})
         return [[], kwargs]
 
     def do_execute(self, cursor, statement, parameters, context=None):

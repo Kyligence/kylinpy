@@ -23,7 +23,7 @@ class TestProject(object):
         assert cluster.port == 9000
         assert cluster.username == 'name@45中文'
         assert cluster.password == 'pwd12@%+'
-        assert cluster.is_ssl is None
+        assert cluster.is_ssl is False
         assert cluster.prefix == '/kylin/api'
         assert cluster.timeout == 30
         assert cluster.unverified is True
