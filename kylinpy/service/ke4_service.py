@@ -170,10 +170,12 @@ class KE4Service(ServiceInterface):
         params = {
             'project': self.project,
             'ext': True,
+            'page_offset': 0,
+            'page_size': 100000,
         }
         kwargs.setdefault('params', params)
         tables = self.api.tables(self.client, '/tables', **kwargs)
-        tables = tables.get('tables')
+        tables = tables.get('value')
 
         __tables_in_hive = {}
         for tbl in tables:
