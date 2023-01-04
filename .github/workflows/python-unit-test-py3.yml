@@ -3,7 +3,7 @@ name: Python Unit Test
 on: [push]
 
 jobs:
-  unit-tests:
+  unit-tests-py3:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
