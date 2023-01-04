@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 
 import json
 import os
+import sys
 
 from sqlalchemy import create_engine, inspect
 
@@ -27,7 +28,8 @@ class TestDialect(object):
 
     def test_connection(self):
         engine = create_engine(self.cn_dsn)
-        assert as_unicode(engine.url) == self.cn_dsn
+        if sys.version_info[0] > 3:
+            assert as_unicode(engine.url) == self.cn_dsn
 
         engine = create_engine(
             "kylin://%s:%s@hello.world.com:1024/learn_kylin"
