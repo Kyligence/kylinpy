@@ -4,4 +4,3 @@ pytest-cov==4.0.0
 twine==4.0.2
 sqlalchemy==1.4.46
 sqlparse==0.4.3
-flake8==6.0.0
