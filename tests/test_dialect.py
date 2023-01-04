@@ -9,7 +9,7 @@ import os
 
 from sqlalchemy import create_engine, inspect
 
-from kylinpy.utils.compat import as_unicode
+from kylinpy.utils.compat import as_unicode, quote_plus
 
 
 class TestDialect(object):
@@ -29,7 +29,10 @@ class TestDialect(object):
         engine = create_engine(self.cn_dsn)
         assert as_unicode(engine.url) == self.cn_dsn
 
-        engine = create_engine('kylin://aa@bb123:aa@bb123@hello.world.com:1024/learn_kylin')
+        engine = create_engine(
+            "kylin://%s:%s@hello.world.com:1024/learn_kylin"
+            % (quote_plus("aa@bb123"), quote_plus("aa@bb123")),
+        )
         assert engine.url.username == 'aa@bb123'
         assert engine.url.password == 'aa@bb123'
         assert engine.url.host == 'hello.world.com'
