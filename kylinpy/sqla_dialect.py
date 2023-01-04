@@ -42,11 +42,6 @@ class KylinSQLCompiler(compiler.SQLCompiler):
     def __init__(self, *args, **kwargs):
         super(KylinSQLCompiler, self).__init__(*args, **kwargs)
 
-    def _compose_select_body(self, text, select, inner_columns, froms, byfrom, kwargs):
-        text = super(KylinSQLCompiler, self)._compose_select_body(
-            text, select, inner_columns, froms, byfrom, kwargs)
-        return text
-
     def visit_column(self, *args, **kwargs):
         result = super(KylinSQLCompiler, self).visit_column(*args, **kwargs)
         return result
