@@ -9,6 +9,7 @@ build
 *.egg
 *.eggs
 *.egg-info
+*.iml
 .tox
 .cache/
 .idea/
