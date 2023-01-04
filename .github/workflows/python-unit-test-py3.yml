@@ -1,4 +1,4 @@
-name: Python Unit Test
+name: Python Unit Test PY3
 
 on: [push]
 
