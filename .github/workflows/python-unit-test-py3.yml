@@ -1,6 +1,11 @@
 name: Python Unit Test PY3
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [synchronize, opened, reopened, ready_for_review]
 
 jobs:
   unit-tests-py3:
