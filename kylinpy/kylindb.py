@@ -37,7 +37,9 @@ class Cursor(object):
             c['isNullable'],
         ] for c in self._column_metas)
 
-    def execute(self, query, parameters={}):
+    def execute(self, query, parameters=None):
+        if parameters is None:
+            parameters = {}
         resp = self.connection.query(query, **parameters)
 
         self._column_metas = resp.get('columnMetas')
@@ -48,7 +50,9 @@ class Cursor(object):
         self.rowcount = len(self.results)
         self.fetched_rows = 0
 
-    def executemany(self, query, seq_params=[]):
+    def executemany(self, query, seq_params=None):
+        if seq_params is None:
+            seq_params = []
         results = []
         for param in seq_params:
             self.execute(query, param)
