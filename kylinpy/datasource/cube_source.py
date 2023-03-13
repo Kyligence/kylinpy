@@ -260,7 +260,7 @@ class _CubeMeasure(MeasureInterface):
     def __init__(self, description):
         self._description = description
         self._function = description.get('function')
-        self._paramter_stack = []
+        self._parameter_stack = []
 
     @property
     def name(self):
@@ -288,17 +288,17 @@ class _CubeMeasure(MeasureInterface):
             return set(c.split('.')[0] for c in _columns)
         return None
 
-    def _get_parameter_values(self, paramter_obj, param_type=None):
+    def _get_parameter_values(self, parameter_obj, param_type=None):
         """ return a parameter string from cube metrics function object. """
-        if paramter_obj.get('next_parameter'):
-            self._get_parameter_values(paramter_obj.get('next_parameter'), param_type)
+        if parameter_obj.get('next_parameter'):
+            self._get_parameter_values(parameter_obj.get('next_parameter'), param_type)
         else:
             if param_type is None:
-                self._paramter_stack.append(paramter_obj.get('value'))
+                self._parameter_stack.append(parameter_obj.get('value'))
             else:
-                if paramter_obj.get('type') == param_type:
-                    self._paramter_stack.append(paramter_obj.get('value'))
-        return ', '.join(self._paramter_stack)
+                if parameter_obj.get('type') == param_type:
+                    self._parameter_stack.append(parameter_obj.get('value'))
+        return ', '.join(self._parameter_stack)
 
     def _get_aggregations_exp(self, aggregations_key, column_value):
         """return aggregations expression with the column value"""
