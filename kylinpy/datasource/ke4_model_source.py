@@ -275,7 +275,7 @@ class _CubeMeasure(MeasureInterface):
         self._description = description
         # unused property in KE4
         self._function = description
-        self._paramter_stack = []
+        self._parameter_stack = []
 
     @property
     def name(self):
@@ -302,9 +302,9 @@ class _CubeMeasure(MeasureInterface):
             return set(c.split('.')[0] for c in _columns)
         return None
 
-    def _get_parameter_values(self, paramter_list, param_type=None):
+    def _get_parameter_values(self, parameter_list, param_type=None):
         """ return a parameter string from cube metrics function object. """
-        param = paramter_list[0]
+        param = parameter_list[0]
         if param_type is None:
             return param.get('value')
         else:
