@@ -112,6 +112,40 @@ class KylinService(ServiceInterface):
 
         return response
 
+    def query_prestate(self, sql, limit=0, offset=50000, acceptPartial=False, **kwargs):
+        """https://cwiki.apache.org/confluence/display/KYLIN/Query+API"""
+        json_data = {
+            'acceptPartial': acceptPartial,
+            'limit': limit,
+            'offset': offset,
+            'project': self.project,
+            'sql': sql,
+        }
+        kwargs.setdefault('json', json_data)
+        return self.client.post('/query/prestate', **kwargs).json()
+
+    def create_saved_queries(self, sql, name, desc=None, **kwargs):
+        json_data = {
+            'sql': sql,
+            'name': name,
+            'project': self.project,
+            'description': desc,
+        }
+        kwargs.setdefault('json', json_data)
+        return self.client.post('/saved_queries', **kwargs).json()
+
+    def remove_saved_query(self, query_id):
+        return self.client.delete('/saved_queries/{}'.format(query_id)).json()
+
+    def get_saved_queries(self):
+        return self.client.get('/saved_queries').json()
+
+    def get_running_queries(self):
+        return self.client.get('/query/runningQueries').json()
+
+    def stop_query(self, query_id):
+        return self.client.get('/query/{}/stop'.format(query_id)).json()
+
     def projects(self, **kwargs):
         params = {
             'pageOffset': 0,
