@@ -22,9 +22,16 @@ SUPERSET_KEYWORDS = set([
 
 
 class KylinIdentifierPreparer(compiler.IdentifierPreparer):
-    compiler.IdentifierPreparer.reserved_words = \
-        set(itertools.chain(*[[e.lower(), e] for e in CALCITE_KEYWORDS]))
-    compiler.IdentifierPreparer.reserved_words.update(SUPERSET_KEYWORDS)
+    # Assign to this class's own attribute, not the base
+    # sqlalchemy.sql.compiler.IdentifierPreparer.reserved_words. That base
+    # attribute is the shared default every other SQLAlchemy dialect falls
+    # back on when it defines no reserved_words of its own; mutating it here
+    # (as this used to do) corrupted identifier quoting for every other
+    # dialect loaded in the same process for as long as kylinpy stayed
+    # imported, since common words like "name" ended up reserved globally.
+    reserved_words = \
+        set(itertools.chain(*[[e.lower(), e] for e in CALCITE_KEYWORDS])) | \
+        SUPERSET_KEYWORDS
 
     def __init__(self, dialect, initial_quote='"',
                  final_quote=None, escape_quote='"', omit_schema=True):
